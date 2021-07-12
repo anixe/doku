@@ -1,0 +1,5 @@
+{
+  "en": "Foo"  // This is `en`; possible variants:
+               // - "Foo" = This is `foo`
+               // - "Bar" = This is `bar`
+}

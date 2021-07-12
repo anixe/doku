@@ -1,0 +1,2 @@
+{ "Foo": ... }  // Possible variants:
+                // - { "Foo": { "string": "string", /* ... */ } } = This is `Foo`

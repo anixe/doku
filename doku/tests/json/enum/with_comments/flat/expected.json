@@ -1,0 +1,5 @@
+"FirstVariant"  // Possible variants:
+                // - "FirstVariant"
+                // - "second" = SecondVariant
+                // - "third" = This is third variant
+                // - { "FourthVariant": { "a": "string" } } = This is fourth variant

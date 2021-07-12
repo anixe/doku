@@ -1,0 +1,22 @@
+[package]
+name = "doku"
+version = "0.9.0"
+authors = ["Patryk Wychowaniec <patryk.wychowaniec@anixe.pl>"]
+license = "MIT"
+edition = "2018"
+description = "A framework for building documentation with code-as-data methodology in mind"
+
+[dependencies]
+doku-derive = { version = "=0.9.0", path = "../doku-derive" }
+chrono = { version = "0.4", optional = true }
+
+[features]
+chrono-04 = ["chrono"]
+
+[dev-dependencies]
+difference = "2.0"
+indoc = "0.3"
+inventory = "0.1"
+paste = "0.1"
+pretty_assertions = "0.6"
+serde = { version = "1.0", features = ["derive"] }

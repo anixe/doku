@@ -1,0 +1,3 @@
+{ "t": "Foo", "c": ... }  // Possible variants:
+                          // - { "t": "Foo", "c": { "a": "string" } } = This is `Foo`
+                          // - { "t": "Bar", "c": { "a": "string", "b": 123 } } = This is `Bar`

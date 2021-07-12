@@ -1,0 +1,8 @@
+[
+  {
+    "t": "Foo"  // This is `Foo`
+  },
+  {
+    "t": "Bar"  // This is `Bar`
+  }
+]

@@ -1,0 +1,5 @@
+{
+  "foo": "foo-value",  // Some comment; optional
+  "bar": "bar-value",  // Another comment; optional
+  "zar": "zar-value"   // Yet another comment; optional
+}

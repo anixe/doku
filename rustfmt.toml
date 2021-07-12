@@ -1,0 +1,13 @@
+edition = "2018"
+version = "Two"
+
+enum_discrim_align_threshold = 99
+format_strings = true
+imports_layout = "HorizontalVertical"
+max_width = 120
+overflow_delimited_expr = true
+reorder_impl_items = true
+struct_field_align_threshold = 99
+use_field_init_shorthand = true
+use_try_shorthand = true
+wrap_comments = true

@@ -1,0 +1,7 @@
+[
+  {
+    "foo": "string",  // Some comment
+    "bar": 123        // Some comment
+  },
+  /* ... */
+]

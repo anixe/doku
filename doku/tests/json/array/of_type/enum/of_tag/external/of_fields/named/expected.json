@@ -1,0 +1,13 @@
+[
+  {
+    "Foo": {          // This is `Foo`
+      "a": "string"   // Some comment
+    }
+  },
+  {
+    "Bar": {          // This is `Bar`
+      "a": "string",  // Some comment
+      "b": 123        // Some comment
+    }
+  }
+]
