@@ -17,7 +17,7 @@ impl Readme {
     }
 
     fn example_code(&self, id: &str) -> String {
-        self.read_fenced_block(&format!("# doku/examples/{}.rs", id))
+        self.read_fenced_block(&format!("// doku/examples/{}.rs", id))
             .unwrap_or_else(|| panic!("Couldn't find code for example `{}`", id))
     }
 

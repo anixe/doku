@@ -7,7 +7,7 @@ Say goodbye to stale, hand-written documentation - with Doku, code _is_ the docu
 # Examples
 
 ```rust
-# doku/examples/doku.rs
+// doku/examples/doku.rs
 
 use doku::prelude::*;
 
@@ -63,7 +63,7 @@ fn main() {
 If you use Serde, then you'll be pleasantly surprised by hearing that **Doku understands _(the most common)_ Serde attributes**; just sprinkle `#[derive(Doku)]` and get them docs for free!
 
 ```rust
-# doku/examples/serde.rs
+// doku/examples/serde.rs
 
 use doku::prelude::*;
 use serde::Serialize;
