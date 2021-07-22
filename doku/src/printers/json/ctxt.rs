@@ -151,7 +151,10 @@ impl<'ty, 'out> Ctxt<'ty, 'out> {
         //
         // To avoid making this comment overly long, if you want to see this
         // condition in action, please comment it out and run the tests :-)
-        let keep_flat = matches!(self.ty.def, TypeDef::Struct { transparent: true, .. });
+        let keep_flat = matches!(self.ty.def, TypeDef::Struct {
+            transparent: true,
+            fields:      _,
+        });
 
         Ctxt {
             out: self.out,
