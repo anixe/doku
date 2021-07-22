@@ -1,4 +1,7 @@
-# Doku
+# Doku &emsp; [![crates-badge]][crates-link]
+
+[crates-badge]: https://img.shields.io/crates/v/doku.svg
+[crates-link]: https://crates.io/crates/serde
 
 **Doku is a framework for building documentation with code-as-data methodology in mind.**
 
@@ -121,7 +124,12 @@ fn main() {
 
 (you'll find more in [./doku/examples](./doku/examples).)
 
-## Usage
+## Getting started
+
+```toml
+[dependencies]
+doku = "0.9.0"
+```
 
 Doku has been made with [Serde](https://github.com/serde-rs/serde/) & [serde_json](https://github.com/serde-rs/json) in mind, so if you use them, starting with Doku is as easy as adding `#[derive(Doku)]` to your types and invoking `doku::to_json::<YourType>()`.
 
