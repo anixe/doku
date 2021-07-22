@@ -4,7 +4,9 @@
 
 Say goodbye to stale, hand-written documentation - with Doku, code _is_ the documentation!
 
-# Examples
+Made by [Anixe](https://anixe.pl) <img src="./readme/anixe.png" width="20"/>
+
+## Examples
 
 ```rust
 // doku/examples/doku.rs
@@ -119,7 +121,7 @@ fn main() {
 
 (you'll find more in [./doku/examples](./doku/examples).)
 
-# Usage
+## Usage
 
 Doku has been made with [Serde](https://github.com/serde-rs/serde/) & [serde_json](https://github.com/serde-rs/json) in mind, so if you use them, starting with Doku is as easy as adding `#[derive(Doku)]` to your types and invoking `doku::to_json::<YourType>()`.
 
@@ -127,7 +129,7 @@ Doku has been made with [Serde](https://github.com/serde-rs/serde/) & [serde_jso
 
 Somewhat [obviously](https://en.wikipedia.org/wiki/Halting_problem), Doku cannot introspect any hand-written (de)serializers, so if you use them, you'll have to inform Doku on how those manually-(de)serialized types look like (see [./doku/examples/custom-impl.rs](./doku/examples/custom-impl.rs)) - more often than not, the derive-macro should suffice, though.
 
-# Using `#[doku]`
+## Using `#[doku]`
 
 The `#[doku]` attribute allows to provide additional information about a type:
 
@@ -183,11 +185,11 @@ struct User {
 }
 ```
 
-# Can I use it without Serde?
+## Can I use it without Serde?
 
 Yes, totally! Doku merely _understands_ Serde annotations, but doesn't require any of them (see: the very first example in this readme).
 
-# How does it work?
+## How does it work?
 
 When you wrap a type with `#[derive(Doku)]`:
 
@@ -244,9 +246,9 @@ There's no magic, no [RTTI](https://en.wikipedia.org/wiki/Run-time_type_informat
 
 Also, all those `doku::*` types are public - if you wanted, you could write _your own_ visitor that generates Doku-powered documentation for your own output format, not necessarily JSON!
 
-# Quick help
+## Quick help
 
-## trait `TypeProvider` is not implemented for `...`
+### trait `TypeProvider` is not implemented for `...`
 
 The offending type (enum / struct) is missing the `#[derive(Doku)]`:
 
@@ -261,14 +263,14 @@ struct Bar {
 }
 ```
 
-# Compatibility
+## Compatibility
 
 Legend:
 - ❌ = not supported (the derive-macro will return an error)
 - ✅ = supported
 - ✅ + no-op = supported, but ignored (i.e. doesn't affect the documentation)
 
-## `#[serde]` for [containers](https://serde.rs/container-attrs.html)
+### `#[serde]` for [containers](https://serde.rs/container-attrs.html)
 
 - ❌ `#[serde(rename = "...")]`
 - ❌ `#[serde(rename(serialize = "..."))]`
@@ -295,7 +297,7 @@ Legend:
 - ❌ `#[serde(into = "...")]`
 - ✅ `#[serde(crate = "...")]` (no-op)
 
-## `#[serde]` for [variants](https://serde.rs/variant-attrs.html)
+### `#[serde]` for [variants](https://serde.rs/variant-attrs.html)
 
 - ✅ `#[serde(rename = "...")]`
 - ❌ `#[serde(rename(serialize = "..."))]`
@@ -314,7 +316,7 @@ Legend:
 - ❌ `#[serde(borrow = "...")]`
 - ✅ `#[serde(other)]` (no-op)
 
-## `#[serde]` for [fields](https://serde.rs/field-attrs.html)
+### `#[serde]` for [fields](https://serde.rs/field-attrs.html)
 
 - ✅ `#[serde(rename = "...")]`
 - ❌ `#[serde(rename(serialize = "..."))]`
@@ -334,12 +336,12 @@ Legend:
 - ❌ `#[serde(borrow = "...")]` (no-op)
 - ❌ `#[serde(getter = "...")]`
 
-## Miscellaneous
+### Miscellaneous
 
 - ❌ recursive types
 - ❌ generic types (you can write `impl TypeProvider` by hand though)
 
-# Contributing
+## Contributing
 
 Found a bug, or something doesn't work as expected? Please let us know on GitHub; patches are welcome, too!
 
