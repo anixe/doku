@@ -1,7 +1,7 @@
 # Doku &emsp; [![crates-badge]][crates-link]
 
 [crates-badge]: https://img.shields.io/crates/v/doku.svg
-[crates-link]: https://crates.io/crates/serde
+[crates-link]: https://crates.io/crates/doku
 
 **Doku is a framework for building documentation with code-as-data methodology in mind.**
 
