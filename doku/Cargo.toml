@@ -4,7 +4,10 @@ version = "0.9.0"
 authors = ["Patryk Wychowaniec <patryk.wychowaniec@anixe.pl>"]
 license = "MIT"
 edition = "2018"
-description = "A framework for building documentation with code-as-data methodology in mind"
+description = "A framework for building documentation"
+readme = "../README.md"
+repository = "https://github.com/anixe/doku"
+keywords = ["doc", "docs", "documentation", "serialization"]
 
 [dependencies]
 doku-derive = { version = "=0.9.0", path = "../doku-derive" }

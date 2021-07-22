@@ -4,6 +4,9 @@ version = "0.9.0"
 authors = ["Patryk Wychowaniec <patryk.wychowaniec@anixe.pl>"]
 license = "MIT"
 edition = "2018"
+description = "A framework for building documentation (internal macro)"
+readme = false
+repository = "https://github.com/anixe/doku"
 
 [lib]
 proc-macro = true
