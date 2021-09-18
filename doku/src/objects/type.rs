@@ -7,9 +7,6 @@ pub struct Type {
 
     /// When we have an adjacently-tagged enum, this field contains name of the
     /// field that should represent that enum's tag.
-    ///
-    /// E.g. in case of `ChangelogEvent` with its fancy `EventDetails`, we'd
-    /// have `tag = Some("details");`.
     pub tag: Option<&'static str>,
 
     /// Whether this type is serializable or not (think
@@ -36,5 +33,11 @@ impl Type {
             deserializable: true,
             def,
         }
+    }
+}
+
+impl From<TypeDef> for Type {
+    fn from(def: TypeDef) -> Self {
+        Self::from_def(def)
     }
 }
