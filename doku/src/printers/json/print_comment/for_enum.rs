@@ -160,7 +160,7 @@ mod print_variant_layout {
             // it can be virtually anything, since we're not doing
             // `variant_ctxt.print()`, but calling `print_fields()` directly (so
             // this `ty` is not read anywhere).
-            ty: &Type::from_def(TypeDef::String),
+            ty: &String::ty(),
         };
 
         variant_ctxt.print_fields(fields, None);
