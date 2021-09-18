@@ -1,9 +1,9 @@
 use super::*;
 
 impl<'ty> Ctxt<'ty, '_> {
-    pub fn expand_variants_for_untagged_enum(&mut self, ty: &'ty Type) -> bool {
-        let fields = if let TypeDef::Struct {
-            fields: Fields::Named { fields },
+    pub fn expand_variants_for_untagged_enum(&mut self, ty: &'ty ty::Type) -> bool {
+        let fields = if let ty::Def::Struct {
+            fields: ty::Fields::Named { fields },
             ..
         } = &ty.def
         {
@@ -48,7 +48,7 @@ impl<'ty> Ctxt<'ty, '_> {
         //
         // As always, this is not really expected to happen in practice, because
         // Serde issues its own error message for this case before us.
-        let (tag, variants) = if let TypeDef::Enum { tag, variants } = &tagf.1.ty.def {
+        let (tag, variants) = if let ty::Def::Enum { tag, variants } = &tagf.1.ty.def {
             (*tag, variants)
         } else {
             panic!(
@@ -59,7 +59,7 @@ impl<'ty> Ctxt<'ty, '_> {
 
         // Similarly to the condition above, this - as well - is just a sanity
         // check
-        if tag != Tag::None {
+        if tag != ty::Tag::None {
             panic!(
                 "Invalid type definition: Since field `{}` models a tag for an untagged enum, it must be an untagged \
                  enum",

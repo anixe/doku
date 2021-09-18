@@ -3,7 +3,7 @@ mod expand_variants;
 use super::*;
 
 impl<'ty> Ctxt<'ty, '_> {
-    pub fn print_array(&mut self, ty: &'ty Type) {
+    pub fn print_array(&mut self, ty: &'ty ty::Type) {
         if !self.mode.allows(ty.serializable, ty.deserializable) {
             return;
         }

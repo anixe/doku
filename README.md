@@ -158,7 +158,7 @@ struct User {
     ///
     /// This is useful when you e.g. depend on another crate that doesn't use
     /// Doku, and for which - due to Rust's orphan rules - you cannot impl
-    /// `doku::TypeProvider` by hand.
+    /// `doku::ty::Provider` by hand.
     ///
     /// This is similar to `#[serde(remote = ...)]`.
     ///
@@ -168,7 +168,7 @@ struct User {
 
     /// `skip` allows to ignore given field in the documentation.
     ///
-    /// Skipped fields don't have to have `impl doku::TypeProvider`, so this is
+    /// Skipped fields don't have to have `impl doku::ty::Provider`, so this is
     /// kind of a get-out-of-jail-free card if you can live with this field 
     /// missing from the docs.
     ///
@@ -210,13 +210,13 @@ struct User {
 }
 ```
 
-... the derive-macro generates an `impl doku::TypeProvider for ...`:
+... the derive-macro generates an `impl doku::ty::Provider for ...`:
 
 ```rust
-impl doku::TypeProvider for User {
-    fn ty() -> doku::Type {
-        let login = doku::Field {
-            ty: doku::Type {
+impl doku::ty::Provider for User {
+    fn ty() -> doku::ty::Type {
+        let login = doku::ty::Field {
+            ty: doku::ty::Type {
                 comment: Some("Who? Who?"),
                 example: Some("alan.turing"),
                 ..String::ty()
@@ -224,8 +224,8 @@ impl doku::TypeProvider for User {
             flattened: false,
         };
 
-        doku::Type::from_def(doku::TypeDef::Struct {
-            fields: doku::Fields::Named {
+        doku::ty::Type::from_def(doku::ty::Def::Struct {
+            fields: doku::ty::Fields::Named {
                 fields: vec![
                     ("login", login)
                 ],
@@ -239,12 +239,12 @@ impl doku::TypeProvider for User {
 ... and later, when you invoke `doku::to_json<User>()`, it just calls this `fn ty()` method:
 
 ```rust
-fn to_json<Ty: TypeProvider>() -> String {
+fn to_json<Ty: ty::Provider>() -> String {
     let ty = Ty::ty();
     
     match &ty.def {
-        doku::TypeDef::String => print_string(/* ... */),
-        doku::TypeDef::Struct { fields, .. } => print_struct(/* ... */),
+        doku::ty::Def::String => print_string(/* ... */),
+        doku::ty::Def::Struct { fields, .. } => print_struct(/* ... */),
         /* ... */
     }
 }
@@ -256,14 +256,14 @@ Also, all those `doku::*` types are public - if you wanted, you could write _you
 
 ## Quick help
 
-### trait `TypeProvider` is not implemented for `...`
+### trait `ty::Provider` is not implemented for `...`
 
 The offending type (enum / struct) is missing the `#[derive(Doku)]`:
 
 ``` rust
 #[derive(Doku)]
 struct Foo {
-    bar: Bar, // trait `TypeProvider` is not implemented for `Bar`
+    bar: Bar, // trait `ty::Provider` is not implemented for `Bar`
 }
 
 struct Bar {
@@ -351,7 +351,7 @@ Legend:
 ## Compatibility (miscellaneous)
 
 - ❌ recursive types
-- ❌ generic types (you can write `impl TypeProvider` by hand though)
+- ❌ generic types (you can write `impl ty::Provider` by hand though)
 
 ## Contributing
 

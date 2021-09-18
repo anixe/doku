@@ -30,9 +30,15 @@ pub fn derive_doku(input: TokenStream) -> TokenStream {
             // We're emitting a dummy impl to avoid a potential error-cascade
             // when something else already expects this type to be doku-fied
             quote! {
-                impl ::doku::TypeProvider for #ident {
-                    fn ty() -> ::doku::Type {
-                        usize::ty()
+                impl ::doku::ty::Provider for #ident {
+                    fn ty() -> ::doku::ty::Type {
+                        unreachable!()
+                    }
+                }
+
+                impl ::doku::val::Provider for #ident {
+                    fn ty() -> ::doku::val::Value {
+                        unreachable!()
                     }
                 }
             }

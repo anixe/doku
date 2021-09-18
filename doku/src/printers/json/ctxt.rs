@@ -11,7 +11,7 @@ pub struct Ctxt<'ty, 'out> {
     pub out: &'out mut Paragraph,
 
     /// Type we're currently printing
-    pub ty: &'ty Type,
+    pub ty: &'ty ty::Type,
 
     /// Parent(s) of the type we're currently printing.
     ///
@@ -20,7 +20,7 @@ pub struct Ctxt<'ty, 'out> {
     /// - `parents[0] = Array<Option<T>>`
     /// - `parents[1] = Option<T>`
     /// - `ty = T`
-    pub parents: Vec<&'ty Type>,
+    pub parents: Vec<&'ty ty::Type>,
 
     /// When enabled, `ty` will be printed "flat".
     ///
@@ -92,7 +92,7 @@ pub struct Ctxt<'ty, 'out> {
 }
 
 impl<'ty, 'out> Ctxt<'ty, 'out> {
-    pub fn with_ty<'out2>(&'out2 mut self, ty: &'ty Type) -> Ctxt<'ty, 'out2> {
+    pub fn with_ty<'out2>(&'out2 mut self, ty: &'ty ty::Type) -> Ctxt<'ty, 'out2> {
         let parents = {
             let mut parents = self.parents.clone();
             parents.push(self.ty);
@@ -151,7 +151,7 @@ impl<'ty, 'out> Ctxt<'ty, 'out> {
         //
         // To avoid making this comment overly long, if you want to see this
         // condition in action, please comment it out and run the tests :-)
-        let keep_flat = matches!(self.ty.def, TypeDef::Struct {
+        let keep_flat = matches!(self.ty.def, ty::Def::Struct {
             transparent: true,
             fields:      _,
         });
@@ -187,16 +187,16 @@ impl<'ty, 'out> Ctxt<'ty, 'out> {
         self.print_comment();
 
         match &self.ty.def {
-            TypeDef::Bool => self.print_bool(),
-            TypeDef::Float => self.print_float(),
-            TypeDef::Integer => self.print_integer(),
-            TypeDef::String => self.print_string(),
-            TypeDef::Array { ty, .. } => self.print_array(ty),
-            TypeDef::Enum { tag, variants } => self.print_enum(*tag, variants),
-            TypeDef::Struct { fields, transparent } => self.print_struct(fields, *transparent, None),
-            TypeDef::Tuple { fields } => self.print_tuple(fields),
-            TypeDef::Map { key, value } => self.print_map(key, value),
-            TypeDef::Optional { ty } => self.print_optional(ty),
+            ty::Def::Bool => self.print_bool(),
+            ty::Def::Float => self.print_float(),
+            ty::Def::Integer => self.print_integer(),
+            ty::Def::String => self.print_string(),
+            ty::Def::Array { ty, .. } => self.print_array(ty),
+            ty::Def::Enum { tag, variants } => self.print_enum(*tag, variants),
+            ty::Def::Struct { fields, transparent } => self.print_struct(fields, *transparent, None),
+            ty::Def::Tuple { fields } => self.print_tuple(fields),
+            ty::Def::Map { key, value } => self.print_map(key, value),
+            ty::Def::Optional { ty } => self.print_optional(ty),
         }
     }
 }

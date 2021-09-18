@@ -1,17 +1,5 @@
 use super::*;
 
-/// Expands roughly to:
-///
-/// ```ignore
-/// impl ::doku::TypeProvider for ... {
-///     fn ty() -> ::doku::Type {
-///         ::doku::Type::from_def(::doku::TypeDef::Struct {
-///             fields: ...,
-///             transparent: ...,
-///         })
-///     }
-/// }
-/// ```
 pub fn expand_struct(input: &syn::DeriveInput, data: &syn::DataStruct) -> Result<TokenStream2> {
     let syn::DeriveInput { ident, .. } = input;
     let doku = attrs::DokuContainer::from_ast(&input.attrs)?;
@@ -26,7 +14,7 @@ pub fn expand_struct(input: &syn::DeriveInput, data: &syn::DataStruct) -> Result
         };
 
         let mut ty = quote! {
-            ::doku::Type::from_def(::doku::TypeDef::Struct {
+            ::doku::ty::Type::from_def(::doku::ty::Def::Struct {
                 fields: #fields,
                 transparent: #transparent,
             })
@@ -40,8 +28,8 @@ pub fn expand_struct(input: &syn::DeriveInput, data: &syn::DataStruct) -> Result
     };
 
     Ok(quote! {
-        impl ::doku::TypeProvider for #ident {
-            fn ty() -> ::doku::Type {
+        impl ::doku::ty::Provider for #ident {
+            fn ty() -> ::doku::ty::Type {
                 #ty
             }
         }

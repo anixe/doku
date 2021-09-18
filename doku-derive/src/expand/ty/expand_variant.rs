@@ -1,17 +1,5 @@
 use super::*;
 
-/// Expands roughly to:
-///
-/// ```ignore
-/// ::doku::Variant {
-///     id: ...,
-///     title: ...,
-///     comment: ...,
-///     serializable: ...,
-///     deserializable: ...,
-///     fields: ...,
-/// },
-/// ```
 pub fn expand_variant(variant: &syn::Variant) -> Result<TokenStream2> {
     let syn::Variant {
         attrs, ident, fields, ..
@@ -108,7 +96,7 @@ impl Variant {
 
         if serializable || deserializable {
             quote! {
-                ::doku::Variant {
+                ::doku::ty::Variant {
                     id: #id,
                     title: #title,
                     comment: #comment,

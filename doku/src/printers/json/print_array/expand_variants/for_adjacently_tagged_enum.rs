@@ -1,9 +1,9 @@
 use super::*;
 
 impl<'ty> Ctxt<'ty, '_> {
-    pub fn expand_variants_for_adjacently_tagged_enum(&mut self, ty: &'ty Type) -> bool {
-        let (tag, content, variants) = if let TypeDef::Enum {
-            tag: Tag::Adjacent { tag, content },
+    pub fn expand_variants_for_adjacently_tagged_enum(&mut self, ty: &'ty ty::Type) -> bool {
+        let (tag, content, variants) = if let ty::Def::Enum {
+            tag: ty::Tag::Adjacent { tag, content },
             variants,
         } = &ty.def
         {
@@ -40,7 +40,7 @@ impl<'ty> Ctxt<'ty, '_> {
             self.out.inc_indent();
             self.out.text(format!(r#""{}": "{}""#, tag, variant.id));
 
-            if let Fields::Named { .. } | Fields::Unnamed { .. } = variant.fields {
+            if let ty::Fields::Named { .. } | ty::Fields::Unnamed { .. } = variant.fields {
                 self.out.line(",");
                 self.out.text(format!(r#""{}": "#, content));
                 self.print_fields(&variant.fields, None);

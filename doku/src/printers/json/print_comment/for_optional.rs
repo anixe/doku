@@ -4,7 +4,7 @@ impl Ctxt<'_, '_> {
     pub fn print_comment_for_optional(&self, comment: &mut String) {
         if let Some(parent) = self.parents.last() {
             // Avoid printing `Optional` twice (e.g. for `Option<Option<String>>`)
-            if matches!(parent.def, TypeDef::Optional { .. }) {
+            if matches!(parent.def, ty::Def::Optional { .. }) {
                 return;
             }
         }

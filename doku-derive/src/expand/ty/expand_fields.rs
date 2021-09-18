@@ -16,7 +16,7 @@ fn expand_named_fields(fields: &syn::FieldsNamed) -> Result<TokenStream2> {
         .collect::<Result<_>>()?;
 
     Ok(quote! {
-        ::doku::Fields::Named {
+        ::doku::ty::Fields::Named {
             fields: vec![ #(#fields)* ],
         }
     })
@@ -30,7 +30,7 @@ fn expand_unnamed_fields(fields: &syn::FieldsUnnamed) -> Result<TokenStream2> {
         .collect::<Result<_>>()?;
 
     Ok(quote! {
-        ::doku::Fields::Unnamed {
+        ::doku::ty::Fields::Unnamed {
             fields: vec![ #(#fields)* ],
         }
     })
@@ -38,6 +38,6 @@ fn expand_unnamed_fields(fields: &syn::FieldsUnnamed) -> Result<TokenStream2> {
 
 fn expand_unit_fields() -> Result<TokenStream2> {
     Ok(quote! {
-        ::doku::Fields::Unit
+        ::doku::ty::Fields::Unit
     })
 }

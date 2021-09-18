@@ -1,4 +1,11 @@
-use crate::*;
+mod def;
+mod field;
+mod fields;
+mod provider;
+mod tag;
+mod variant;
+
+pub use self::{def::*, field::*, fields::*, provider::*, tag::*, variant::*};
 
 #[derive(Clone, Debug)]
 pub struct Type {
@@ -20,11 +27,11 @@ pub struct Type {
     pub deserializable: bool,
 
     // Keeping the definition last improves legibility of debug-printing
-    pub def: TypeDef,
+    pub def: Def,
 }
 
 impl Type {
-    pub fn from_def(def: TypeDef) -> Self {
+    pub fn from_def(def: Def) -> Self {
         Self {
             comment: None,
             example: None,
@@ -36,8 +43,8 @@ impl Type {
     }
 }
 
-impl From<TypeDef> for Type {
-    fn from(def: TypeDef) -> Self {
+impl From<Def> for Type {
+    fn from(def: Def) -> Self {
         Self::from_def(def)
     }
 }

@@ -1,11 +1,11 @@
 use super::*;
 
 impl<'ty> Ctxt<'ty, '_> {
-    pub fn print_fields(&mut self, fields: &'ty Fields, variant: Option<&'ty Variant>) {
+    pub fn print_fields(&mut self, fields: &'ty ty::Fields, variant: Option<&'ty ty::Variant>) {
         match fields {
-            Fields::Named { fields } => self.print_named_fields(&fields, variant),
-            Fields::Unnamed { fields } => self.print_unnamed_fields(&fields),
-            Fields::Unit => self.out.text("null"),
+            ty::Fields::Named { fields } => self.print_named_fields(&fields, variant),
+            ty::Fields::Unnamed { fields } => self.print_unnamed_fields(&fields),
+            ty::Fields::Unit => self.out.text("null"),
         }
     }
 
@@ -26,7 +26,7 @@ impl<'ty> Ctxt<'ty, '_> {
     ///   "bar": 123,
     /// }
     /// ```
-    pub fn print_named_fields(&mut self, fields: &'ty [(&'static str, Field)], variant: Option<&'ty Variant>) {
+    pub fn print_named_fields(&mut self, fields: &'ty [(&'static str, ty::Field)], variant: Option<&'ty ty::Variant>) {
         let fields: Vec<_> = fields
             .iter()
             .filter(|(_, field)| self.mode.allows(field.ty.serializable, field.ty.deserializable))
@@ -69,7 +69,7 @@ impl<'ty> Ctxt<'ty, '_> {
         }
     }
 
-    fn print_named_field(&mut self, field_name: &str, field: &'ty Field, variant: Option<&'ty Variant>) {
+    fn print_named_field(&mut self, field_name: &str, field: &'ty ty::Field, variant: Option<&'ty ty::Variant>) {
         // Edge case: fields that model adjacently-tagged enums; for more
         // information, please refer to `print_array.rs`
         if let Some(tag) = field.ty.tag {
@@ -118,7 +118,7 @@ impl<'ty> Ctxt<'ty, '_> {
     ///
     /// ["string", 123]
     /// ```
-    pub fn print_unnamed_fields(&mut self, fields: &'ty [Field]) {
+    pub fn print_unnamed_fields(&mut self, fields: &'ty [ty::Field]) {
         let fields: Vec<_> = fields
             .iter()
             .filter(|field| self.mode.allows(field.ty.serializable, field.ty.deserializable))

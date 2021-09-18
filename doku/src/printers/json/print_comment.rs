@@ -28,11 +28,11 @@ impl Ctxt<'_, '_> {
 
         // ... and now let's try to add a machine-generated comment
         match &self.ty.def {
-            TypeDef::Array { size, .. } => {
+            ty::Def::Array { size, .. } => {
                 Self::print_comment_for_array(&mut comment, *size);
             }
 
-            TypeDef::Enum { tag, variants } => {
+            ty::Def::Enum { tag, variants } => {
                 self.print_comment_for_enum(comment, *tag, variants);
 
                 // Contrary to the other comment-printers, this one invokes
@@ -41,7 +41,7 @@ impl Ctxt<'_, '_> {
                 return;
             }
 
-            TypeDef::Optional { .. } => {
+            ty::Def::Optional { .. } => {
                 self.print_comment_for_optional(&mut comment);
             }
 

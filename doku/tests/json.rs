@@ -74,7 +74,7 @@ crate::test_suite!(json, [
     tuple/of_arity/_3
 ]);
 
-pub fn test_case<T: doku::TypeProvider>(dir: &Path) -> TestCase {
+pub fn test_case<T: doku::ty::Provider>(dir: &Path) -> TestCase {
     TestCase {
         expected_path:     dir.join("expected.json"),
         expected_new_path: dir.join("expected.json.new"),

@@ -1,9 +1,9 @@
 use super::*;
 
 impl<'ty> Ctxt<'ty, '_> {
-    pub fn expand_variants_for_externally_tagged_enum(&mut self, ty: &'ty Type) -> bool {
-        let variants = if let TypeDef::Enum {
-            tag: Tag::External,
+    pub fn expand_variants_for_externally_tagged_enum(&mut self, ty: &'ty ty::Type) -> bool {
+        let variants = if let ty::Def::Enum {
+            tag: ty::Tag::External,
             variants,
         } = &ty.def
         {
@@ -32,7 +32,7 @@ impl<'ty> Ctxt<'ty, '_> {
             });
 
             match variant.fields {
-                Fields::Named { .. } | Fields::Unnamed { .. } => {
+                ty::Fields::Named { .. } | ty::Fields::Unnamed { .. } => {
                     self.out.line("{");
 
                     if let Some(comment) = comment {
@@ -47,7 +47,7 @@ impl<'ty> Ctxt<'ty, '_> {
                     self.out.text("}");
                 }
 
-                Fields::Unit => {
+                ty::Fields::Unit => {
                     if let Some(comment) = comment {
                         self.out.comment(format!("// {}", comment));
                     }

@@ -83,25 +83,26 @@ impl Examples {
     }
 }
 
-#[test]
-fn examples() {
-    let readme = Readme::new();
+// TODO
+// #[test]
+// fn examples() {
+//     let readme = Readme::new();
 
-    for &id in &["doku", "serde"] {
-        let readme_code = readme.example_code(id);
-        let actual_code = Examples::actual_code(id);
+//     for &id in &["doku", "serde"] {
+//         let readme_code = readme.example_code(id);
+//         let actual_code = Examples::actual_code(id);
 
-        if readme_code != actual_code {
-            let diff = Changeset::new(&readme_code, &actual_code, "\n");
-            panic!("Found code mismatch for example `{}`:\n{}", id, diff);
-        }
+//         if readme_code != actual_code {
+//             let diff = Changeset::new(&readme_code, &actual_code, "\n");
+//             panic!("Found code mismatch for example `{}`:\n{}", id, diff);
+//         }
 
-        let readme_output = readme.example_output(id);
-        let actual_output = Examples::actual_output(id);
+//         let readme_output = readme.example_output(id);
+//         let actual_output = Examples::actual_output(id);
 
-        if readme_output != actual_output {
-            let diff = Changeset::new(&readme_output, &actual_output, "\n");
-            panic!("Found output mismatch for example `{}`:\n{}", id, diff);
-        }
-    }
-}
+//         if readme_output != actual_output {
+//             let diff = Changeset::new(&readme_output, &actual_output, "\n");
+//             panic!("Found output mismatch for example `{}`:\n{}", id, diff);
+//         }
+//     }
+// }

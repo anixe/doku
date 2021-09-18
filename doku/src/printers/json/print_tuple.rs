@@ -1,7 +1,7 @@
 use super::*;
 
 impl<'ty> Ctxt<'ty, '_> {
-    pub fn print_tuple(&mut self, fields: &'ty [Type]) {
+    pub fn print_tuple(&mut self, fields: &'ty [ty::Type]) {
         let fields: Vec<_> = fields
             .iter()
             .filter(|field| self.mode.allows(field.serializable, field.deserializable))

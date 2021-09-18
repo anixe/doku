@@ -1,7 +1,7 @@
 use super::*;
 
 impl Ctxt<'_, '_> {
-    pub fn print_enum(&mut self, tag: Tag, variants: &[Variant]) {
+    pub fn print_enum(&mut self, tag: ty::Tag, variants: &[ty::Variant]) {
         if let Some(example) = self.example() {
             self.out.text(example);
 
@@ -25,57 +25,57 @@ impl Ctxt<'_, '_> {
         let variant = variant.expect("Found an enum without usable variants");
 
         match tag {
-            Tag::Adjacent { tag, content } => self.print_variant_of_adjacently_tagged_enum(tag, content, variant),
-            Tag::Internal { tag } => self.print_variant_of_internally_tagged_enum(tag, variant),
-            Tag::External => self.print_variant_of_externally_tagged_enum(variant),
-            Tag::None => self.print_variant_of_untagged_enum(variant),
+            ty::Tag::Adjacent { tag, content } => self.print_variant_of_adjacently_tagged_enum(tag, content, variant),
+            ty::Tag::Internal { tag } => self.print_variant_of_internally_tagged_enum(tag, variant),
+            ty::Tag::External => self.print_variant_of_externally_tagged_enum(variant),
+            ty::Tag::None => self.print_variant_of_untagged_enum(variant),
         }
     }
 
-    fn print_variant_of_adjacently_tagged_enum(&mut self, tag: &str, content: &str, variant: &Variant) {
+    fn print_variant_of_adjacently_tagged_enum(&mut self, tag: &str, content: &str, variant: &ty::Variant) {
         match variant.fields {
-            Fields::Named { .. } | Fields::Unnamed { .. } => {
+            ty::Fields::Named { .. } | ty::Fields::Unnamed { .. } => {
                 self.out
                     .text(format!(r#"{{ "{}": "{}", "{}": ... }}"#, tag, variant.id, content));
             }
 
-            Fields::Unit => {
+            ty::Fields::Unit => {
                 self.out.text(format!(r#"{{ "{}": "{}" }}"#, tag, variant.id));
             }
         }
     }
 
-    fn print_variant_of_externally_tagged_enum(&mut self, variant: &Variant) {
+    fn print_variant_of_externally_tagged_enum(&mut self, variant: &ty::Variant) {
         match variant.fields {
-            Fields::Named { .. } | Fields::Unnamed { .. } => {
+            ty::Fields::Named { .. } | ty::Fields::Unnamed { .. } => {
                 self.out.text(format!(r#"{{ "{}": ... }}"#, variant.id));
             }
 
-            Fields::Unit => {
+            ty::Fields::Unit => {
                 self.out.text(format!(r#""{}""#, variant.id));
             }
         }
     }
 
-    fn print_variant_of_internally_tagged_enum(&mut self, tag: &str, variant: &Variant) {
+    fn print_variant_of_internally_tagged_enum(&mut self, tag: &str, variant: &ty::Variant) {
         match variant.fields {
-            Fields::Named { .. } | Fields::Unnamed { .. } => {
+            ty::Fields::Named { .. } | ty::Fields::Unnamed { .. } => {
                 self.out.text(format!(r#"{{ "{}": ... }}"#, tag,));
             }
 
-            Fields::Unit => {
+            ty::Fields::Unit => {
                 self.out.text(format!(r#"{{ "{}" }}"#, tag,));
             }
         }
     }
 
-    fn print_variant_of_untagged_enum(&mut self, variant: &Variant) {
+    fn print_variant_of_untagged_enum(&mut self, variant: &ty::Variant) {
         match variant.fields {
-            Fields::Named { .. } | Fields::Unnamed { .. } => {
+            ty::Fields::Named { .. } | ty::Fields::Unnamed { .. } => {
                 self.out.text("{ ... }");
             }
 
-            Fields::Unit => {
+            ty::Fields::Unit => {
                 self.out.text("null");
             }
         }

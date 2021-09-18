@@ -1,7 +1,7 @@
 use super::*;
 
 impl<'ty> Ctxt<'ty, '_> {
-    pub fn print_map(&mut self, key: &'ty Type, value: &'ty Type) {
+    pub fn print_map(&mut self, key: &'ty ty::Type, value: &'ty ty::Type) {
         if !self.flat {
             if self.inline {
                 self.out.text("{ ");

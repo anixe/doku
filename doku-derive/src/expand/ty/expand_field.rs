@@ -130,10 +130,10 @@ impl Field {
 
         if serializable || deserializable {
             let ty_def = quote! {
-                let ty = <#ty as ::doku::TypeProvider>::ty();
+                let ty = <#ty as ::doku::ty::Provider>::ty();
 
-                ::doku::Field {
-                    ty: ::doku::Type {
+                ::doku::ty::Field {
+                    ty: ::doku::ty::Type {
                         comment: #comment,
                         example: #example.or(ty.example),
                         tag: #tag,

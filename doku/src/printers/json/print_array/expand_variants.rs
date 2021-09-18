@@ -5,7 +5,7 @@ mod for_untagged_enum;
 use super::*;
 
 impl<'ty> Ctxt<'ty, '_> {
-    pub fn expand_variants(&mut self, ty: &'ty Type) -> bool {
+    pub fn expand_variants(&mut self, ty: &'ty ty::Type) -> bool {
         if self.inline {
             return false;
         }

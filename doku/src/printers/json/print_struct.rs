@@ -1,12 +1,12 @@
 use super::*;
 
 impl<'ty> Ctxt<'ty, '_> {
-    pub fn print_struct(&mut self, fields: &'ty Fields, transparent: bool, variant: Option<&'ty Variant>) {
+    pub fn print_struct(&mut self, fields: &'ty ty::Fields, transparent: bool, variant: Option<&'ty ty::Variant>) {
         if transparent {
             let fields: Vec<_> = match fields {
-                Fields::Named { fields } => fields.iter().map(|(_, field)| field).collect(),
-                Fields::Unnamed { fields } => fields.iter().collect(),
-                Fields::Unit => Default::default(),
+                ty::Fields::Named { fields } => fields.iter().map(|(_, field)| field).collect(),
+                ty::Fields::Unnamed { fields } => fields.iter().collect(),
+                ty::Fields::Unit => Default::default(),
             };
 
             // Serde already covers this case for us, so hopefully this will

@@ -17,7 +17,7 @@ use crate::*;
 /// ... the `Subject::PictureOfCat` variant is defined as:
 ///
 /// ```rust
-/// # use doku::{Fields, Variant};
+/// # use doku::ty::{Fields, Variant};
 /// # let _ =
 /// Variant {
 ///     id: "picture-of-cat",
@@ -46,5 +46,5 @@ pub struct Variant {
     pub comment:        Option<&'static str>,
     pub serializable:   bool,
     pub deserializable: bool,
-    pub fields:         Fields,
+    pub fields:         ty::Fields,
 }

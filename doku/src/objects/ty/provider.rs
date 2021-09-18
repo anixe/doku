@@ -1,10 +1,10 @@
 use crate::*;
 
-pub trait TypeProvider {
-    fn ty() -> Type;
+pub trait Provider {
+    fn ty() -> ty::Type;
 }
 
-macro_rules! type_providers {
+macro_rules! providers {
     (
         $(
             for $rust_ty:ty
@@ -13,8 +13,8 @@ macro_rules! type_providers {
         )+
     ) => {
         $(
-            impl $(< $($tt)+ >)? TypeProvider for $rust_ty {
-                fn ty() -> Type {
+            impl $(< $($tt)+ >)? ty::Provider for $rust_ty {
+                fn ty() -> ty::Type {
                     $doku_ty.into()
                 }
             }

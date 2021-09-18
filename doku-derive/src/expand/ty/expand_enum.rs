@@ -1,17 +1,5 @@
 use super::*;
 
-/// Expands roughly to:
-///
-/// ```ignore
-/// impl ::doku::TypeProvider for ... {
-///     fn ty() -> ::doku::Type {
-///         ::doku::Type::from_def(::doku::TypeDef::Enum {
-///             tag: ...,
-///             variants: vec![ ... ],
-///         })
-///     }
-/// }
-/// ```
 pub fn expand_enum(input: &syn::DeriveInput, data: &syn::DataEnum) -> Result<TokenStream2> {
     let syn::DeriveInput { ident, .. } = input;
     let doku = attrs::DokuContainer::from_ast(&input.attrs)?;
@@ -24,12 +12,12 @@ pub fn expand_enum(input: &syn::DeriveInput, data: &syn::DataEnum) -> Result<Tok
 
         let tag = if untagged.unwrap_or(false) {
             quote! {
-                ::doku::Tag::None
+                ::doku::ty::Tag::None
             }
         } else {
             match (content, tag) {
                 (Some(content), Some(tag)) => quote! {
-                    ::doku::Tag::Adjacent {
+                    ::doku::ty::Tag::Adjacent {
                         content: #content,
                         tag: #tag,
                     }
@@ -41,18 +29,18 @@ pub fn expand_enum(input: &syn::DeriveInput, data: &syn::DataEnum) -> Result<Tok
                     // need for us to linger too
 
                     quote! {
-                        ::doku::Tag::External
+                        ::doku::ty::Tag::External
                     }
                 }
 
                 (None, Some(tag)) => quote! {
-                    ::doku::Tag::Internal {
+                    ::doku::ty::Tag::Internal {
                         tag: #tag,
                     }
                 },
 
                 (None, None) => quote! {
-                    ::doku::Tag::External
+                    ::doku::ty::Tag::External
                 },
             }
         };
@@ -60,7 +48,7 @@ pub fn expand_enum(input: &syn::DeriveInput, data: &syn::DataEnum) -> Result<Tok
         let variants = expand_variants(&data.variants)?;
 
         quote! {
-            ::doku::TypeDef::Enum {
+            ::doku::ty::Def::Enum {
                 tag: #tag,
                 variants: vec![ #(#variants)* ],
             }
@@ -69,7 +57,7 @@ pub fn expand_enum(input: &syn::DeriveInput, data: &syn::DataEnum) -> Result<Tok
 
     let ty = {
         let mut ty = quote! {
-            ::doku::Type::from_def( #ty_def )
+            ::doku::ty::Type::from_def( #ty_def )
         };
 
         if let Some(wrap) = doku.wrap {
@@ -80,8 +68,8 @@ pub fn expand_enum(input: &syn::DeriveInput, data: &syn::DataEnum) -> Result<Tok
     };
 
     Ok(quote! {
-        impl ::doku::TypeProvider for #ident {
-            fn ty() -> ::doku::Type {
+        impl ::doku::ty::Provider for #ident {
+            fn ty() -> ::doku::ty::Type {
                 #ty
             }
         }

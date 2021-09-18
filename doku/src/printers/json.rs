@@ -12,8 +12,9 @@ mod print_tuple;
 use self::ctxt::*;
 use crate::printers::prelude::*;
 
-#[derive(Clone, Debug)]
+#[derive(Debug)]
 pub struct JsonPrinter {
+    value:    Option<val::Value>,
     mode:     TypePrinterMode,
     comments: bool,
     indent:   usize,
@@ -51,7 +52,7 @@ impl JsonPrinter {
         self
     }
 
-    pub fn print(&self, ty: &Type) -> String {
+    pub fn print(&self, ty: &ty::Type) -> String {
         let mut out = Paragraph::new(self.indent, self.comments);
 
         Ctxt {

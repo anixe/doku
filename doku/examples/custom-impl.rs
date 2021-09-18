@@ -12,11 +12,11 @@ struct Paper {
 ///     size: String,
 /// }
 /// ```
-impl doku::TypeProvider for Paper {
-    fn ty() -> doku::Type {
-        doku::Type::from_def(doku::TypeDef::Struct {
-            fields:      doku::Fields::Named {
-                fields: vec![("size", doku::Field {
+impl doku::ty::Provider for Paper {
+    fn ty() -> doku::ty::Type {
+        doku::ty::Type::from_def(doku::ty::Def::Struct {
+            fields:      doku::ty::Fields::Named {
+                fields: vec![("size", doku::ty::Field {
                     ty:        String::ty(),
                     flattened: false,
                 })],

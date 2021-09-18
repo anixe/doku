@@ -2,7 +2,7 @@ use super::*;
 use std::fmt::Write;
 
 impl<'ty> Ctxt<'ty, '_> {
-    pub fn print_comment_for_enum(&mut self, parent_comment: String, tag: Tag, variants: &'ty [Variant]) {
+    pub fn print_comment_for_enum(&mut self, parent_comment: String, tag: ty::Tag, variants: &'ty [ty::Variant]) {
         let variants: Vec<_> = variants
             .iter()
             .filter(|variant| self.mode.allows(variant.serializable, variant.deserializable))
@@ -20,7 +20,7 @@ impl<'ty> Ctxt<'ty, '_> {
     }
 }
 
-fn comment_enum_variant(ctxt: &Ctxt, tag: Tag, variant: &Variant) -> String {
+fn comment_enum_variant(ctxt: &Ctxt, tag: ty::Tag, variant: &ty::Variant) -> String {
     let mut result = format!("// - {}", print_variant_layout(ctxt, tag, variant));
 
     // Let's consider following enums:
@@ -80,24 +80,24 @@ fn comment_enum_variant(ctxt: &Ctxt, tag: Tag, variant: &Variant) -> String {
 ///               ^^^^^^^^^^^^^^^^^
 ///           this is variant's layout
 /// ```
-fn print_variant_layout(ctxt: &Ctxt, tag: Tag, variant: &Variant) -> String {
+fn print_variant_layout(ctxt: &Ctxt, tag: ty::Tag, variant: &ty::Variant) -> String {
     match tag {
-        Tag::Adjacent { tag, content } => {
+        ty::Tag::Adjacent { tag, content } => {
             print_variant_layout::for_adjacently_tagged_enum(ctxt, tag, content, &variant)
         }
 
-        Tag::Internal { tag } => print_variant_layout::for_internally_tagged_enum(ctxt, tag, &variant),
-        Tag::External => print_variant_layout::for_externally_tagged_enum(ctxt, &variant),
-        Tag::None => print_variant_layout::for_untagged_enum(ctxt, &variant),
+        ty::Tag::Internal { tag } => print_variant_layout::for_internally_tagged_enum(ctxt, tag, &variant),
+        ty::Tag::External => print_variant_layout::for_externally_tagged_enum(ctxt, &variant),
+        ty::Tag::None => print_variant_layout::for_untagged_enum(ctxt, &variant),
     }
 }
 
 mod print_variant_layout {
     use super::*;
 
-    pub fn for_adjacently_tagged_enum(ctxt: &Ctxt, tag: &str, content: &str, variant: &Variant) -> String {
+    pub fn for_adjacently_tagged_enum(ctxt: &Ctxt, tag: &str, content: &str, variant: &ty::Variant) -> String {
         match &variant.fields {
-            Fields::Unit => format!(r#"{{ "{}": "{}" }}"#, tag, variant.id),
+            ty::Fields::Unit => format!(r#"{{ "{}": "{}" }}"#, tag, variant.id),
 
             fields => format!(
                 r#"{{ "{}": "{}", "{}": {} }}"#,
@@ -109,16 +109,15 @@ mod print_variant_layout {
         }
     }
 
-    pub fn for_externally_tagged_enum(ctxt: &Ctxt, variant: &Variant) -> String {
+    pub fn for_externally_tagged_enum(ctxt: &Ctxt, variant: &ty::Variant) -> String {
         match &variant.fields {
-            Fields::Unit => format!(r#""{}""#, variant.id),
-
+            ty::Fields::Unit => format!(r#""{}""#, variant.id),
             fields => format!("{{ \"{}\": {} }}", variant.id, inline_print_fields(ctxt, fields)),
         }
     }
 
-    pub fn for_internally_tagged_enum(ctxt: &Ctxt, tag: &str, variant: &Variant) -> String {
-        if let Fields::Named { .. } = &variant.fields {
+    pub fn for_internally_tagged_enum(ctxt: &Ctxt, tag: &str, variant: &ty::Variant) -> String {
+        if let ty::Fields::Named { .. } = &variant.fields {
             let mut fields = inline_print_fields(ctxt, &variant.fields);
 
             // `inline_print_fields()` returns a string containing braces, e.g.:
@@ -137,13 +136,13 @@ mod print_variant_layout {
         format!(r#"{{ "{}": "{}" }}"#, tag, variant.id)
     }
 
-    pub fn for_untagged_enum(ctxt: &Ctxt, variant: &Variant) -> String {
+    pub fn for_untagged_enum(ctxt: &Ctxt, variant: &ty::Variant) -> String {
         inline_print_fields(ctxt, &variant.fields)
     }
 
     /// Prints given fields in an inline-fashion, so that they fit in one line
     /// (e.g. `{ "PostDeleted": { "id": 1, "user": 2 } }`).
-    fn inline_print_fields(ctxt: &Ctxt, fields: &Fields) -> String {
+    fn inline_print_fields(ctxt: &Ctxt, fields: &ty::Fields) -> String {
         let mut variant_out = Paragraph::new(0, false);
 
         let mut variant_ctxt = Ctxt {
@@ -160,7 +159,7 @@ mod print_variant_layout {
             // it can be virtually anything, since we're not doing
             // `variant_ctxt.print()`, but calling `print_fields()` directly (so
             // this `ty` is not read anywhere).
-            ty: &String::ty(),
+            ty: &<String as ty::Provider>::ty(),
         };
 
         variant_ctxt.print_fields(fields, None);

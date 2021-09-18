@@ -1,11 +1,11 @@
-use super::*;
+use crate::*;
 
 #[derive(Clone, Debug)]
-pub enum TypeDef {
+pub enum Def {
     /// A homogeneous array of a possibly known size
     Array {
         /// Type of items this array accepts
-        ty: Box<Type>,
+        ty: Box<ty::Type>,
 
         /// An optional hint about the array's expected size
         size: Option<usize>,
@@ -17,10 +17,10 @@ pub enum TypeDef {
     /// An algebraic data type
     Enum {
         /// The way enum should be serialized
-        tag: Tag,
+        tag: ty::Tag,
 
         /// All enum's variants
-        variants: Vec<Variant>,
+        variants: Vec<ty::Variant>,
     },
 
     /// A floating-point number
@@ -30,17 +30,17 @@ pub enum TypeDef {
     Integer,
 
     /// A homogeneous map
-    Map { key: Box<Type>, value: Box<Type> },
+    Map { key: Box<ty::Type>, value: Box<ty::Type> },
 
     /// `Option<Ty>`
-    Optional { ty: Box<Type> },
+    Optional { ty: Box<ty::Type> },
 
     /// A UTF-8 string
     String,
 
     /// A structure
     Struct {
-        fields: Fields,
+        fields: ty::Fields,
 
         /// Whether this type should behave as a silent-wrapper.
         /// Corresponds to `#[serde(transparent)]`.
@@ -48,5 +48,5 @@ pub enum TypeDef {
     },
 
     /// A heterogeneous list of an up-front known size
-    Tuple { fields: Vec<Type> },
+    Tuple { fields: Vec<ty::Type> },
 }

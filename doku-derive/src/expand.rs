@@ -1,20 +1,5 @@
-mod expand_enum;
-mod expand_field;
-mod expand_fields;
-mod expand_struct;
-mod expand_variant;
-mod expand_variants;
-mod expand_wrap;
-
-use self::{
-    expand_enum::*,
-    expand_field::*,
-    expand_fields::*,
-    expand_struct::*,
-    expand_variant::*,
-    expand_variants::*,
-    expand_wrap::*,
-};
+mod ty;
+mod val;
 
 use crate::prelude::*;
 
@@ -22,7 +7,7 @@ pub fn expand(input: &syn::DeriveInput) -> Result<TokenStream2> {
     if !input.generics.params.is_empty() {
         emit_error!(
             input.generics.params.span(),
-            "Generic types are not supported yet; please `impl doku::TypeProvider for ...` by hand"
+            "Generic types are not supported yet; please `impl doku::ty::Provider for ...` by hand"
         );
 
         return Err(());
@@ -36,4 +21,24 @@ pub fn expand(input: &syn::DeriveInput) -> Result<TokenStream2> {
             Err(())
         }
     }
+}
+
+fn expand_struct(input: &syn::DeriveInput, data: &syn::DataStruct) -> Result<TokenStream2> {
+    let ty = ty::expand_struct(input, data)?;
+    let val = val::expand_struct(input, data);
+
+    Ok(quote! {
+        #ty
+        #val
+    })
+}
+
+fn expand_enum(input: &syn::DeriveInput, data: &syn::DataEnum) -> Result<TokenStream2> {
+    let ty = ty::expand_enum(input, data)?;
+    let val = val::expand_enum(input, data);
+
+    Ok(quote! {
+        #ty
+        #val
+    })
 }
