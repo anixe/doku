@@ -195,7 +195,7 @@ struct User {
 
 ## Can I use it without Serde?
 
-Yes, totally! Doku merely _understands_ Serde annotations, but doesn't require any of them (see: the very first example in this readme).
+Yes, totally! Doku only _understands_ Serde annotations - it doesn't _require_ any of them (see: the very first example in this readme).
 
 ## How does it work?
 
@@ -271,12 +271,16 @@ struct Bar {
 }
 ```
 
-## Compatibility
+## Compatibility (Rust)
+
+MSRV: 1.51
+
+## Compatibility (Serde)
 
 Legend:
 - ❌ = not supported (the derive-macro will return an error)
 - ✅ = supported
-- ✅ + no-op = supported, but ignored (i.e. doesn't affect the documentation)
+- ✅ + no-op = supported, but doesn't affect the documentation
 
 ### `#[serde]` for [containers](https://serde.rs/container-attrs.html)
 
@@ -344,14 +348,14 @@ Legend:
 - ❌ `#[serde(borrow = "...")]` (no-op)
 - ❌ `#[serde(getter = "...")]`
 
-### Miscellaneous
+## Compatibility (miscellaneous)
 
 - ❌ recursive types
 - ❌ generic types (you can write `impl TypeProvider` by hand though)
 
 ## Contributing
 
-Found a bug, or something doesn't work as expected? Please let us know on GitHub; patches are welcome, too!
+Found a bug or something doesn't work as expected? Please let us know on GitHub; patches are welcome, too!
 
 If you want to try hacking on Doku, the entry points are:
 - [the derive-macro](./doku-derive/src/lib.rs),
@@ -359,3 +363,7 @@ If you want to try hacking on Doku, the entry points are:
 - [the JSON pretty-printer](./doku/src/printers/json.rs) and [its tests](./doku/tests/json.rs).
 
 We've got integration tests inside `doku/tests`, and creating a new one is as easy as adding its path to the `json.rs` file, copy-pasting some another example there and adjusting the `code.rs` file. From within the `doku` directory, you can run tests using `cargo test`, and you can adjust the expected-files automatically using `make bless` (requires `make` and `fd`).
+
+## License
+
+Licensed under the MIT license.

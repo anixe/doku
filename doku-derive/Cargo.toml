@@ -7,6 +7,7 @@ edition = "2018"
 description = "A framework for building documentation (internal macro)"
 readme = false
 repository = "https://github.com/anixe/doku"
+rust = "1.51"
 
 [lib]
 proc-macro = true

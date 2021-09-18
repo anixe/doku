@@ -1,5 +1,4 @@
 #![feature(crate_visibility_modifier)]
-#![feature(min_const_generics)]
 
 mod objects;
 mod printers;
