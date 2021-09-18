@@ -1,7 +1,7 @@
 use doku::prelude::*;
 use serde::Serialize;
 
-#[derive(Serialize, Doku)]
+#[derive(Serialize, Document)]
 struct Response {
     #[serde(flatten)]
     pagination: PaginationWrapper,
@@ -10,17 +10,17 @@ struct Response {
     users: Vec<User>,
 }
 
-#[derive(Serialize, Doku)]
+#[derive(Serialize, Document)]
 #[serde(transparent)]
 struct PaginationWrapper(Pagination);
 
-#[derive(Serialize, Doku)]
+#[derive(Serialize, Document)]
 struct Pagination {
     current_page: usize,
-    last_page:    usize,
+    last_page: usize,
 }
 
-#[derive(Serialize, Doku)]
+#[derive(Serialize, Document)]
 struct User {
     #[doku(example = "alan.turing")] // (explicit examples are optional)
     login: String,

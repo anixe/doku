@@ -1,3 +1,0 @@
-{ "t": "Foo", "c": ... }  // Possible variants:
-                          // - { "t": "Foo", "c": { "a": "string" } }
-                          // - { "t": "Bar", "c": { "a": "string" } }

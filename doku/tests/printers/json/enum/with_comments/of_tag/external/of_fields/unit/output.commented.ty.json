@@ -1,0 +1,6 @@
+{
+  // Possible variants:
+  // - "Foo" = This is `Foo`
+  // - "Bar" = This is `Bar`
+  "value": "Foo"
+}

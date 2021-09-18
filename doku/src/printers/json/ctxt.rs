@@ -1,22 +1,16 @@
 use super::*;
 use std::iter::once;
 
-/// This struct gathers all the information required for the `print_*`
-/// functions; it's easier to pass it around than a bunch of loose variables.
-pub struct Ctxt<'ty, 'out> {
-    /// Whether we should print serializable / deserializable types
-    pub mode: TypePrinterMode,
-
-    /// Object containing everything we've printed so far
-    pub out: &'out mut Paragraph,
-
-    /// Type we're currently printing
+pub struct Ctxt<'p, 'ty, 'out> {
     pub ty: &'ty Type,
+    pub val: Option<&'ty Value>,
+    pub vis: Visibility,
+    pub fmt: &'p Formatting,
+    pub out: &'out mut Output<'p>,
 
     /// Parent(s) of the type we're currently printing.
     ///
     /// E.g. for `Array<Option<T>>` we could have:
-    ///
     /// - `parents[0] = Array<Option<T>>`
     /// - `parents[1] = Option<T>`
     /// - `ty = T`
@@ -24,8 +18,9 @@ pub struct Ctxt<'ty, 'out> {
 
     /// When enabled, `ty` will be printed "flat".
     ///
-    /// Currently we utilize this flag for flattening key-value pairs of structs
-    /// and maps which have been covered with the `#[serde(flatten)]` attribute.
+    /// Currently we utilize this flag for flattening key-value pairs of
+    /// structs and maps which have been covered with the
+    /// `#[serde(flatten)]` attribute.
     ///
     /// # Example
     ///
@@ -54,8 +49,8 @@ pub struct Ctxt<'ty, 'out> {
     ///
     /// # Caveats
     ///
-    /// Setting this flag for types that cannot be flattened (e.g. scalars) is a
-    /// no-op.
+    /// Setting this flag for types that cannot be flattened (e.g. scalars) is
+    /// a no-op.
     pub flat: bool,
 
     /// When enabled, `ty` will be printed in one line.
@@ -91,13 +86,22 @@ pub struct Ctxt<'ty, 'out> {
     pub inline: bool,
 }
 
-impl<'ty, 'out> Ctxt<'ty, 'out> {
-    pub fn with_ty<'out2>(&'out2 mut self, ty: &'ty Type) -> Ctxt<'ty, 'out2> {
-        let parents = {
-            let mut parents = self.parents.clone();
-            parents.push(self.ty);
-            parents
-        };
+impl<'p, 'ty, 'out> Ctxt<'p, 'ty, 'out> {
+    pub fn nested<'out2>(&'out2 mut self) -> Ctxt<'p, 'ty, 'out2> {
+        Ctxt {
+            ty: self.ty,
+            val: self.val,
+            vis: self.vis,
+            fmt: self.fmt,
+            out: self.out,
+            parents: self.parents.clone(),
+            flat: self.flat,
+            inline: self.inline,
+        }
+    }
+
+    pub fn with_ty(mut self, ty: &'ty Type) -> Self {
+        self.parents.push(self.ty);
 
         // When we have a struct with a flattened field, all the *inner* fields
         // of _that_ type are not subject to flattening anymore:
@@ -151,19 +155,22 @@ impl<'ty, 'out> Ctxt<'ty, 'out> {
         //
         // To avoid making this comment overly long, if you want to see this
         // condition in action, please comment it out and run the tests :-)
-        let keep_flat = matches!(self.ty.def, TypeDef::Struct {
-            transparent: true,
-            fields:      _,
-        });
+        let keep_flat = matches!(
+            self.ty.kind,
+            TypeKind::Struct {
+                transparent: true,
+                fields: _,
+            }
+        );
 
-        Ctxt {
-            out: self.out,
-            ty,
-            parents,
-            mode: self.mode,
-            flat: self.flat && keep_flat,
-            inline: self.inline,
-        }
+        self.ty = ty;
+        self.flat = self.flat && keep_flat;
+        self
+    }
+
+    pub fn with_val(mut self, val: Option<&'ty Value>) -> Self {
+        self.val = val;
+        self
     }
 
     pub fn with_flat(mut self) -> Self {
@@ -180,23 +187,29 @@ impl<'ty, 'out> Ctxt<'ty, 'out> {
     pub fn print(mut self) {
         use super::*;
 
-        if !self.mode.allows(self.ty.serializable, self.ty.deserializable) {
+        if !self
+            .vis
+            .allows(self.ty.serializable, self.ty.deserializable)
+        {
             return;
         }
 
         self.print_comment();
 
-        match &self.ty.def {
-            TypeDef::Bool => self.print_bool(),
-            TypeDef::Float => self.print_float(),
-            TypeDef::Integer => self.print_integer(),
-            TypeDef::String => self.print_string(),
-            TypeDef::Array { ty, .. } => self.print_array(ty),
-            TypeDef::Enum { tag, variants } => self.print_enum(*tag, variants),
-            TypeDef::Struct { fields, transparent } => self.print_struct(fields, *transparent, None),
-            TypeDef::Tuple { fields } => self.print_tuple(fields),
-            TypeDef::Map { key, value } => self.print_map(key, value),
-            TypeDef::Optional { ty } => self.print_optional(ty),
+        match &self.ty.kind {
+            TypeKind::Bool => self.print_bool(),
+            TypeKind::Float => self.print_float(),
+            TypeKind::Integer => self.print_integer(),
+            TypeKind::String => self.print_string(),
+            TypeKind::Array { ty, size } => self.print_array(ty, *size),
+            TypeKind::Enum { tag, variants } => self.print_enum(*tag, variants),
+            TypeKind::Struct {
+                fields,
+                transparent,
+            } => self.print_struct(fields, *transparent, None),
+            TypeKind::Tuple { fields } => self.print_tuple(fields),
+            TypeKind::Map { key, value } => self.print_map(key, value),
+            TypeKind::Optional { ty } => self.print_optional(ty),
         }
     }
 }

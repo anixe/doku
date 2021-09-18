@@ -3,135 +3,21 @@
 [crates-badge]: https://img.shields.io/crates/v/doku.svg
 [crates-link]: https://crates.io/crates/doku
 
-**Doku is a framework for building documentation with code-as-data methodology in mind.**
+Doku is a framework for building aesthetic, human-readable documentation
+straight from the code; it allows you to effortlessly generate docs for
+configuration files, HTTP endpoints, and so on.
 
-Say goodbye to stale, hand-written documentation - with Doku, code _is_ the documentation!
-
-Made by [Anixe](https://anixe.pl) <img src="./readme/anixe.png" width="20"/>
-
-## Examples
-
-```rust
-// doku/examples/doku.rs
-
-use doku::prelude::*;
-
-type People = Vec<Person>;
-
-#[derive(Doku)]
-struct Person {
-    /// Person's first name
-    #[doku(example = "Janet")]
-    name: String,
-
-    /// Person's last name
-    #[doku(example = "NotARobot")]
-    surname: Option<String>,
-
-    /// Person's favourite color
-    favorite_color: Color,
-}
-
-#[derive(Doku)]
-enum Color {
-    #[doku(rename = "red-uwu")]
-    Red,
-
-    #[doku(rename = "green-uwu")]
-    Green,
-
-    #[doku(rename = "bluwu")]
-    Blue,
-}
-
-fn main() {
-    println!("{}", doku::to_json::<People>());
-}
-```
-
-```javascript
-// cd doku && cargo run --example doku
-
-[
-  {
-    "name": "Janet",             // Person's first name
-    "surname": "NotARobot",      // Person's last name; optional
-    "favorite_color": "red-uwu"  // Person's favourite color; possible variants:
-                                 // - "red-uwu" = Red
-                                 // - "green-uwu" = Green
-                                 // - "bluwu" = Blue
-  },
-  /* ... */
-]
-```
-
-If you use Serde, then you'll be pleasantly surprised by hearing that **Doku understands _(the most common)_ Serde attributes**; just sprinkle `#[derive(Doku)]` and get them docs for free!
-
-```rust
-// doku/examples/serde.rs
-
-use doku::prelude::*;
-use serde::Serialize;
-
-#[derive(Serialize, Doku)]
-struct Response {
-    #[serde(flatten)]
-    pagination: PaginationWrapper,
-
-    #[serde(rename = "items")]
-    users: Vec<User>,
-}
-
-#[derive(Serialize, Doku)]
-#[serde(transparent)]
-struct PaginationWrapper(Pagination);
-
-#[derive(Serialize, Doku)]
-struct Pagination {
-    current_page: usize,
-    last_page:    usize,
-}
-
-#[derive(Serialize, Doku)]
-struct User {
-    #[doku(example = "alan.turing")] // (explicit examples are optional)
-    login: String,
-
-    #[doku(example = "lofi hip hop radio")]
-    favorite_radio: String,
-}
-
-fn main() {
-    println!("{}", doku::to_json::<Response>());
-}
-```
-
-```javascript
-// cd doku && cargo run --example serde
-
-{
-  "current_page": 123,
-  "last_page": 123,
-  "items": [
-    {
-      "login": "alan.turing",
-      "favorite_radio": "lofi hip hop radio"
-    },
-    /* ... */
-  ]
-}
-```
-
-(you'll find more in [./doku/examples](./doku/examples).)
+Say goodbye to stale, hand-written documentation - with Doku, code _is_ the
+documentation.
 
 ## Getting started
 
 ```toml
 [dependencies]
-doku = "0.9.0"
+doku = "0.10"
 ```
 
-Doku has been made with [Serde](https://github.com/serde-rs/serde/) & [serde_json](https://github.com/serde-rs/json) in mind, so if you use them, starting with Doku is as easy as adding `#[derive(Doku)]` to your types and invoking `doku::to_json::<YourType>()`.
+Doku has been made with [Serde](https://github.com/serde-rs/serde/) & [serde_json](https://github.com/serde-rs/json) in mind, so if you use them, starting with Doku is as easy as adding `#[derive(Document)]` to your types and invoking `doku::to_json::<YourType>()`.
 
 (there's also `doku::JsonPrinter::new()`, if you want to have more control over the output's format.)
 
@@ -141,8 +27,8 @@ Somewhat [obviously](https://en.wikipedia.org/wiki/Halting_problem), Doku cannot
 
 The `#[doku]` attribute allows to provide additional information about a type:
 
-```rust
-#[derive(Doku)]
+```
+#[derive(Document)]
 struct User {
     /// `example=` provides an example value for a field.
     ///
@@ -158,7 +44,7 @@ struct User {
     ///
     /// This is useful when you e.g. depend on another crate that doesn't use
     /// Doku, and for which - due to Rust's orphan rules - you cannot impl
-    /// `doku::TypeProvider` by hand.
+    /// `doku::Document` by hand.
     ///
     /// This is similar to `#[serde(remote = ...)]`.
     ///
@@ -168,7 +54,7 @@ struct User {
 
     /// `skip` allows to ignore given field in the documentation.
     ///
-    /// Skipped fields don't have to have `impl doku::TypeProvider`, so this is
+    /// Skipped fields don't have to have `impl doku::Document`, so this is
     /// kind of a get-out-of-jail-free card if you can live with this field 
     /// missing from the docs.
     ///
@@ -199,10 +85,10 @@ Yes, totally! Doku only _understands_ Serde annotations - it doesn't _require_ a
 
 ## How does it work?
 
-When you wrap a type with `#[derive(Doku)]`:
+When you wrap a type with `#[derive(Document)]`:
 
-```rust
-#[derive(Doku)]
+```
+#[derive(Document)]
 struct User {
     /// Who? Who?
     #[doku(example = "alan.turing")]
@@ -210,10 +96,10 @@ struct User {
 }
 ```
 
-... the derive-macro generates an `impl doku::TypeProvider for ...`:
+... the derive-macro generates an `impl doku::Document for ...`:
 
-```rust
-impl doku::TypeProvider for User {
+```
+impl doku::Document for User {
     fn ty() -> doku::Type {
         let login = doku::Field {
             ty: doku::Type {
@@ -224,7 +110,7 @@ impl doku::TypeProvider for User {
             flattened: false,
         };
 
-        doku::Type::from_def(doku::TypeDef::Struct {
+        doku::Type::from(doku::TypeKind::Struct {
             fields: doku::Fields::Named {
                 fields: vec![
                     ("login", login)
@@ -238,13 +124,13 @@ impl doku::TypeProvider for User {
 
 ... and later, when you invoke `doku::to_json<User>()`, it just calls this `fn ty()` method:
 
-```rust
-fn to_json<Ty: TypeProvider>() -> String {
+```
+fn to_json<Ty: Document>() -> String {
     let ty = Ty::ty();
     
-    match &ty.def {
-        doku::TypeDef::String => print_string(/* ... */),
-        doku::TypeDef::Struct { fields, .. } => print_struct(/* ... */),
+    match &ty.kind {
+        doku::TypeKind::String => print_string(/* ... */),
+        doku::TypeKind::Struct { fields, .. } => print_struct(/* ... */),
         /* ... */
     }
 }
@@ -256,14 +142,14 @@ Also, all those `doku::*` types are public - if you wanted, you could write _you
 
 ## Quick help
 
-### trait `TypeProvider` is not implemented for `...`
+### trait `Document` is not implemented for `...`
 
-The offending type (enum / struct) is missing the `#[derive(Doku)]`:
+The offending type (enum / struct) is missing the `#[derive(Document)]`:
 
 ``` rust
-#[derive(Doku)]
+#[derive(Document)]
 struct Foo {
-    bar: Bar, // trait `TypeProvider` is not implemented for `Bar`
+    bar: Bar, // trait `Document` is not implemented for `Bar`
 }
 
 struct Bar {
@@ -351,7 +237,7 @@ Legend:
 ## Compatibility (miscellaneous)
 
 - ❌ recursive types
-- ❌ generic types (you can write `impl TypeProvider` by hand though)
+- ❌ generic types (you can write `impl Document` by hand though)
 
 ## Contributing
 

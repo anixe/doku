@@ -1,12 +1,14 @@
+#![allow(dead_code)]
+
 use doku::prelude::*;
 
-#[derive(Doku)]
+#[derive(Document)]
 enum Event {
     UserCreated { id: usize, name: String },
     UserDeleted { id: usize },
 }
 
-#[derive(Doku)]
+#[derive(Document)]
 struct User {
     /// yass
     user: String,

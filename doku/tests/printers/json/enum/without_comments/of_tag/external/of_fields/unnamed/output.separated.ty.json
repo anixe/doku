@@ -1,0 +1,10 @@
+{
+  "value": 
+    {
+      "Foo": "string"
+    }
+    |
+    {
+      "Bar": ["string", 123]
+    }
+}

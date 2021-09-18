@@ -3,7 +3,7 @@ use darling::FromMeta;
 
 /// Models the `#[serde]` attribute for containers:
 ///
-/// ```rust,ignore
+/// ```ignore
 /// #[serde(transparent)]
 /// struct Foo {
 ///     field: Bar,
@@ -36,18 +36,19 @@ pub struct SerdeContainer {
 
 impl SerdeContainer {
     pub fn from_ast(attrs: &[syn::Attribute]) -> Result<Self> {
-        attrs::from_ast(attrs, "serde").map(|attrs| attrs.fold(Self::default(), Self::merge))
+        attrs::from_ast(attrs, "serde")
+            .map(|attrs| attrs.fold(Self::default(), Self::merge))
     }
 
     pub fn merge(self, other: Self) -> Self {
         Self {
-            content:             other.content.or(self.content),
-            krate:               None, // it's a no-op for us
-            default:             None, // it's a no-op for us
+            content: other.content.or(self.content),
+            krate: None,               // it's a no-op for us
+            default: None,             // it's a no-op for us
             deny_unknown_fields: None, // it's a no-op for us
-            tag:                 other.tag.or(self.tag),
-            transparent:         other.transparent.or(self.transparent),
-            untagged:            other.untagged.or(self.untagged),
+            tag: other.tag.or(self.tag),
+            transparent: other.transparent.or(self.transparent),
+            untagged: other.untagged.or(self.untagged),
         }
     }
 }

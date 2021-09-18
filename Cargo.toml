@@ -1,0 +1,6 @@
+[workspace]
+members = [
+    "doku",
+    "doku-derive",
+    "doku-test",
+]

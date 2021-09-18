@@ -1,8 +1,0 @@
-{
-  "f1": "string",  // This is `f1`
-  "f2": "string",  // This is `foo`
-                   // This is `bar`
-                   // This is `f2`
-  "f3": "string",  // This is `f3`
-  "f4": "string"   // This is `f4`
-}

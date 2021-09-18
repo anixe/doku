@@ -1,0 +1,6 @@
+{
+  "value": 
+    "string"
+    |
+    ["string", 123]
+}

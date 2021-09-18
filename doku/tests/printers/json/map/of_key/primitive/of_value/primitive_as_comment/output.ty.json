@@ -1,0 +1,8 @@
+
+  // This is `Foo`
+  {
+    "Foo": {
+      "string": "string",
+      /* ... */
+    }
+  }

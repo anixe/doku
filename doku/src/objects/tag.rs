@@ -1,11 +1,9 @@
-/// Defines the way enums are represented
-///
-/// https://serde.rs/enum-representations.html
+/// Defines the way enums are represented (<https://serde.rs/enum-representations.html>)
 #[derive(Clone, Copy, Debug, Eq, PartialEq)]
 pub enum Tag {
     /// E.g.: `#[serde(tag = "t", content = "c")]`
     Adjacent {
-        tag:     &'static str,
+        tag: &'static str,
         content: &'static str,
     },
 

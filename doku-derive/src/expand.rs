@@ -7,22 +7,22 @@ mod expand_variants;
 mod expand_wrap;
 
 use self::{
-    expand_enum::*,
-    expand_field::*,
-    expand_fields::*,
-    expand_struct::*,
-    expand_variant::*,
-    expand_variants::*,
-    expand_wrap::*,
+    expand_enum::expand_enum,
+    expand_field::expand_field,
+    expand_fields::expand_fields,
+    expand_struct::expand_struct,
+    expand_variant::expand_variant,
+    expand_variants::expand_variants,
+    expand_wrap::expand_wrap,
 };
-
 use crate::prelude::*;
 
 pub fn expand(input: &syn::DeriveInput) -> Result<TokenStream2> {
     if !input.generics.params.is_empty() {
         emit_error!(
             input.generics.params.span(),
-            "Generic types are not supported yet; please `impl doku::TypeProvider for ...` by hand"
+            "Generic types are not supported yet; please `impl doku::Document \
+             for ...` by hand"
         );
 
         return Err(());

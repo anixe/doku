@@ -4,7 +4,7 @@ use crate::*;
 ///
 /// For instance, given this enum:
 ///
-/// ```rust
+/// ```
 /// # use serde::Serialize;
 /// #[derive(Serialize)]
 /// enum Subject {
@@ -16,7 +16,7 @@ use crate::*;
 ///
 /// ... the `Subject::PictureOfCat` variant is defined as:
 ///
-/// ```rust
+/// ```
 /// # use doku::{Fields, Variant};
 /// # let _ =
 /// Variant {
@@ -39,12 +39,12 @@ pub struct Variant {
     /// output.
     pub id: &'static str,
 
-    /// Title of the variant as it was written in the Rust code, excluding stuff
-    /// like `#[serde(rename)]`.
+    /// Title of the variant as it was written in the Rust code, excluding
+    /// stuff like `#[serde(rename)]`.
     pub title: &'static str,
 
-    pub comment:        Option<&'static str>,
-    pub serializable:   bool,
+    pub comment: Option<&'static str>,
+    pub serializable: bool,
     pub deserializable: bool,
-    pub fields:         Fields,
+    pub fields: Fields,
 }

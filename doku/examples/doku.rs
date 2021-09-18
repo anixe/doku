@@ -1,8 +1,10 @@
+#![allow(dead_code)]
+
 use doku::prelude::*;
 
 type People = Vec<Person>;
 
-#[derive(Doku)]
+#[derive(Document)]
 struct Person {
     /// Person's first name
     #[doku(example = "Janet")]
@@ -16,7 +18,7 @@ struct Person {
     favorite_color: Color,
 }
 
-#[derive(Doku)]
+#[derive(Document)]
 enum Color {
     #[doku(rename = "red-uwu")]
     Red,

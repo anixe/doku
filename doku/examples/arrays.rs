@@ -1,6 +1,8 @@
+#![allow(dead_code)]
+
 use doku::prelude::*;
 
-#[derive(Doku)]
+#[derive(Document)]
 struct Type {
     #[doku(example = "one")]
     foos: Vec<String>,

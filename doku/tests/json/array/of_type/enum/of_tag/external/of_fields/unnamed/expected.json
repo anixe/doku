@@ -1,8 +1,0 @@
-[
-  {
-    "Foo": "string"        // This is `Foo`
-  },
-  {
-    "Bar": ["string",123]  // This is `Bar`
-  }
-]

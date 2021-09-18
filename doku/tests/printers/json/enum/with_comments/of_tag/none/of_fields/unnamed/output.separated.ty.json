@@ -1,0 +1,8 @@
+{
+  "value": 
+    // This is `Foo`
+    "string"
+    |
+    // This is `Bar`
+    ["string", 123]
+}

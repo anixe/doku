@@ -17,8 +17,8 @@ use self::prelude::*;
 use syn::parse_macro_input;
 
 #[proc_macro_error]
-#[proc_macro_derive(Doku, attributes(doku))]
-pub fn derive_doku(input: TokenStream) -> TokenStream {
+#[proc_macro_derive(Document, attributes(doku))]
+pub fn derive_document(input: TokenStream) -> TokenStream {
     let input = parse_macro_input!(input as syn::DeriveInput);
 
     match expand::expand(&input) {
@@ -30,9 +30,9 @@ pub fn derive_doku(input: TokenStream) -> TokenStream {
             // We're emitting a dummy impl to avoid a potential error-cascade
             // when something else already expects this type to be doku-fied
             quote! {
-                impl ::doku::TypeProvider for #ident {
+                impl ::doku::Document for #ident {
                     fn ty() -> ::doku::Type {
-                        usize::ty()
+                        unreachable!()
                     }
                 }
             }

@@ -1,7 +1,0 @@
-{
-  "f1": "string",
-  "f2": "string",  // This is `f2`
-  "f3": "string"   // This is `f3`
-                   // ... and it's
-                   // ... multiline!
-}

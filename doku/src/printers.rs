@@ -1,11 +1,10 @@
-mod json;
-mod mode;
-mod utils;
+mod config;
+pub mod json;
 
 mod prelude {
-    pub(crate) use super::utils::*;
-    pub use super::TypePrinterMode;
+    pub use super::Visibility;
     pub use crate::*;
+    pub use std::fmt::Write;
 }
 
-pub use self::{json::*, mode::*};
+pub use self::config::*;

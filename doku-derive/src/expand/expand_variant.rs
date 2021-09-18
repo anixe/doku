@@ -1,28 +1,19 @@
 use super::*;
 
-/// Expands roughly to:
-///
-/// ```ignore
-/// ::doku::Variant {
-///     id: ...,
-///     title: ...,
-///     comment: ...,
-///     serializable: ...,
-///     deserializable: ...,
-///     fields: ...,
-/// },
-/// ```
 pub fn expand_variant(variant: &syn::Variant) -> Result<TokenStream2> {
     let syn::Variant {
-        attrs, ident, fields, ..
+        attrs,
+        ident,
+        fields,
+        ..
     } = variant;
 
     let mut variant = Variant {
-        id:             quote! { stringify!(#ident) },
-        title:          quote! { stringify!(#ident) },
-        comment:        quote! { None },
-        fields:         expand_fields(fields)?,
-        serializable:   true,
+        id: quote! { stringify!(#ident) },
+        title: quote! { stringify!(#ident) },
+        comment: quote! { None },
+        fields: expand_fields(fields)?,
+        serializable: true,
         deserializable: true,
     };
 
@@ -34,11 +25,11 @@ pub fn expand_variant(variant: &syn::Variant) -> Result<TokenStream2> {
 }
 
 struct Variant {
-    id:             TokenStream2,
-    title:          TokenStream2,
-    comment:        TokenStream2,
-    fields:         TokenStream2,
-    serializable:   bool,
+    id: TokenStream2,
+    title: TokenStream2,
+    comment: TokenStream2,
+    fields: TokenStream2,
+    serializable: bool,
     deserializable: bool,
 }
 
@@ -82,7 +73,8 @@ impl Variant {
     }
 
     fn add_doku_attrs(&mut self, attrs: &[syn::Attribute]) -> Result<()> {
-        let attrs::DokuVariant { rename, skip } = attrs::DokuVariant::from_ast(&attrs)?;
+        let attrs::DokuVariant { rename, skip } =
+            attrs::DokuVariant::from_ast(&attrs)?;
 
         if let Some(val) = rename {
             self.id = quote_spanned! { val.span() => #val };

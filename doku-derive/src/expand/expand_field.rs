@@ -1,17 +1,19 @@
 use super::*;
 
 pub fn expand_field(field: &syn::Field, named: bool) -> Result<TokenStream2> {
-    let syn::Field { attrs, ident, ty, .. } = field;
+    let syn::Field {
+        attrs, ident, ty, ..
+    } = field;
 
     let mut field = Field {
-        name:           quote! { stringify!(#ident) },
-        ty:             quote! { #ty },
-        comment:        quote! { None },
-        example:        quote! { None },
-        tag:            quote! { None },
-        serializable:   true,
+        name: quote! { stringify!(#ident) },
+        ty: quote! { #ty },
+        comment: quote! { None },
+        example: quote! { None },
+        tag: quote! { None },
+        serializable: true,
         deserializable: true,
-        flattened:      false,
+        flattened: false,
     };
 
     field.add_doc_attrs(attrs);
@@ -22,14 +24,14 @@ pub fn expand_field(field: &syn::Field, named: bool) -> Result<TokenStream2> {
 }
 
 struct Field {
-    name:           TokenStream2,
-    ty:             TokenStream2,
-    comment:        TokenStream2,
-    example:        TokenStream2,
-    tag:            TokenStream2,
-    serializable:   bool,
+    name: TokenStream2,
+    ty: TokenStream2,
+    comment: TokenStream2,
+    example: TokenStream2,
+    tag: TokenStream2,
+    serializable: bool,
     deserializable: bool,
-    flattened:      bool,
+    flattened: bool,
 }
 
 impl Field {
@@ -129,8 +131,8 @@ impl Field {
         } = self;
 
         if serializable || deserializable {
-            let ty_def = quote! {
-                let ty = <#ty as ::doku::TypeProvider>::ty();
+            let ty_kind = quote! {
+                let ty = <#ty as ::doku::Document>::ty();
 
                 ::doku::Field {
                     ty: ::doku::Type {
@@ -139,7 +141,7 @@ impl Field {
                         tag: #tag,
                         serializable: #serializable,
                         deserializable: #deserializable,
-                        def: ty.def,
+                        kind: ty.kind,
                     },
 
                     flattened: #flattened,
@@ -148,11 +150,11 @@ impl Field {
 
             if named {
                 quote! {
-                    (#name, { #ty_def }),
+                    (#name, { #ty_kind }),
                 }
             } else {
                 quote! {
-                    { #ty_def },
+                    { #ty_kind },
                 }
             }
         } else {

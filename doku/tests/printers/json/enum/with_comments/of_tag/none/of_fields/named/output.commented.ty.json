@@ -1,0 +1,6 @@
+{
+  // Possible variants:
+  // - { "a": "string" } = This is `Foo`
+  // - { "a": "string", "b": 123 } = This is `Bar`
+  "value": { ... }
+}

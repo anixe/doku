@@ -1,42 +1,44 @@
 use super::*;
 
-impl<'ty> Ctxt<'ty, '_> {
-    pub fn print_tuple(&mut self, fields: &'ty [Type]) {
+impl<'ty> Ctxt<'_, 'ty, '_> {
+    pub(super) fn print_tuple(&mut self, fields: &'ty [Type]) {
         let fields: Vec<_> = fields
             .iter()
-            .filter(|field| self.mode.allows(field.serializable, field.deserializable))
+            .filter(|field| {
+                self.vis.allows(field.serializable, field.deserializable)
+            })
             .collect();
 
         if fields.is_empty() {
-            self.out.text("[]");
+            self.out.write("[]");
             return;
         }
 
         if self.inline {
-            self.out.text("[ ");
+            self.out.write("[ ");
         } else {
-            self.out.line("[");
+            self.out.writeln("[");
             self.out.inc_indent();
         }
 
         for (field_id, field) in fields.iter().enumerate() {
             if field_id > 0 {
                 if self.inline {
-                    self.out.text(",");
+                    self.out.write(",");
                 } else {
-                    self.out.line(",");
+                    self.out.writeln(",");
                 }
             }
 
-            self.with_ty(&field).print();
+            self.nested().with_ty(&field).print();
         }
 
         if self.inline {
-            self.out.text(" ]");
+            self.out.write(" ]");
         } else {
+            self.out.ln();
             self.out.dec_indent();
-            self.out.newline();
-            self.out.text("]");
+            self.out.write("]");
         }
     }
 }

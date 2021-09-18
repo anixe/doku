@@ -3,7 +3,7 @@ use darling::FromMeta;
 
 /// Models the `#[doku]` attribute for fields:
 ///
-/// ```rust,ignore
+/// ```ignore
 /// struct Foo {
 ///     #[doku(as = "Zar")]
 ///     field: Bar,
@@ -32,17 +32,18 @@ pub struct DokuField {
 
 impl DokuField {
     pub fn from_ast(attrs: &[syn::Attribute]) -> Result<Self> {
-        attrs::from_ast(attrs, "doku").map(|attrs| attrs.fold(Self::default(), Self::merge))
+        attrs::from_ast(attrs, "doku")
+            .map(|attrs| attrs.fold(Self::default(), Self::merge))
     }
 
     fn merge(self, other: Self) -> Self {
         Self {
-            as_:     other.as_.or(self.as_),
+            as_: other.as_.or(self.as_),
             example: other.example.or(self.example),
             flatten: other.flatten.or(self.flatten),
-            rename:  other.rename.or(self.rename),
-            skip:    other.skip.or(self.skip),
-            tag:     other.tag.or(self.tag),
+            rename: other.rename.or(self.rename),
+            skip: other.skip.or(self.skip),
+            tag: other.tag.or(self.tag),
         }
     }
 }

@@ -1,0 +1,6 @@
+{
+  // Possible variants:
+  // - { "t": "Foo" }
+  // - { "t": "Bar" }
+  "value": { "t": "Foo" }
+}

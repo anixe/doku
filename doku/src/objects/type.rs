@@ -10,34 +10,26 @@ pub struct Type {
     pub tag: Option<&'static str>,
 
     /// Whether this type is serializable or not (think
-    /// `#[serde(skip_serializing)]`). All types are serializable by
-    /// default, which is a behavior consistent with Serde.
+    /// `#[serde(skip_serializing)]`).
     pub serializable: bool,
 
     /// Whether this type is deserializable or not (think
-    /// `#[serde(skip_deserializing)]`). All types are deserializable by
-    /// default, which is a behavior consistent with Serde.
+    /// `#[serde(skip_deserializing)]`).
     pub deserializable: bool,
 
-    // Keeping the definition last improves legibility of debug-printing
-    pub def: TypeDef,
+    // Keeping the kind last improves legibility of debug-printing
+    pub kind: TypeKind,
 }
 
-impl Type {
-    pub fn from_def(def: TypeDef) -> Self {
+impl From<TypeKind> for Type {
+    fn from(kind: TypeKind) -> Self {
         Self {
             comment: None,
             example: None,
             tag: None,
             serializable: true,
             deserializable: true,
-            def,
+            kind,
         }
-    }
-}
-
-impl From<TypeDef> for Type {
-    fn from(def: TypeDef) -> Self {
-        Self::from_def(def)
     }
 }
