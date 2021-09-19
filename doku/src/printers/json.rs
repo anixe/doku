@@ -25,6 +25,15 @@ impl JsonPrinter {
         Self::default()
     }
 
+    pub fn set_value(&mut self, value: impl Into<Option<val::Value>>) {
+        self.value = value.into();
+    }
+
+    pub fn with_value(mut self, value: impl Into<Option<val::Value>>) -> Self {
+        self.set_value(value);
+        self
+    }
+
     pub fn set_mode(&mut self, mode: TypePrinterMode) {
         self.mode = mode;
     }
@@ -56,8 +65,9 @@ impl JsonPrinter {
         let mut out = Paragraph::new(self.indent, self.comments);
 
         Ctxt {
-            out: &mut out,
             ty,
+            val: self.value.as_ref(),
+            out: &mut out,
             parents: Default::default(),
             mode: self.mode,
             flat: false,
@@ -72,6 +82,7 @@ impl JsonPrinter {
 impl Default for JsonPrinter {
     fn default() -> Self {
         Self {
+            value:    None,
             mode:     TypePrinterMode::default(),
             comments: true,
             indent:   2,

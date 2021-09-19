@@ -70,6 +70,8 @@ impl<'ty> Ctxt<'ty, '_> {
     }
 
     fn print_named_field(&mut self, field_name: &str, field: &'ty ty::Field, variant: Option<&'ty ty::Variant>) {
+        let field_val = self.val.and_then(|val| val.as_struct_named_field(field_name));
+
         // Edge case: fields that model adjacently-tagged enums; for more
         // information, please refer to `print_array.rs`
         if let Some(tag) = field.ty.tag {
@@ -78,7 +80,7 @@ impl<'ty> Ctxt<'ty, '_> {
             );
 
             // First things first, let's print the tag's name (e.g.: `"enum_tag": "Foo"`)
-            self.out.line(format!(r#""{}": "{}","#, tag, variant.id,));
+            self.out.line(format!(r#""{}": "{}","#, tag, variant.id));
 
             // Second things second, let's print the tag's enum (e.g.
             // `"enum_inner": { ... }`)
@@ -90,13 +92,13 @@ impl<'ty> Ctxt<'ty, '_> {
 
         // Edge case: flattened fields
         if field.flattened {
-            self.with_ty(&field.ty).with_flat().print();
+            self.with_ty(&field.ty).with_val(field_val).with_flat().print();
             return;
         }
 
         // Regular case: `"field-name": { ... }`
         self.out.text(format!("\"{}\": ", field_name));
-        self.with_ty(&field.ty).print();
+        self.with_ty(&field.ty).with_val(field_val).print();
     }
 
     /// Prints unnamed fields of given enum or struct.
@@ -124,17 +126,22 @@ impl<'ty> Ctxt<'ty, '_> {
             .filter(|field| self.mode.allows(field.ty.serializable, field.ty.deserializable))
             .collect();
 
-        // Edge case: when there's just one field, Serde automatically "inlines" it
+        // Edge case: when there's just one field, Serde automatically inlines
+        // it
         if fields.len() > 1 {
             self.out.text("[");
         }
 
+        // TODO values would have to be printed as an array, I think; currently
+        // this doesn't look good
         for (field_id, field) in fields.iter().enumerate() {
+            let field_val = self.val.and_then(|val| val.as_struct_unnamed_field(field_id));
+
             if field_id > 0 {
                 self.out.text(",");
             }
 
-            self.with_ty(&field.ty).print();
+            self.with_ty(&field.ty).with_val(field_val).print();
         }
 
         if fields.len() > 1 {

@@ -12,12 +12,15 @@ rust = "1.51"
 
 [dependencies]
 doku-derive = { version = "=0.9.0", path = "../doku-derive" }
+
 chrono = { version = "0.4", optional = true }
 
 [features]
 chrono-04 = ["chrono"]
 
 [dev-dependencies]
+doku-test = { path = "../doku-test" }
+
 difference = "2.0"
 indoc = "0.3"
 inventory = "0.1"

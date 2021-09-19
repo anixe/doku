@@ -146,12 +146,6 @@ mod print_variant_layout {
         let mut variant_out = Paragraph::new(0, false);
 
         let mut variant_ctxt = Ctxt {
-            mode:    ctxt.mode,
-            out:     &mut variant_out,
-            parents: Default::default(),
-            flat:    false,
-            inline:  true,
-
             // We want this ad-hoc context to be independent from our real one,
             // because we don't want to carry e.g. examples from parent into it.
             //
@@ -160,6 +154,13 @@ mod print_variant_layout {
             // `variant_ctxt.print()`, but calling `print_fields()` directly (so
             // this `ty` is not read anywhere).
             ty: &<String as ty::Provider>::ty(),
+
+            val:     None,
+            mode:    ctxt.mode,
+            out:     &mut variant_out,
+            parents: Default::default(),
+            flat:    false,
+            inline:  true,
         };
 
         variant_ctxt.print_fields(fields, None);

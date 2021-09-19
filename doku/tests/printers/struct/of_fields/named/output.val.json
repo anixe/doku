@@ -1,0 +1,6 @@
+{
+  "foo": "string",  // Some comment
+                    // Default value: I'm Foo
+  "bar": 123        // Some comment
+                    // Default value: 4096
+}

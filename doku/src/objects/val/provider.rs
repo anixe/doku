@@ -1,4 +1,4 @@
-// TODO(pwy) code-structure-wise, value providers should be paired with type
+// TODO code-structure-wise, value providers should be paired with type
 // providers
 
 mod lang;

@@ -1,0 +1,5 @@
+{
+  "f1": "string",     // Some comment; optional
+  "f2": "bar-value",  // Another comment; optional
+  "zar": "zar-value"  // Yet another comment; optional
+}

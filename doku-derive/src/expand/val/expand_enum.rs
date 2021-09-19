@@ -1,6 +1,6 @@
 use super::*;
 
-// TODO(pwy)
+// TODO
 pub fn expand_enum(input: &syn::DeriveInput, _: &syn::DataEnum) -> TokenStream2 {
     let syn::DeriveInput { ident, .. } = input;
 

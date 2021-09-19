@@ -1,6 +1,7 @@
 mod for_array;
 mod for_enum;
 mod for_optional;
+mod for_scalar;
 
 use super::*;
 
@@ -20,7 +21,7 @@ impl Ctxt<'_, '_> {
 
         let mut comment = String::new();
 
-        // User-made comment always has a precedence over the machine-generated
+        // User-made comment always takes precedence over the machine-generated
         // ones, so let's start with it
         if let Some(user_comment) = &self.ty.comment {
             comment.push_str(user_comment);
@@ -43,6 +44,10 @@ impl Ctxt<'_, '_> {
 
             ty::Def::Optional { .. } => {
                 self.print_comment_for_optional(&mut comment);
+            }
+
+            ty::Def::Bool | ty::Def::Float | ty::Def::Integer | ty::Def::String => {
+                self.print_comment_for_scalar(&mut comment);
             }
 
             _ => (),

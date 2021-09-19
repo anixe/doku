@@ -4,14 +4,17 @@ use std::iter::once;
 /// This struct gathers all the information required for the `print_*`
 /// functions; it's easier to pass it around than a bunch of loose variables.
 pub struct Ctxt<'ty, 'out> {
+    /// Type we're currently printing
+    pub ty: &'ty ty::Type,
+
+    /// Value for the type we're currently printing
+    pub val: Option<&'ty val::Value>,
+
     /// Whether we should print serializable / deserializable types
     pub mode: TypePrinterMode,
 
     /// Object containing everything we've printed so far
     pub out: &'out mut Paragraph,
-
-    /// Type we're currently printing
-    pub ty: &'ty ty::Type,
 
     /// Parent(s) of the type we're currently printing.
     ///
@@ -157,13 +160,19 @@ impl<'ty, 'out> Ctxt<'ty, 'out> {
         });
 
         Ctxt {
-            out: self.out,
             ty,
-            parents,
+            val: self.val,
             mode: self.mode,
+            out: self.out,
+            parents,
             flat: self.flat && keep_flat,
             inline: self.inline,
         }
+    }
+
+    pub fn with_val(mut self, val: Option<&'ty val::Value>) -> Self {
+        self.val = val;
+        self
     }
 
     pub fn with_flat(mut self) -> Self {

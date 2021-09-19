@@ -38,11 +38,11 @@ fn expand_unnamed_fields(fields: &syn::FieldsUnnamed) -> TokenStream2 {
         .unnamed
         .iter()
         .enumerate()
-        .map(|(idx, _)| {
-            let idx = syn::Index::from(idx);
+        .map(|(id, _)| {
+            let id = syn::Index::from(id);
 
             quote! {
-                ::doku::val::Provider::val(&self.#idx),
+                ::doku::val::Provider::val(&self.#id),
             }
         })
         .collect();

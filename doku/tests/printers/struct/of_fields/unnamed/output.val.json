@@ -1,0 +1,8 @@
+{
+  "f1": "string",              // Default value: I'm F1
+  "f2": ["string",123],        // Default value: I'm F2
+                               // Default value: 100
+  "f3": ["string",123,123.45]  // Default value: I'm F3
+                               // Default value: 200
+                               // Default value: 300.5
+}
