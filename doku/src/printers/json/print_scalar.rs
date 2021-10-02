@@ -2,21 +2,21 @@ use super::*;
 
 impl Ctxt<'_, '_, '_> {
     pub(super) fn print_bool(&mut self) {
-        self.print_scalar(self.example().unwrap_or("true"));
+        self.print_scalar(self.first_example().unwrap_or("true"));
     }
 
     pub(super) fn print_float(&mut self) {
-        self.print_scalar(self.example().unwrap_or("123.45"));
+        self.print_scalar(self.first_example().unwrap_or("123.45"));
     }
 
     pub(super) fn print_integer(&mut self) {
-        self.print_scalar(self.example().unwrap_or("123"));
+        self.print_scalar(self.first_example().unwrap_or("123"));
     }
 
     pub(super) fn print_string(&mut self) {
         self.print_scalar(&format!(
             "\"{}\"",
-            self.example().unwrap_or("string")
+            self.first_example().unwrap_or("string")
         ));
     }
 

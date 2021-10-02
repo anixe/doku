@@ -7,7 +7,7 @@
         "a": "string"
       }
     }
-    |
+    // or
     // This is `Bar`
     {
       "Bar": {

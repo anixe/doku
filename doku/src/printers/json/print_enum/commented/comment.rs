@@ -114,13 +114,15 @@ fn render_fields_inline(
         // `ty` is not read anywhere.
         ty: &<String as Document>::ty(),
 
-        val: None,
+        val: Default::default(),
         vis: ctxt.vis,
         fmt: &fmt,
         out: &mut out,
-        parents: Default::default(),
+        parent: Default::default(),
+        example: Default::default(),
         flat,
         inline: true,
+        depth: Default::default(),
     };
 
     ctxt.print_fields(fields, None);

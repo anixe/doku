@@ -98,9 +98,11 @@ impl<'a> Printer<'a> {
             vis: self.visibility,
             fmt: fmt.as_ref(),
             out: &mut out,
-            parents: Default::default(),
-            flat: false,
-            inline: false,
+            parent: Default::default(),
+            example: Default::default(),
+            flat: Default::default(),
+            inline: Default::default(),
+            depth: Default::default(),
         }
         .print();
 

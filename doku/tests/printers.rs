@@ -73,7 +73,7 @@ fn assert(test: &Path, fixture: &str, expected: String) {
         let diff = Changeset::new(&actual, &expected, "\n");
 
         panic!(
-            "Found differences between `{}` and `{}`:\n{}",
+            "\nFound differences between `{}` and `{}`:\n{}",
             path.display(),
             path_new.display(),
             diff,

@@ -4,13 +4,29 @@
     /* ... */
   ],
   "f2": [
-    "foo",
+    "f2-1",
     /* ... */
   ],
   "f3": [
-    "foo, bar",
+    "f3-1",
+    "f3-2",
     /* ... */
   ],
-  "f4": [ foo ],
-  "f5": [ foo, bar ]
+  // Optional
+  "f4": [
+    "f4-1",
+    "f4-2",
+    "f4-3",
+    /* ... */
+  ],
+  // Must contain exactly 2 elements
+  "f5": [
+    "f5-1",
+    /* ... */
+  ],
+  // Must contain exactly 2 elements
+  "f6": [
+    "f6-1",
+    "f6-2",
+  ]
 }

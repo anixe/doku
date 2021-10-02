@@ -14,8 +14,8 @@ pub struct DokuField {
     #[darling(default, rename = "as")]
     pub as_: Option<syn::LitStr>,
 
-    #[darling(default)]
-    pub example: Option<syn::LitStr>,
+    #[darling(default, rename = "example", multiple)]
+    pub examples: Vec<syn::LitStr>,
 
     #[darling(default)]
     pub flatten: Option<bool>,
@@ -37,9 +37,12 @@ impl DokuField {
     }
 
     fn merge(self, other: Self) -> Self {
+        let examples =
+            self.examples.into_iter().chain(other.examples).collect();
+
         Self {
             as_: other.as_.or(self.as_),
-            example: other.example.or(self.example),
+            examples,
             flatten: other.flatten.or(self.flatten),
             rename: other.rename.or(self.rename),
             skip: other.skip.or(self.skip),

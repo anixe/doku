@@ -5,7 +5,7 @@
         "a": "string"
       }
     }
-    |
+    // or
     {
       "Bar": {
         "a": "string",

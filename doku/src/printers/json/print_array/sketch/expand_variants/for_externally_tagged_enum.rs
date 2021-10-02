@@ -1,7 +1,7 @@
 use super::*;
 
 impl<'ty> Ctxt<'_, 'ty, '_> {
-    pub(super) fn expand_variants_for_externally_tagged_enum(
+    pub(super) fn try_expanding_externally_tagged_variants(
         &mut self,
         ty: &'ty Type,
     ) -> bool {

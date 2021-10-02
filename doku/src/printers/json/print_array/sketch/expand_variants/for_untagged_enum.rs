@@ -1,7 +1,7 @@
 use super::*;
 
 impl<'ty> Ctxt<'_, 'ty, '_> {
-    pub(super) fn expand_variants_for_untagged_enum(
+    pub(super) fn try_expanding_untagged_variants(
         &mut self,
         ty: &'ty Type,
     ) -> bool {

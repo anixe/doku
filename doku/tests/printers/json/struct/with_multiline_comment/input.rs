@@ -2,17 +2,8 @@
 
 #[derive(Document)]
 pub struct Ty {
-    /// Some comment
+    /// Comment for f1
+    /// Another comment for f1
+    /// Yet another comment for f1
     f1: Option<String>,
-
-    /// Another comment
-    #[doku(example = "bar-value")]
-    f2: Option<NestedString>,
-
-    /// Yet another comment
-    #[doku(example = "zar-value")]
-    zar: Option<Option<Option<String>>>,
 }
-
-#[derive(Document)]
-struct NestedString(String);

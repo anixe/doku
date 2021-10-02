@@ -1,4 +1,5 @@
 mod named;
+mod newtype;
 mod unnamed;
 
 use super::*;
@@ -9,6 +10,10 @@ impl<'ty> Ctxt<'_, 'ty, '_> {
         fields: &'ty Fields,
         variant: Option<&'ty Variant>,
     ) {
+        if self.try_printing_newtype_fields(fields) {
+            return;
+        }
+
         match fields {
             Fields::Named { fields } => {
                 self.print_named_fields(&fields, variant);

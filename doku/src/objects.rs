@@ -1,4 +1,5 @@
 mod document;
+mod example;
 mod field;
 mod fields;
 mod tag;
@@ -9,6 +10,7 @@ mod variant;
 
 pub use self::{
     document::*,
+    example::*,
     field::*,
     fields::*,
     r#type::*,

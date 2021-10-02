@@ -5,7 +5,7 @@ pub(super) fn sketch(
     tag: Tag,
     variants: &[&Variant],
 ) {
-    if let Some(example) = ctxt.example() {
+    if let Some(example) = ctxt.first_example() {
         ctxt.out.write(example);
         return;
     }

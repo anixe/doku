@@ -10,7 +10,7 @@ pub(super) fn print<'ty>(
 
     for (variant_idx, variant) in variants.iter().enumerate() {
         if variant_idx > 0 {
-            ctxt.out.write("\n|\n");
+            ctxt.out.write("\n// or\n");
         }
 
         if let Some(comment) = variant.comment {

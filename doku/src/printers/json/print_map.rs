@@ -11,7 +11,7 @@ impl<'ty> Ctxt<'_, 'ty, '_> {
             }
         }
 
-        if let Some(example) = self.example() {
+        if let Some(example) = self.first_example() {
             self.out.write(example);
         } else {
             self.nested().with_ty(key).print();

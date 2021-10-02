@@ -1,6 +1,6 @@
 {
   "value": 
     "string"
-    |
+    // or
     ["string", 123]
 }

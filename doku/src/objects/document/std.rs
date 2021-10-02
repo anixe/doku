@@ -16,9 +16,8 @@ document! {
     for String
         => TypeKind::String.into();
 
-    // TODO check if that's consistent with Serde
     for IpAddr
-        => Type { example: Some("127.0.0.1"), ..String::ty() };
+        => Type { example: Some(Example::Simple("127.0.0.1")), ..String::ty() };
 
     /* ----- */
 

@@ -15,11 +15,13 @@ impl<'ty> Ctxt<'_, 'ty, '_> {
             return;
         }
 
-        if let Some(parent) = self.parents.last() {
-            // Avoid printing hint twice (e.g. for `Option<Option<String>>`)
-            if matches!(parent.kind, TypeKind::Optional { .. }) {
-                return;
-            }
+        // Avoid printing hint twice (e.g. for `Option<Option<String>>`)
+        if let Some(Type {
+            kind: TypeKind::Optional { .. },
+            ..
+        }) = self.parent
+        {
+            return;
         }
 
         self.out.append_comment(|comment| {
@@ -32,7 +34,9 @@ impl<'ty> Ctxt<'_, 'ty, '_> {
     }
 
     fn sketch_optional(&mut self, ty: &'ty Type) {
-        self.nested().with_ty(ty).print();
+        let example = self.example();
+
+        self.nested().with_ty(ty).with_example(example).print();
     }
 }
 

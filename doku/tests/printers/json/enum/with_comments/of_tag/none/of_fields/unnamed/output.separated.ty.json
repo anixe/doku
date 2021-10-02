@@ -2,7 +2,7 @@
   "value": 
     // This is `Foo`
     "string"
-    |
+    // or
     // This is `Bar`
     ["string", 123]
 }

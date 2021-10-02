@@ -42,7 +42,7 @@ pub enum TypeKind {
     Struct {
         fields: Fields,
 
-        /// Whether this type should behave as a silent-wrapper.
+        /// Whether this type should behave as a passthrough-wrapper.
         /// Corresponds to `#[serde(transparent)]`.
         transparent: bool,
     },

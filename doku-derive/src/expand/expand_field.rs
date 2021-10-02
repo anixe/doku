@@ -82,7 +82,7 @@ impl Field {
     fn add_doku_attrs(&mut self, attrs: &[syn::Attribute]) -> Result<()> {
         let attrs::DokuField {
             as_,
-            example,
+            examples,
             flatten,
             rename,
             skip,
@@ -94,8 +94,9 @@ impl Field {
             self.ty = quote! { #val };
         }
 
-        if let Some(val) = example {
-            self.example = quote! { Some(#val) };
+        if !examples.is_empty() {
+            self.example =
+                quote! { Some(::doku::Example::from(&[#(#examples,)*][..])) };
         }
 
         if let Some(val) = flatten {
@@ -137,7 +138,7 @@ impl Field {
                 ::doku::Field {
                     ty: ::doku::Type {
                         comment: #comment,
-                        example: #example.or(ty.example),
+                        example: #example,
                         tag: #tag,
                         serializable: #serializable,
                         deserializable: #deserializable,

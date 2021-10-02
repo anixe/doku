@@ -1,8 +1,7 @@
 {
-  // Some comment; optional
-  "f1": "string",
-  // Another comment; optional
-  "f2": "bar-value",
-  // Yet another comment; optional
-  "zar": "zar-value"
+  // Comment for f1
+  // Another comment for f1
+  // Yet another comment for f1
+  // Optional
+  "f1": "string"
 }

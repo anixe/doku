@@ -7,11 +7,13 @@ struct Type {
     #[doku(example = "one")]
     foos: Vec<String>,
 
-    #[doku(example = r#"["one", "two", /* ... */]"#)]
+    #[doku(example = "one")]
+    #[doku(example = "two")]
     bars: Vec<String>,
 
-    #[doku(example = "[\n\t\"one\",\n\t\"two\",\n\t/* ... */\n]")]
-    zars: Vec<String>,
+    #[doku(example = "one")]
+    #[doku(example = "two")]
+    zars: [String; 2],
 }
 
 fn main() {

@@ -22,7 +22,7 @@ struct Pagination {
 
 #[derive(Serialize, Document)]
 struct User {
-    #[doku(example = "alan.turing")] // (explicit examples are optional)
+    #[doku(example = "alan.turing")]
     login: String,
 
     #[doku(example = "lofi hip hop radio")]

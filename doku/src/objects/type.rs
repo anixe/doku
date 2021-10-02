@@ -3,7 +3,7 @@ use crate::*;
 #[derive(Clone, Debug)]
 pub struct Type {
     pub comment: Option<&'static str>,
-    pub example: Option<&'static str>,
+    pub example: Option<Example>,
 
     /// When we have an adjacently-tagged enum, this field contains name of the
     /// field that should represent that enum's tag.
