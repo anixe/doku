@@ -1,1 +1,0 @@
-pub type Ty = (String, usize, Vec<String>);

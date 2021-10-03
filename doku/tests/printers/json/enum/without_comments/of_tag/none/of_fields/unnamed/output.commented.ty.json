@@ -1,0 +1,6 @@
+{
+  // Possible variants:
+  // - "string"
+  // - ["string", 123]
+  "value": { ... }
+}

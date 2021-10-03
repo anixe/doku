@@ -1,0 +1,12 @@
+{
+  "value": 
+    {
+      "t": "Foo",
+      "c": "string"
+    }
+    // or
+    {
+      "t": "Bar",
+      "c": ["string", 123]
+    }
+}

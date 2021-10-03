@@ -1,4 +1,6 @@
 mod ctxt;
+mod formatting;
+mod output;
 mod print_array;
 mod print_comment;
 mod print_enum;
@@ -8,72 +10,102 @@ mod print_optional;
 mod print_scalar;
 mod print_struct;
 mod print_tuple;
+mod value_to_string;
 
-use self::ctxt::*;
+use self::{ctxt::*, output::*};
 use crate::printers::prelude::*;
+use std::borrow::Cow;
 
-#[derive(Clone, Debug)]
-pub struct JsonPrinter {
-    mode:     TypePrinterMode,
-    comments: bool,
-    indent:   usize,
+pub use self::formatting::*;
+
+#[derive(Debug, Default)]
+pub struct Printer<'a> {
+    visibility: Visibility,
+    formatting: Option<&'a Formatting>,
+    value: Option<&'a Value>,
 }
 
-impl JsonPrinter {
-    pub fn new() -> Self {
-        Self::default()
+impl<'a> Printer<'a> {
+    /// Specifies how `skip_serializing` / `skip_deserializing` should be
+    /// understood:
+    ///
+    /// ```
+    /// use doku::Document;
+    /// use doku::json::*;
+    /// use doku::Visibility;
+    /// use serde::Serialize;
+    ///
+    /// #[derive(Serialize, Document)]
+    /// struct Person {
+    ///     name: String,
+    ///     #[serde(skip_serializing)]
+    ///     password: String,
+    ///     surname: String,
+    /// }
+    ///
+    /// let doc = Printer::default()
+    ///     .with_visibility(Visibility::SerializableOnly)
+    ///     .print(&Person::ty());
+    ///
+    /// doku::assert_doc!(r#"
+    ///   {
+    ///     "name": "string",
+    ///     "surname": "string"
+    ///   }
+    /// "#, doc);
+    /// ```
+    pub fn set_visibility(&mut self, value: Visibility) {
+        self.visibility = value;
     }
 
-    pub fn set_mode(&mut self, mode: TypePrinterMode) {
-        self.mode = mode;
-    }
-
-    pub fn with_mode(mut self, mode: TypePrinterMode) -> Self {
-        self.set_mode(mode);
+    /// A consuming variant of [`Self::set_visibility()`].
+    pub fn with_visibility(mut self, value: Visibility) -> Self {
+        self.set_visibility(value);
         self
     }
 
-    pub fn set_comments(&mut self, comments: bool) {
-        self.comments = comments;
+    pub fn set_formatting(&mut self, value: &'a Formatting) {
+        self.formatting = Some(value);
     }
 
-    pub fn with_comments(mut self, comments: bool) -> Self {
-        self.set_comments(comments);
+    /// A consuming variant of [`Self::set_formatting()`].
+    pub fn with_formatting(mut self, value: &'a Formatting) -> Self {
+        self.set_formatting(value);
         self
     }
 
-    pub fn set_indent(&mut self, indent: usize) {
-        self.indent = indent;
+    pub fn set_value(&mut self, value: &'a Value) {
+        self.value = Some(value);
     }
 
-    pub fn with_indent(mut self, indent: usize) -> Self {
-        self.set_indent(indent);
+    /// A consuming variant of [`Self::set_value()`].
+    pub fn with_value(mut self, value: &'a Value) -> Self {
+        self.set_value(value);
         self
     }
 
-    pub fn print(&self, ty: &Type) -> String {
-        let mut out = Paragraph::new(self.indent, self.comments);
+    pub fn print(&self, ty: &'a Type) -> String {
+        let fmt = self
+            .formatting
+            .map(Cow::Borrowed)
+            .unwrap_or_else(|| Cow::Owned(Default::default()));
+
+        let mut out = Output::new(fmt.as_ref());
 
         Ctxt {
-            out: &mut out,
             ty,
-            parents: Default::default(),
-            mode: self.mode,
-            flat: false,
-            inline: false,
+            val: self.value,
+            vis: self.visibility,
+            fmt: fmt.as_ref(),
+            out: &mut out,
+            parent: Default::default(),
+            example: Default::default(),
+            flat: Default::default(),
+            inline: Default::default(),
+            depth: Default::default(),
         }
         .print();
 
-        out.to_string()
-    }
-}
-
-impl Default for JsonPrinter {
-    fn default() -> Self {
-        Self {
-            mode:     TypePrinterMode::default(),
-            comments: true,
-            indent:   2,
-        }
+        out.render()
     }
 }

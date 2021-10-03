@@ -3,7 +3,7 @@ use darling::FromMeta;
 
 /// Models the `#[serde]` attribute for fields:
 ///
-/// ```rust,ignore
+/// ```ignore
 /// struct Foo {
 ///     #[serde(flatten)]
 ///     field: Bar,
@@ -44,21 +44,24 @@ pub struct SerdeField {
 
 impl SerdeField {
     pub fn from_ast(attrs: &[syn::Attribute]) -> Result<Self> {
-        attrs::from_ast(attrs, "serde").map(|attrs| attrs.fold(Self::default(), Self::merge))
+        attrs::from_ast(attrs, "serde")
+            .map(|attrs| attrs.fold(Self::default(), Self::merge))
     }
 
     pub fn merge(self, other: Self) -> Self {
         Self {
-            default:             None, // it's a no-op for us
-            deserialize_with:    None, // it's a no-op for us
-            flatten:             other.flatten.or(self.flatten),
-            rename:              other.rename.or(self.rename),
-            serialize_with:      None, // it's a no-op for us
-            skip:                other.skip.or(self.skip),
-            skip_deserializing:  other.skip_deserializing.or(self.skip_deserializing),
-            skip_serializing:    other.skip_serializing.or(self.skip_serializing),
+            default: None,          // it's a no-op for us
+            deserialize_with: None, // it's a no-op for us
+            flatten: other.flatten.or(self.flatten),
+            rename: other.rename.or(self.rename),
+            serialize_with: None, // it's a no-op for us
+            skip: other.skip.or(self.skip),
+            skip_deserializing: other
+                .skip_deserializing
+                .or(self.skip_deserializing),
+            skip_serializing: other.skip_serializing.or(self.skip_serializing),
             skip_serializing_if: None, // it's a no-op for us
-            with:                None, // it's a no-op for us
+            with: None,                // it's a no-op for us
         }
     }
 }

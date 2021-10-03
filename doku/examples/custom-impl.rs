@@ -1,7 +1,7 @@
 type Papers = Vec<Paper>;
 
 struct Paper {
-    width:  usize,
+    width: usize,
     height: usize,
 }
 
@@ -12,14 +12,17 @@ struct Paper {
 ///     size: String,
 /// }
 /// ```
-impl doku::TypeProvider for Paper {
+impl doku::Document for Paper {
     fn ty() -> doku::Type {
-        doku::Type::from_def(doku::TypeDef::Struct {
-            fields:      doku::Fields::Named {
-                fields: vec![("size", doku::Field {
-                    ty:        String::ty(),
-                    flattened: false,
-                })],
+        doku::Type::from(doku::TypeKind::Struct {
+            fields: doku::Fields::Named {
+                fields: vec![(
+                    "size",
+                    doku::Field {
+                        ty: String::ty(),
+                        flattened: false,
+                    },
+                )],
             },
             transparent: false,
         })

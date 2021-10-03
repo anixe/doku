@@ -1,23 +1,14 @@
 use super::*;
 
-/// Expands roughly to:
-///
-/// ```ignore
-/// impl ::doku::TypeProvider for ... {
-///     fn ty() -> ::doku::Type {
-///         ::doku::Type::from_def(::doku::TypeDef::Enum {
-///             tag: ...,
-///             variants: vec![ ... ],
-///         })
-///     }
-/// }
-/// ```
-pub fn expand_enum(input: &syn::DeriveInput, data: &syn::DataEnum) -> Result<TokenStream2> {
+pub fn expand_enum(
+    input: &syn::DeriveInput,
+    data: &syn::DataEnum,
+) -> Result<TokenStream2> {
     let syn::DeriveInput { ident, .. } = input;
     let doku = attrs::DokuContainer::from_ast(&input.attrs)?;
     let serde = attrs::SerdeContainer::from_ast(&input.attrs)?;
 
-    let ty_def = {
+    let ty_kind = {
         let untagged = doku.untagged.or(serde.untagged);
         let content = doku.content.as_ref().or_else(|| serde.content.as_ref());
         let tag = doku.tag.as_ref().or_else(|| serde.tag.as_ref());
@@ -60,7 +51,7 @@ pub fn expand_enum(input: &syn::DeriveInput, data: &syn::DataEnum) -> Result<Tok
         let variants = expand_variants(&data.variants)?;
 
         quote! {
-            ::doku::TypeDef::Enum {
+            ::doku::TypeKind::Enum {
                 tag: #tag,
                 variants: vec![ #(#variants)* ],
             }
@@ -69,7 +60,7 @@ pub fn expand_enum(input: &syn::DeriveInput, data: &syn::DataEnum) -> Result<Tok
 
     let ty = {
         let mut ty = quote! {
-            ::doku::Type::from_def( #ty_def )
+            ::doku::Type::from( #ty_kind )
         };
 
         if let Some(wrap) = doku.wrap {
@@ -80,7 +71,7 @@ pub fn expand_enum(input: &syn::DeriveInput, data: &syn::DataEnum) -> Result<Tok
     };
 
     Ok(quote! {
-        impl ::doku::TypeProvider for #ident {
+        impl ::doku::Document for #ident {
             fn ty() -> ::doku::Type {
                 #ty
             }

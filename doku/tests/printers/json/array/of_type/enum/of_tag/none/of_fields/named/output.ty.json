@@ -1,0 +1,26 @@
+[
+  {
+    // Some comment
+    "foo": "string",
+    // Another comment
+    "bar": "string",
+    "tag": "Foo",
+    "payload": {
+      // Some comment
+      "a": "string"
+    }
+  },
+  {
+    // Some comment
+    "foo": "string",
+    // Another comment
+    "bar": "string",
+    "tag": "Bar",
+    "payload": {
+      // Some comment
+      "a": "string",
+      // Some comment
+      "b": 123
+    }
+  }
+]

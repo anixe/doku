@@ -3,7 +3,7 @@ use darling::FromMeta;
 
 /// Models the `#[doku]` attribute for fields:
 ///
-/// ```rust,ignore
+/// ```ignore
 /// struct Foo {
 ///     #[doku(as = "Zar")]
 ///     field: Bar,
@@ -14,8 +14,8 @@ pub struct DokuField {
     #[darling(default, rename = "as")]
     pub as_: Option<syn::LitStr>,
 
-    #[darling(default)]
-    pub example: Option<syn::LitStr>,
+    #[darling(default, rename = "example", multiple)]
+    pub examples: Vec<syn::LitStr>,
 
     #[darling(default)]
     pub flatten: Option<bool>,
@@ -32,17 +32,21 @@ pub struct DokuField {
 
 impl DokuField {
     pub fn from_ast(attrs: &[syn::Attribute]) -> Result<Self> {
-        attrs::from_ast(attrs, "doku").map(|attrs| attrs.fold(Self::default(), Self::merge))
+        attrs::from_ast(attrs, "doku")
+            .map(|attrs| attrs.fold(Self::default(), Self::merge))
     }
 
     fn merge(self, other: Self) -> Self {
+        let examples =
+            self.examples.into_iter().chain(other.examples).collect();
+
         Self {
-            as_:     other.as_.or(self.as_),
-            example: other.example.or(self.example),
+            as_: other.as_.or(self.as_),
+            examples,
             flatten: other.flatten.or(self.flatten),
-            rename:  other.rename.or(self.rename),
-            skip:    other.skip.or(self.skip),
-            tag:     other.tag.or(self.tag),
+            rename: other.rename.or(self.rename),
+            skip: other.skip.or(self.skip),
+            tag: other.tag.or(self.tag),
         }
     }
 }

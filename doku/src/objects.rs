@@ -1,9 +1,21 @@
+mod document;
+mod example;
 mod field;
 mod fields;
 mod tag;
 mod r#type;
-mod type_def;
-mod type_provider;
+mod type_kind;
+mod value;
 mod variant;
 
-pub use self::{field::*, fields::*, r#type::*, tag::*, type_def::*, type_provider::*, variant::*};
+pub use self::{
+    document::*,
+    example::*,
+    field::*,
+    fields::*,
+    r#type::*,
+    tag::*,
+    type_kind::*,
+    value::*,
+    variant::*,
+};

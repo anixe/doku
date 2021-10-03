@@ -1,19 +1,23 @@
-use doku::prelude::*;
+#![allow(dead_code)]
 
-#[derive(Doku)]
+use doku::Document;
+
+#[derive(Document)]
+struct Response {
+    event: Event,
+}
+
+#[derive(Document)]
 enum Event {
     UserCreated { id: usize, name: String },
     UserDeleted { id: usize },
 }
 
-#[derive(Doku)]
+#[derive(Document)]
 struct User {
-    /// yass
-    user: String,
+    login: String,
 }
 
 fn main() {
-    println!("Event:\n{}", doku::to_json::<Event>());
-    println!();
-    println!("Vec<Event>:\n{}", doku::to_json::<Vec<Event>>());
+    println!("{}", doku::to_json::<Response>());
 }

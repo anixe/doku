@@ -1,39 +1,39 @@
 use super::*;
 
-impl<'ty> Ctxt<'ty, '_> {
-    pub fn print_map(&mut self, key: &'ty Type, value: &'ty Type) {
+impl<'ty> Ctxt<'_, 'ty, '_> {
+    pub(super) fn print_map(&mut self, key: &'ty Type, value: &'ty Type) {
         if !self.flat {
             if self.inline {
-                self.out.text("{ ");
+                self.out.write("{ ");
             } else {
-                self.out.line("{");
+                self.out.writeln("{");
                 self.out.inc_indent();
             }
         }
 
-        if let Some(example) = self.example() {
-            self.out.text(example);
+        if let Some(example) = self.first_example() {
+            self.out.write(example);
         } else {
-            self.with_ty(key).print();
-            self.out.text(": ");
-            self.with_ty(value).print();
+            self.nested().with_ty(key).print();
+            self.out.write(": ");
+            self.nested().with_ty(value).print();
 
             if self.inline {
-                self.out.text(", ");
+                self.out.write(", ");
             } else {
-                self.out.line(",");
+                self.out.writeln(",");
             }
 
-            self.out.text("/* ... */");
+            self.out.write("/* ... */");
         }
 
         if !self.flat {
             if self.inline {
-                self.out.text(" }");
+                self.out.write(" }");
             } else {
-                self.out.newline();
+                self.out.ln();
                 self.out.dec_indent();
-                self.out.text("}");
+                self.out.write("}");
             }
         }
     }

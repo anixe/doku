@@ -9,7 +9,7 @@ pub fn path_to_string(path: &Path) -> String {
 /// `"std::collections::HashMap"`) into an actual instance of `syn::Path` that
 /// can be then fed into the `quote!` macro.
 ///
-/// # Genesis
+/// # Abstract
 ///
 /// While working with attributes, we internally rely on `syn::Meta` which
 /// supports maps with literal values only; for instance, it understands

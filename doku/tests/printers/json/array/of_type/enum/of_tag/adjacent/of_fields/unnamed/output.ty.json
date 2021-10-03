@@ -1,0 +1,12 @@
+[
+  {
+    // This is `Foo`
+    "t": "Foo",
+    "c": "string"
+  },
+  {
+    // This is `Bar`
+    "t": "Bar",
+    "c": ["string", 123]
+  }
+]

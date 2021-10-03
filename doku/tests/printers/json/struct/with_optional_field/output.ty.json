@@ -1,0 +1,7 @@
+{
+  // Some comment; optional
+  "foo": {
+    // Optional
+    "bar": "string"
+  }
+}

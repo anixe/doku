@@ -9,7 +9,12 @@ impl Doc {
             .iter()
             .filter_map(|attr| {
                 let (path, lit) =
-                    if let syn::Meta::NameValue(syn::MetaNameValue { path, lit, .. }) = attr.parse_meta().ok()? {
+                    if let syn::Meta::NameValue(syn::MetaNameValue {
+                        path,
+                        lit,
+                        ..
+                    }) = attr.parse_meta().ok()?
+                    {
                         (path, lit)
                     } else {
                         return None;
@@ -45,7 +50,11 @@ impl Doc {
         let comment = comments.join("\n").trim().to_string();
 
         Self {
-            comment: if comment.is_empty() { None } else { Some(comment) },
+            comment: if comment.is_empty() {
+                None
+            } else {
+                Some(comment)
+            },
         }
     }
 }

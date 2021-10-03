@@ -3,7 +3,7 @@ use darling::FromMeta;
 
 /// Models the `#[serde]` attribute for variants:
 ///
-/// ```rust,ignore
+/// ```ignore
 /// enum Foo {
 ///     #[serde(rename = "BAR")]
 ///     Bar,
@@ -38,19 +38,22 @@ pub struct SerdeVariant {
 
 impl SerdeVariant {
     pub fn from_ast(attrs: &[syn::Attribute]) -> Result<Self> {
-        attrs::from_ast(attrs, "serde").map(|attrs| attrs.fold(Self::default(), Self::merge))
+        attrs::from_ast(attrs, "serde")
+            .map(|attrs| attrs.fold(Self::default(), Self::merge))
     }
 
     pub fn merge(self, other: Self) -> Self {
         Self {
-            deserialize_with:   None, // it's a no-op for us
-            other:              None, // it's a no-op for us
-            rename:             other.rename.or(self.rename),
-            serialize_with:     None, // it's a no-op for us
-            skip:               other.skip.or(self.skip),
-            skip_deserializing: other.skip_deserializing.or(self.skip_deserializing),
-            skip_serializing:   other.skip_serializing.or(self.skip_serializing),
-            with:               None, // it's a no-op for us
+            deserialize_with: None, // it's a no-op for us
+            other: None,            // it's a no-op for us
+            rename: other.rename.or(self.rename),
+            serialize_with: None, // it's a no-op for us
+            skip: other.skip.or(self.skip),
+            skip_deserializing: other
+                .skip_deserializing
+                .or(self.skip_deserializing),
+            skip_serializing: other.skip_serializing.or(self.skip_serializing),
+            with: None, // it's a no-op for us
         }
     }
 }

@@ -3,7 +3,7 @@ use darling::FromMeta;
 
 /// Models the `#[doku]` attribute for containers:
 ///
-/// ```rust,ignore
+/// ```ignore
 /// #[doku(wrap = "container")]
 /// struct Foo {
 ///     field: Bar,
@@ -29,16 +29,17 @@ pub struct DokuContainer {
 
 impl DokuContainer {
     pub fn from_ast(attrs: &[syn::Attribute]) -> Result<Self> {
-        attrs::from_ast(attrs, "doku").map(|attrs| attrs.fold(Self::default(), Self::merge))
+        attrs::from_ast(attrs, "doku")
+            .map(|attrs| attrs.fold(Self::default(), Self::merge))
     }
 
     fn merge(self, other: Self) -> Self {
         Self {
-            content:     other.content.or(self.content),
-            tag:         other.tag.or(self.tag),
+            content: other.content.or(self.content),
+            tag: other.tag.or(self.tag),
             transparent: other.transparent.or(self.transparent),
-            untagged:    other.untagged.or(self.untagged),
-            wrap:        other.wrap.or(self.wrap),
+            untagged: other.untagged.or(self.untagged),
+            wrap: other.wrap.or(self.wrap),
         }
     }
 }
