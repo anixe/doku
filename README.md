@@ -29,9 +29,11 @@ struct Config {
     db_engine: DbEngine,
 
     /// Database's host
+    #[doku(example = "localhost")]
     db_host: String,
 
     /// Database's port
+    #[doku(example = "5432")]
     db_port: usize,
 }
 
@@ -54,9 +56,9 @@ fn main() {
   // Database's engine
   "db_engine": "pgsql" | "mysql",
   // Database's host
-  "db_host": "string",
+  "db_host": "localhost",
   // Database's port
-  "db_port": 123
+  "db_port": 5432
 }
 ```
 

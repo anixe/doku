@@ -9,9 +9,11 @@ struct Config {
     db_engine: DbEngine,
 
     /// Database's host
+    #[doku(example = "localhost")]
     db_host: String,
 
     /// Database's port
+    #[doku(example = "5432")]
     db_port: usize,
 }
 
