@@ -12,7 +12,7 @@ pub struct AutoComments {
     /// When set, displays hints for arrays of known sizes:
     ///
     /// ```
-    /// use doku::prelude::*;
+    /// use doku::Document;
     ///
     /// #[derive(Document)]
     /// struct Person {
@@ -44,7 +44,7 @@ pub struct AutoComments {
     /// When set, displays hints for optional values:
     ///
     /// ```
-    /// use doku::prelude::*;
+    /// use doku::Document;
     ///
     /// #[derive(Document)]
     /// struct Person {

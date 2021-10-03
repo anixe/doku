@@ -1,4 +1,4 @@
-use doku::prelude::*;
+use doku::Document;
 use serde::Serialize;
 
 #[derive(Serialize, Document)]

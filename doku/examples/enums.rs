@@ -1,6 +1,6 @@
 #![allow(dead_code)]
 
-use doku::prelude::*;
+use doku::Document;
 
 #[derive(Document)]
 struct Response {

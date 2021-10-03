@@ -1,37 +1,5 @@
 use crate::*;
 
-/// Defines a single enum's variant.
-///
-/// For instance, given this enum:
-///
-/// ```
-/// # use serde::Serialize;
-/// #[derive(Serialize)]
-/// enum Subject {
-///     /// Picture of a cat
-///     #[serde(rename = "picture-of-cat")]
-///     PictureOfCat,
-/// }
-/// ```
-///
-/// ... the `Subject::PictureOfCat` variant is defined as:
-///
-/// ```
-/// # use doku::{Fields, Variant};
-/// # let _ =
-/// Variant {
-///     id: "picture-of-cat",
-///     title: "PictureOfCat",
-///     comment: Some("Picture of a cat"),
-///     serializable: true,
-///     deserializable: true,
-///     fields: Fields::Unit,
-/// }
-/// # ;
-/// ```
-///
-/// When no `#[serde(rename = ...)]` (or similar) has been provided, `id` is
-/// equal to `title`.
 #[derive(Clone, Debug)]
 pub struct Variant {
     /// Identifier of the variant; it includes `#[serde(rename)]` and similar

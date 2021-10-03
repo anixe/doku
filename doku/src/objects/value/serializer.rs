@@ -6,8 +6,8 @@ use std::fmt;
 /// Transforms anything that implements `serde::Serialize` into Doku's `Value`.
 ///
 /// The name's a bit of a misnomer, because this struct actually serializes
-/// _into_ value, not _the value_ itself -- but at least this way it's
-/// consistent with Serde's traits.
+/// _into_ a `Value`, not a `Value` _itself_ -- but at least this way it's
+/// consistent with the names of Serde's traits.
 #[derive(Default)]
 pub struct ValueSerializer;
 

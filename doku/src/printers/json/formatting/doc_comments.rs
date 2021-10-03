@@ -7,7 +7,7 @@ pub enum DocComments {
     /// Shows doc-comments:
     ///
     /// ```
-    /// use doku::prelude::*;
+    /// use doku::Document;
     ///
     /// #[derive(Document)]
     /// struct Person {
@@ -39,7 +39,7 @@ pub enum DocComments {
     /// Hides doc-comments:
     ///
     /// ```
-    /// use doku::prelude::*;
+    /// use doku::Document;
     ///
     /// #[derive(Document)]
     /// struct Person {

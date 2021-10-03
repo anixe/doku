@@ -7,7 +7,7 @@ pub struct IndentStyle {
     /// How many spaces use to indicate that objects are nested:
     ///
     /// ```
-    /// use doku::prelude::*;
+    /// use doku::Document;
     ///
     /// #[derive(Document)]
     /// struct Response {

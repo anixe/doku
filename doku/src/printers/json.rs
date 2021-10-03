@@ -30,7 +30,7 @@ impl<'a> Printer<'a> {
     /// understood:
     ///
     /// ```
-    /// use doku::prelude::*;
+    /// use doku::Document;
     /// use doku::json::*;
     /// use doku::Visibility;
     /// use serde::Serialize;

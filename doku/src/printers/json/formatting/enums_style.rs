@@ -7,7 +7,7 @@ pub enum EnumsStyle {
     /// Displays enum variants as comments:
     ///
     /// ```
-    /// use doku::prelude::*;
+    /// use doku::Document;
     ///
     /// #[derive(Document)]
     /// struct Person {
@@ -43,7 +43,7 @@ pub enum EnumsStyle {
     /// Displays enum variants as separated with a pipe:
     ///
     /// ```
-    /// use doku::prelude::*;
+    /// use doku::Document;
     ///
     /// #[derive(Document)]
     /// struct Person {

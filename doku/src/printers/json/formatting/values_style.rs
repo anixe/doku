@@ -7,7 +7,7 @@ pub enum ValuesStyle {
     /// Displays values _outside_ of objects, as comments:
     ///
     /// ```
-    /// use doku::prelude::*;
+    /// use doku::Document;
     /// use serde::Serialize;
     ///
     /// #[derive(Serialize, Document)]
@@ -42,7 +42,7 @@ pub enum ValuesStyle {
     /// Displays values _inside_ of objects, as fields:
     ///
     /// ```
-    /// use doku::prelude::*;
+    /// use doku::Document;
     /// use serde::Serialize;
     ///
     /// #[derive(Serialize, Document)]

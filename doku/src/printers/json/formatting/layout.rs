@@ -7,7 +7,7 @@ pub enum Layout {
     /// Prints types and comments inline, in a single chunk of text:
     ///
     /// ```
-    /// use doku::prelude::*;
+    /// use doku::Document;
     ///
     /// #[derive(Document)]
     /// struct Person {
@@ -43,7 +43,7 @@ pub enum Layout {
     /// Prints types and comments in two separate columns.
     ///
     /// ```
-    /// use doku::prelude::*;
+    /// use doku::Document;
     ///
     /// #[derive(Document)]
     /// struct Person {
@@ -79,7 +79,7 @@ pub enum Layout {
         /// Whether the two columns should be aligned or not:
         ///
         /// ```
-        /// use doku::prelude::*;
+        /// use doku::Document;
         ///
         /// #[derive(Document)]
         /// struct Person {
@@ -116,7 +116,7 @@ pub enum Layout {
         /// Size of the horizontal spacing between both columns:
         ///
         /// ```
-        /// use doku::prelude::*;
+        /// use doku::Document;
         ///
         /// #[derive(Document)]
         /// struct Person {

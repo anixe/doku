@@ -1,5 +1,5 @@
 use difference::Changeset;
-use doku::prelude::*;
+use doku::Document;
 use serde::*;
 use std::fs;
 use std::path::Path;

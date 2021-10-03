@@ -5,7 +5,7 @@ use crate::*;
 /// Usually you'll get this by adding `#[derive(Document)]` to your type:
 ///
 /// ```
-/// use doku::prelude::*;
+/// use doku::Document;
 ///
 /// #[derive(Document)]
 /// struct Foo;
