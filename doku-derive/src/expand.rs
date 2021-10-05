@@ -7,33 +7,30 @@ mod expand_variants;
 mod expand_wrap;
 
 use self::{
-    expand_enum::expand_enum,
-    expand_field::expand_field,
-    expand_fields::expand_fields,
-    expand_struct::expand_struct,
-    expand_variant::expand_variant,
-    expand_variants::expand_variants,
+    expand_enum::expand_enum, expand_field::expand_field,
+    expand_fields::expand_fields, expand_struct::expand_struct,
+    expand_variant::expand_variant, expand_variants::expand_variants,
     expand_wrap::expand_wrap,
 };
 use crate::prelude::*;
 
 pub fn expand(input: &syn::DeriveInput) -> Result<TokenStream2> {
     if !input.generics.params.is_empty() {
-        emit_error!(
-            input.generics.params.span(),
-            "Generic types are not supported yet; please `impl doku::Document \
-             for ...` by hand"
-        );
-
-        return Err(());
+        return Err(syn::Error::new_spanned(
+            &input.generics.params,
+            "generic types are not supported yet; please `impl doku::Document \
+             for ...` by hand",
+        )
+        .into());
     }
 
     match &input.data {
         syn::Data::Struct(data) => expand_struct(input, data),
         syn::Data::Enum(data) => expand_enum(input, data),
-        syn::Data::Union(_) => {
-            emit_error!(input.ident.span(), "Unions are not supported yet");
-            Err(())
-        }
+        syn::Data::Union(_) => Err(syn::Error::new_spanned(
+            &input.ident,
+            "unions are not supported yet",
+        )
+        .into()),
     }
 }

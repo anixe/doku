@@ -1,12 +1,6 @@
 use crate::*;
 use ::std::collections::{
-    BTreeMap,
-    BTreeSet,
-    BinaryHeap,
-    HashMap,
-    HashSet,
-    LinkedList,
-    VecDeque,
+    BTreeMap, BTreeSet, BinaryHeap, HashMap, HashSet, LinkedList, VecDeque,
 };
 use ::std::net::IpAddr;
 use ::std::rc::Rc;

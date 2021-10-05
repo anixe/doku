@@ -1,4 +1,2 @@
-format_strings = true
-imports_layout = "HorizontalVertical"
 max_width = 80
 use_field_init_shorthand = true

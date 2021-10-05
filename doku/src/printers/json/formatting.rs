@@ -6,12 +6,8 @@ mod layout;
 mod values_style;
 
 pub use self::{
-    auto_comments::*,
-    doc_comments::*,
-    enums_style::*,
-    indent_style::*,
-    layout::*,
-    values_style::*,
+    auto_comments::*, doc_comments::*, enums_style::*, indent_style::*,
+    layout::*, values_style::*,
 };
 
 use crate::*;

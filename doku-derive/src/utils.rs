@@ -25,7 +25,7 @@ pub fn path_to_string(path: &Path) -> String {
 /// Thus this function is responsible for transforming `syn::LitStr` into a
 /// `syn::Path` it should've been from the beginning.
 pub fn string_to_path(str: &LitStr) -> Result<Path> {
-    let mut path: Path = syn::parse_str(&str.value()).emit_err()?;
+    let mut path: Path = syn::parse_str(&str.value())?;
 
     // Because we're using `syn::parse_str()`, we lose all information about the
     // original value's span - this means that when someone makes a typo,
@@ -43,32 +43,4 @@ pub fn string_to_path(str: &LitStr) -> Result<Path> {
     }
 
     Ok(path)
-}
-
-pub trait ResultExt<T> {
-    fn emit_err(self) -> Result<T>;
-}
-
-impl<T> ResultExt<T> for Result<T, syn::Error> {
-    fn emit_err(self) -> Result<T> {
-        match self {
-            Self::Ok(ok) => Ok(ok),
-            Self::Err(err) => {
-                proc_macro_error::Diagnostic::from(err).emit();
-                Err(())
-            }
-        }
-    }
-}
-
-impl<T> ResultExt<T> for Result<T, darling::Error> {
-    fn emit_err(self) -> Result<T> {
-        match self {
-            Self::Ok(ok) => Ok(ok),
-            Self::Err(err) => {
-                err.emit();
-                Err(())
-            }
-        }
-    }
 }

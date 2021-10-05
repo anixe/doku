@@ -18,8 +18,8 @@ where
         .iter()
         .filter(|attr| path_to_string(&attr.path) == name)
         .map(|attr| {
-            let meta = attr.parse_meta().emit_err()?;
-            let this = T::from_meta(&meta).emit_err()?;
+            let meta = attr.parse_meta()?;
+            let this = T::from_meta(&meta)?;
             Ok(this)
         })
         .collect::<Result<_>>()?;
