@@ -76,7 +76,7 @@ checksum = "524cbf6897b527295dff137cec09ecf3a05f4fddffd7dfcd1585403449e74198"
 
 [[package]]
 name = "doku"
-version = "0.10.1"
+version = "0.10.2"
 dependencies = [
  "chrono",
  "difference",
@@ -90,7 +90,7 @@ dependencies = [
 
 [[package]]
 name = "doku-derive"
-version = "0.10.1"
+version = "0.10.2"
 dependencies = [
  "darling",
  "indoc 0.3.6",
