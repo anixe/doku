@@ -1,13 +1,15 @@
-//! # Doku
+//! `fn(Code) -> Docs`
 //!
-//! Doku is a framework for building aesthetic, human-readable documentation
-//! directly from the code; it allows you to effortlessly generate docs for
-//! configuration files, HTTP endpoints, and so on.
+//! # Overview
+//!
+//! Doku is a framework for building textual, aesthetic documentation directly
+//! from the code; it allows to generate docs for configuration files, HTTP
+//! endpoints, and so on.
 //!
 //! Say goodbye to stale, hand-written documentation - with Doku, code _is_ the
 //! documentation!
 //!
-//! ## Example
+//! # Example
 //!
 //! Say, you're writing a tool that requires some JSON configuration to work:
 //!
@@ -97,8 +99,55 @@
 //! # "#, doc);
 //! ```
 //!
-//! Because `doku::to_json()` returns a good-old `String`, it's easy to e.g.
-//! create a test ensuring that docs are in sync with the code:
+//! The documentation can be then further fine-tuned e.g. by providing examples:
+//!
+//! ```
+//! # use doku::Document;
+//! # use serde::Deserialize;
+//! #
+//! #[derive(Deserialize, Document)]
+//! struct Config {
+//!     /// Database's engine
+//!     db_engine: DbEngine,
+//!
+//!     /// Database's host
+//!     #[doku(example = "localhost")]
+//!     db_host: String,
+//!
+//!     /// Database's port
+//!     #[doku(example = "5432")]
+//!     db_port: usize,
+//! }
+//!
+//! #[derive(Deserialize, Document)]
+//! enum DbEngine {
+//!     #[serde(rename = "pgsql")]
+//!     PostgreSQL,
+//!
+//!     #[serde(rename = "mysql")]
+//!     MySQL,
+//! }
+//!
+//! let doc = doku::to_json::<Config>();
+//!
+//! println!("{}", doc); // says:
+//!
+//! # doku::assert_doc!(r#"
+//!   {
+//!     // Database's engine
+//!     "db_engine": "pgsql" | "mysql",
+//!     // Database's host
+//!     "db_host": "localhost",
+//!     // Database's port
+//!     "db_port": 5432
+//!   }
+//! # "#, doc);
+//! ```
+//!
+//! And voilà, ready to deploy!
+//!
+//! Also, because `doku::to_json()` returns a good-old `String`, it's easy to
+//! e.g. create a test ensuring that docs stay in sync with the code:
 //!
 //! ```no_run
 //! use std::fs;
@@ -117,7 +166,7 @@
 //!
 //! Let go & let the pipelines worry about your docs!
 //!
-//! ## Plug and Play
+//! # Plug and Play
 //!
 //! Doku has been made with the plug-and-play approach in mind - it understands
 //! the most common Serde annotations and comes with a predefined formatting
@@ -131,16 +180,16 @@
 //!
 //! So - come join the doc side!
 //!
-//! ## Limits
+//! # Limits
 //!
-//! ### Supported formats
+//! ## Supported formats
 //!
 //! Currently Doku provides functions for generating JSON docs; more formats,
 //! such as TOML, are on their way.
 //!
 //! If you wanted, you could even implement a pretty-printer for your own
-//! type format - there's no need to clone Doku, since all of the required
-//! types are exported fro here; getting started is as easy as:
+//! format - all of the required types are public, so getting started is as
+//! easy as:
 //!
 //! ```
 //! fn to_my_own_format<T>() -> String
@@ -148,8 +197,8 @@
 //!     T: doku::Document
 //! {
 //!    match T::ty().kind {
-//!        doku::TypeKind::String => "'tis a string!".to_string(),
-//!        doku::TypeKind::Struct { .. } => "'tis a struct!".to_string(),
+//!        doku::TypeKind::String => "got a string!".to_string(),
+//!        doku::TypeKind::Struct { .. } => "got a struct!".to_string(),
 //!        _ => todo!(),
 //!    }
 //! }
@@ -157,7 +206,7 @@
 //! println!("{}", to_my_own_format::<String>());
 //! ```
 //!
-//! ### Supported Serde annotations
+//! ## Supported Serde annotations
 //!
 //! Legend:
 //!
@@ -231,12 +280,12 @@
 //! - ❌ `#[serde(borrow = "...")]` (no-op)
 //! - ❌ `#[serde(getter = "...")]`
 //!
-//! ### Supported language features
+//! ## Supported language features
 //!
 //! - ❌ generic types (<https://github.com/anixe/doku/issues/3>)
 //! - ❌ recursive types (<https://github.com/anixe/doku/issues/10>)
 //!
-//! ## How does it work?
+//! # How does it work?
 //!
 //! When you wrap a type with `#[derive(Document)]`:
 //!

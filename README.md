@@ -5,9 +5,9 @@
 [docs-badge]: https://img.shields.io/badge/docs.rs-latest-informational
 [docs-link]: https://docs.rs/doku
 
-Doku is a framework for building aesthetic, human-readable documentation
-directly from the code; it allows you to effortlessly generate docs for
-configuration files, HTTP endpoints, and so on.
+Doku is a framework for building textual, aesthetic documentation directly from
+the code; it allows to generate docs for configuration files, HTTP endpoints,
+and so on.
 
 Say goodbye to stale, hand-written documentation - with Doku, code _is_ the
 documentation!
