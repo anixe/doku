@@ -24,13 +24,6 @@ pub struct Output<'a> {
     indents: BTreeMap<usize, usize>,
 }
 
-struct Line<'a> {
-    id: usize,
-    indent: usize,
-    body: &'a str,
-    comments: &'a [String],
-}
-
 impl<'a> Output<'a> {
     pub fn new(fmt: &'a Formatting) -> Self {
         Self {
@@ -152,5 +145,18 @@ impl<'a> Output<'a> {
                 comments,
             }
         })
+    }
+}
+
+struct Line<'a> {
+    id: usize,
+    indent: usize,
+    body: &'a str,
+    comments: &'a [String],
+}
+
+impl Line<'_> {
+    fn len(&self) -> usize {
+        self.indent + self.body.chars().count()
     }
 }
