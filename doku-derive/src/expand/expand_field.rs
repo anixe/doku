@@ -83,6 +83,7 @@ impl Field {
         let attrs::DokuField {
             as_,
             examples,
+            literal_example,
             flatten,
             rename,
             skip,
@@ -94,9 +95,16 @@ impl Field {
             self.ty = quote! { #val };
         }
 
-        if !examples.is_empty() {
-            self.example =
-                quote! { Some(::doku::Example::from(&[#(#examples,)*][..])) };
+        if let Some(literal_example) = literal_example {
+            self.example = quote! {
+                Some(::doku::Example::Literal(#literal_example))
+            };
+        } else {
+            if !examples.is_empty() {
+                self.example = quote! {
+                    Some(::doku::Example::from(&[#(#examples,)*][..]))
+                };
+            }
         }
 
         if let Some(val) = flatten {
@@ -138,7 +146,7 @@ impl Field {
                 ::doku::Field {
                     ty: ::doku::Type {
                         comment: #comment,
-                        example: #example,
+                        example: #example.or(ty.example),
                         tag: #tag,
                         serializable: #serializable,
                         deserializable: #deserializable,

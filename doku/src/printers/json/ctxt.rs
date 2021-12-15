@@ -159,6 +159,16 @@ impl<'p, 'ty, 'out> Ctxt<'p, 'ty, 'out> {
         self.example().and_then(Example::first)
     }
 
+    pub fn literal_example(&self) -> Option<&'static str> {
+        self.example().and_then(|example| {
+            if let Example::Literal(example) = example {
+                Some(example)
+            } else {
+                None
+            }
+        })
+    }
+
     pub fn print(mut self) {
         use super::*;
 
@@ -170,6 +180,13 @@ impl<'p, 'ty, 'out> Ctxt<'p, 'ty, 'out> {
         }
 
         self.print_comment();
+
+        if !self.inline {
+            if let Some(example) = self.literal_example() {
+                self.out.write(example);
+                return;
+            }
+        }
 
         match &self.ty.kind {
             TypeKind::Bool => self.print_bool(),

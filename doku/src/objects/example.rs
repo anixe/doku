@@ -1,19 +1,27 @@
 #[derive(Clone, Copy, Debug)]
 pub enum Example {
+    /// `#[doku(literal_example = "foo")]`
+    Literal(&'static str),
+
+    /// `#[doku(example = "foo")]`
     Simple(&'static str),
+
+    /// `#[doku(example = "one", example = "two")]`
     Compound(&'static [&'static str]),
 }
 
 impl Example {
     pub fn first(self) -> Option<&'static str> {
         match self {
-            Self::Simple(example) => Some(example),
-            Self::Compound(examples) => examples.first().copied(),
+            Example::Literal(example) => Some(example),
+            Example::Simple(example) => Some(example),
+            Example::Compound(examples) => examples.first().copied(),
         }
     }
 
     pub fn iter(self) -> impl Iterator<Item = &'static str> {
         let (example, examples) = match self {
+            Example::Literal(example) => (Some(example), None),
             Example::Simple(example) => (Some(example), None),
             Example::Compound(examples) => (None, Some(examples)),
         };

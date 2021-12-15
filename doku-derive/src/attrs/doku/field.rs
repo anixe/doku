@@ -18,6 +18,9 @@ pub struct DokuField {
     pub examples: Vec<syn::LitStr>,
 
     #[darling(default)]
+    pub literal_example: Option<syn::LitStr>,
+
+    #[darling(default)]
     pub flatten: Option<bool>,
 
     #[darling(default)]
@@ -43,6 +46,7 @@ impl DokuField {
         Self {
             as_: other.as_.or(self.as_),
             examples,
+            literal_example: other.literal_example.or(self.literal_example),
             flatten: other.flatten.or(self.flatten),
             rename: other.rename.or(self.rename),
             skip: other.skip.or(self.skip),
