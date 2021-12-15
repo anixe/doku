@@ -16,7 +16,7 @@ documentation!
 
 ```toml
 [dependencies]
-doku = "0.10"
+doku = "0.11"
 ```
 
 ```rust
