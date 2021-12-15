@@ -26,6 +26,8 @@ impl<'ty> Ctxt<'_, 'ty, '_> {
                     self.out.write(", ");
                 } else {
                     self.out.writeln(",");
+
+                    // TODO if `size.is_some()` and this is the last example, the comma should not be printed
                 }
             }
 

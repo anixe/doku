@@ -10,5 +10,7 @@
   // Comment for f5; optional
   "f5": "f5-value",
   // Comment for f6; optional
-  "f6": "f6-value"
+  "f6": "f6-value",
+  // Comment for f7
+  "f7": "f7-value"
 }

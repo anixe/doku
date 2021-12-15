@@ -25,6 +25,9 @@ pub struct Ty {
     /// Comment for f6
     #[doku(example = "f6-value")]
     f6: Option<Option<Option<String>>>,
+
+    /// Comment for f7
+    f7: NestedStringD,
 }
 
 #[derive(Document)]
@@ -37,4 +40,15 @@ struct NestedStringB(NestedStringA);
 #[doku(transparent)]
 struct NestedStringC {
     value: NestedStringB,
+}
+
+struct NestedStringD;
+
+impl doku::Document for NestedStringD {
+    fn ty() -> doku::Type {
+        doku::Type {
+            example: Some(doku::Example::Simple("f7-value")),
+            ..String::ty()
+        }
+    }
 }

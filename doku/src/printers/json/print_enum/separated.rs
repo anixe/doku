@@ -9,9 +9,7 @@ impl<'ty> Ctxt<'_, 'ty, '_> {
         tag: Tag,
         variants: &[&'ty Variant],
     ) {
-        // We can enter inline-mode only when printing commented-enums, which
-        // shouldn't happen here
-        debug_assert!(!self.inline);
+        // TODO figure out what to do if `self.inline == true` (can happen for enums nested in enums)
 
         if !condensed::print(self, tag, variants) {
             multiline::print(self, tag, variants);
