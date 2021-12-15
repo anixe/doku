@@ -1,6 +1,6 @@
 [package]
 name = "doku"
-version = "0.10.2"
+version = "0.11.0"
 authors = ["Patryk Wychowaniec <patryk.wychowaniec@anixe.pl>"]
 license = "MIT"
 edition = "2018"
@@ -11,7 +11,7 @@ keywords = ["doc", "docs", "documentation", "serialization"]
 
 [dependencies]
 chrono = { version = "0.4", optional = true }
-doku-derive = { version = "=0.10.2", path = "../doku-derive" }
+doku-derive = { version = "=0.11.0", path = "../doku-derive" }
 serde = "1.0"
 
 [features]
