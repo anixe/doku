@@ -1,0 +1,10 @@
+
+  // This is `Foo`
+  {
+    "Foo": "string"
+  }
+  // or
+  // This is `Bar`
+  {
+    "Bar": ["string", 123]
+  }

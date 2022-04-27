@@ -1,46 +1,112 @@
+#[allow(dead_code)]
+#[path = "printers/array/mod.rs"]
+mod array;
+
+#[allow(dead_code)]
+#[path = "printers/attribute/mod.rs"]
+mod attribute;
+
+#[allow(dead_code)]
+#[path = "printers/enum/mod.rs"]
+mod r#enum;
+
+#[allow(dead_code)]
+#[path = "printers/map/mod.rs"]
+mod map;
+
+#[allow(dead_code)]
+#[path = "printers/optional/mod.rs"]
+mod optional;
+
+#[allow(dead_code)]
+#[path = "printers/struct/mod.rs"]
+mod r#struct;
+
+#[allow(dead_code)]
+#[path = "printers/tuple/mod.rs"]
+mod tuple;
+
+// ---
+
+mod prelude {
+    pub use super::*;
+    pub use doku::Document;
+    pub use serde::{Deserialize, Serialize};
+
+    macro_rules! printer_test {
+        (
+            $(
+                $file:literal => $assert_fn:ident $assert_args:tt
+            ),+
+            $(,)?
+        ) => {
+            #[test]
+            fn test() {
+                let mut expectations = Vec::new();
+
+                $(
+                    let expected = printer_test!(@assert $assert_fn $assert_args);
+                    expectations.push(($file, expected));
+                )+
+
+                use std::path::{Path, PathBuf};
+
+                let dir: PathBuf = Path::new(file!())
+                    .parent()
+                    .unwrap()
+                    .iter()
+                    .skip(1)
+                    .collect();
+
+                assert_dir(dir, expectations);
+            }
+        };
+
+        (@assert to_json($ty:ty)) => {{
+            doku::to_json::<$ty>()
+        }};
+
+        (@assert to_json_fmt($ty:ty, $fmt:tt)) => {{
+            let fmt = serde_json::json!($fmt);
+            let fmt = serde_json::from_value(fmt).expect("Given formatting is not valid");
+
+            doku::to_json_fmt::<$ty>(&fmt)
+        }};
+
+        (@assert to_json_val($ty:ty)) => {{
+            doku::to_json_val(&<$ty>::default())
+        }};
+    }
+
+    pub(crate) use printer_test;
+}
+
 use difference::Changeset;
-use doku::Document;
-use serde::*;
 use std::fs;
 use std::path::Path;
 
-mod tests {
-    #![allow(dead_code)]
+type FileName = &'static str;
+type FileBody = String;
+type DidAssertSucceed = bool;
 
-    use super::*;
-    use serde_json::json;
+pub fn assert_dir(
+    dir: impl AsRef<Path>,
+    expectations: Vec<(FileName, FileBody)>,
+) {
+    let dir = dir.as_ref();
+    let mut all_asserts_succeeded = true;
 
-    doku_test::printers!();
+    for (file, expected) in expectations {
+        all_asserts_succeeded &= assert(dir, file, expected);
+    }
+
+    if !all_asserts_succeeded {
+        panic!("Some assertions failed");
+    }
 }
 
-fn to_json<T>(test: &Path)
-where
-    T: Document,
-{
-    assert(test, "output.ty.json", doku::to_json::<T>());
-}
-
-fn to_json_fmt<T>(test: &Path, fixture: &str, fmt: serde_json::Value)
-where
-    T: Document,
-{
-    let fmt =
-        serde_json::from_value(fmt).expect("Given formatting is not valid");
-
-    assert(test, fixture, doku::to_json_fmt::<T>(&fmt));
-}
-
-fn to_json_val<T>(test: &Path)
-where
-    T: Document + Serialize + Default,
-{
-    assert(test, "output.val.json", doku::to_json_val(&T::default()));
-}
-
-fn assert(test: &Path, fixture: &str, expected: String) {
-    let dir = Path::new("tests").join(test);
-
-    let path = dir.join(fixture);
+fn assert(dir: &Path, file: FileName, expected: FileBody) -> DidAssertSucceed {
+    let path = dir.join(file);
 
     let path_new = path.with_extension(format!(
         "{}.new",
@@ -65,18 +131,20 @@ fn assert(test: &Path, fixture: &str, expected: String) {
         Default::default()
     };
 
-    if actual != expected {
+    if actual == expected {
+        true
+    } else {
         fs::write(&path_new, &expected).unwrap_or_else(|err| {
             panic!("Couldn't write fixture `{}`: {}", path_new.display(), err)
         });
 
-        let diff = Changeset::new(&actual, &expected, "\n");
-
-        panic!(
+        eprintln!(
             "\nFound differences between `{}` and `{}`:\n{}",
             path.display(),
             path_new.display(),
-            diff,
+            Changeset::new(&actual, &expected, "\n"),
         );
+
+        false
     }
 }

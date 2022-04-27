@@ -1,0 +1,4 @@
+// Possible variants:
+// - { "t": "Foo", "c": "string" }
+// - { "t": "Bar", "c": ["string", 123] }
+{ "t": "Foo", "c": ... }

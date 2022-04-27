@@ -3,12 +3,6 @@
 version = 3
 
 [[package]]
-name = "anyhow"
-version = "1.0.44"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "61604a8f862e1d5c3229fdd78f8b02c68dcf73a4c4b05fd636d12240aaa242c1"
-
-[[package]]
 name = "autocfg"
 version = "1.0.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -81,7 +75,6 @@ dependencies = [
  "chrono",
  "difference",
  "doku-derive",
- "doku-test",
  "indoc 1.0.3",
  "serde",
  "serde_json",
@@ -94,16 +87,6 @@ version = "0.11.0"
 dependencies = [
  "darling",
  "indoc 0.3.6",
- "proc-macro2",
- "quote",
- "syn",
-]
-
-[[package]]
-name = "doku-test"
-version = "0.0.0"
-dependencies = [
- "anyhow",
  "proc-macro2",
  "quote",
  "syn",

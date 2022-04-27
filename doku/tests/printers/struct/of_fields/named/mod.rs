@@ -1,0 +1,24 @@
+use crate::prelude::*;
+
+#[derive(Serialize, Document)]
+struct Ty {
+    /// Some comment
+    foo: String,
+
+    /// Some comment
+    bar: usize,
+}
+
+impl Default for Ty {
+    fn default() -> Self {
+        Self {
+            foo: "I'm Foo".to_string(),
+            bar: 4096,
+        }
+    }
+}
+
+printer_test! {
+    "output.ty.json" => to_json(Ty),
+    "output.val.json" => to_json_val(Ty),
+}
