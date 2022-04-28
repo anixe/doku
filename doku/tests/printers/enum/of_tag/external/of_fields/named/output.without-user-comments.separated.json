@@ -1,13 +1,12 @@
-
-  {
-    "Foo": {
-      "a": "string"
-    }
+{
+  "Foo": {
+    "a": "string"
   }
-  // or
-  {
-    "Bar": {
-      "a": "string",
-      "b": 123
-    }
+}
+// or
+{
+  "Bar": {
+    "a": "string",
+    "b": 123
   }
+}

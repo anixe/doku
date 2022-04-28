@@ -1,10 +1,9 @@
-
-  // This is `Foo`
-  {
-    "t": "Foo",
-  }
-  // or
-  // This is `Bar`
-  {
-    "t": "Bar",
-  }
+// This is `Foo`
+{
+  "t": "Foo",
+}
+// or
+// This is `Bar`
+{
+  "t": "Bar",
+}

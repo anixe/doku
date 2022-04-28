@@ -1,6 +1,5 @@
-
-  // This is `Foo`
-  "string"
-  // or
-  // This is `Bar`
-  ["string", 123]
+// This is `Foo`
+"string"
+// or
+// This is `Bar`
+["string", 123]

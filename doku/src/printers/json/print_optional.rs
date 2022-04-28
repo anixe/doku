@@ -7,10 +7,6 @@ impl<'ty> Ctxt<'_, 'ty, '_> {
     }
 
     fn comment_optional(&mut self) {
-        if self.inline {
-            return;
-        }
-
         if !self.fmt.auto_comments.optional {
             return;
         }

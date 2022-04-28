@@ -1,4 +1,9 @@
 // Possible variants:
-// - { "a": "string" }
-// - { "a": "string", "b": 123 }
+// - {
+//     "a": "string"
+//   }
+// - {
+//     "a": "string",
+//     "b": 123
+//   }
 { ... }

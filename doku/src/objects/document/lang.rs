@@ -1,6 +1,11 @@
 use crate::*;
 
 document! {
+    for ()
+        => TypeKind::Tuple {
+            fields: Default::default()
+        }.into();
+
     for bool
         => TypeKind::Bool.into();
 

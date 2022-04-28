@@ -5,10 +5,6 @@ pub(super) fn comment(
     tag: Tag,
     variants: &[&Variant],
 ) {
-    if ctxt.inline {
-        return;
-    }
-
     ctxt.out.append_comment(|comment| {
         if comment.is_empty() {
             swrite!(comment, "Possible variants:");
@@ -23,96 +19,133 @@ pub(super) fn comment(
 }
 
 fn comment_variant(ctxt: &mut Ctxt<'_, '_, '_>, tag: Tag, variant: &Variant) {
-    let mut str = format!("- {}", comment_variant_inner(ctxt, tag, variant));
+    let rendered_variant = render_variant(ctxt, tag, variant);
 
-    if let Some(comment) = variant.comment {
-        for (comment_idx, comment) in comment.split('\n').enumerate() {
-            if comment_idx == 0 {
-                swrite!(str, " = {}", comment);
+    let rendered_variant = rendered_variant
+        .lines()
+        .enumerate()
+        .map(|(line_idx, line)| {
+            if line_idx > 0 {
+                format!("  {}", line)
             } else {
-                swrite!(str, "\n   {}", comment);
+                line.to_owned()
+            }
+        })
+        .collect::<Vec<_>>()
+        .join("\n");
+
+    let mut str = format!("- {}", rendered_variant);
+
+    // ---
+
+    let comment = if let Some(comment) = variant.comment {
+        Some(comment)
+    } else if variant.title != variant.id {
+        Some(variant.title)
+    } else {
+        None
+    };
+
+    if let Some(comment) = comment {
+        if str.lines().count() == 1 && comment.lines().count() == 1 {
+            swrite!(str, " = {}", comment);
+        } else {
+            for (comment_line_idx, comment_line) in
+                comment.split('\n').enumerate()
+            {
+                if comment_line_idx == 0 {
+                    swrite!(str, "\n  = {}", comment_line);
+                } else {
+                    swrite!(str, "\n    {}", comment_line);
+                }
             }
         }
-    } else if variant.title != variant.id {
-        swrite!(str, " = {}", variant.title);
     }
+
+    // ---
 
     ctxt.out.writeln_comment(str);
 }
 
-fn comment_variant_inner(
+fn render_variant(
     ctxt: &Ctxt<'_, '_, '_>,
     tag: Tag,
     variant: &Variant,
 ) -> String {
     match tag {
         Tag::Adjacent { tag, content } => match &variant.fields {
-            Fields::Unit => format!(r#"{{ "{}": "{}" }}"#, tag, variant.id),
+            Fields::Unit => {
+                format!("{{\n\t\"{}\": \"{}\"\n}}", tag, variant.id)
+            }
 
             fields => format!(
-                r#"{{ "{}": "{}", "{}": {} }}"#,
+                "{{\n\t\"{}\": \"{}\",\n\t\"{}\": {}\n}}",
                 tag,
                 variant.id,
                 content,
-                render_fields_inline(ctxt, fields, false)
+                render_variant_fields(ctxt, fields, false, true)
             ),
         },
 
         Tag::Internal { tag } => {
             if let Fields::Named { fields } = &variant.fields {
                 if fields.is_empty() {
-                    format!(r#"{{ "{}": "{}" }}"#, tag, variant.id)
+                    format!("{{\n\t\"{}\": \"{}\"\n}}", tag, variant.id)
                 } else {
-                    let fields =
-                        render_fields_inline(ctxt, &variant.fields, true);
-
-                    format!(r#"{{ "{}": "{}", {} }}"#, tag, variant.id, fields)
+                    format!(
+                        "{{\n\t\"{}\": \"{}\",\n\t{}\n}}",
+                        tag,
+                        variant.id,
+                        render_variant_fields(
+                            ctxt,
+                            &variant.fields,
+                            true,
+                            true
+                        )
+                    )
                 }
             } else {
-                format!(r#"{{ "{}": "{}" }}"#, tag, variant.id)
+                format!("{{\n\t\"{}\": \"{}\"\n}}", tag, variant.id)
             }
         }
 
         Tag::External => match &variant.fields {
-            Fields::Unit => format!(r#""{}""#, variant.id),
+            Fields::Unit => format!("\"{}\"", variant.id),
 
             fields => format!(
-                "{{ \"{}\": {} }}",
+                "{{\n\t\"{}\": {}\n}}",
                 variant.id,
-                render_fields_inline(ctxt, fields, false)
+                render_variant_fields(ctxt, fields, false, true)
             ),
         },
 
-        Tag::None => render_fields_inline(ctxt, &variant.fields, false),
+        Tag::None => render_variant_fields(ctxt, &variant.fields, false, false),
     }
 }
 
-/// Prints given fields in an inline-fashion, so that they fit in one line
-/// (e.g. `{ "PostDeleted": { "id": 1, "user": 2 } }`).
-fn render_fields_inline(
+fn render_variant_fields(
     ctxt: &Ctxt<'_, '_, '_>,
     fields: &Fields,
     flat: bool,
+    indent: bool,
 ) -> String {
     let fmt = Formatting {
-        auto_comments: AutoComments::none(),
-        doc_comments: DocComments::Hidden,
-        indent_style: IndentStyle { size: 0 },
-        ..Default::default()
+        enums_style: EnumsStyle::Separated,
+        layout: Layout::OneColumn,
+        ..ctxt.fmt.clone()
     };
 
     let mut out = Output::new(&fmt);
 
     let mut ctxt = Ctxt {
         // We want this ad-hoc context to be independent from our real one,
-        // because we don't want to carry e.g. examples from parent into
-        // it.
+        // because we don't want to carry e.g. examples from parent into it.
         //
-        // Also, the type-kind here doesn't have to be necessarily `String`
-        // - it can be anything, since we're not doing `variant_ctxt.print()`,
-        // but rather we're calling `print_fields()` directly, so this
-        // `ty` is not read anywhere.
-        ty: &<String as Document>::ty(),
+        // Also, the type-kind here doesn't have to be necessarily `()` - it can
+        // be anything, since we're not doing `variant_ctxt.print()`, but rather
+        // we're calling `print_fields()` directly, so this `ty` is not read
+        // anyway.
+        ty: &<()>::ty(),
 
         val: Default::default(),
         vis: ctxt.vis,
@@ -121,10 +154,26 @@ fn render_fields_inline(
         parent: Default::default(),
         example: Default::default(),
         flat,
-        inline: true,
         depth: Default::default(),
     };
 
     ctxt.print_fields(fields, None);
-    out.render()
+
+    let out = out.render();
+
+    if indent {
+        out.lines()
+            .enumerate()
+            .map(|(line_idx, line)| {
+                if line_idx > 0 {
+                    format!("  {}", line)
+                } else {
+                    line.to_owned()
+                }
+            })
+            .collect::<Vec<_>>()
+            .join("\n")
+    } else {
+        out
+    }
 }

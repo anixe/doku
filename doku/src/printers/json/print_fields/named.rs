@@ -20,12 +20,8 @@ impl<'ty> Ctxt<'_, 'ty, '_> {
                 return;
             }
 
-            if self.inline {
-                self.out.write("{ ");
-            } else {
-                self.out.writeln("{");
-                self.out.inc_indent();
-            }
+            self.out.writeln("{");
+            self.out.inc_indent();
         }
 
         for (field_id, (field_name, field)) in fields.into_iter().enumerate() {
@@ -33,13 +29,9 @@ impl<'ty> Ctxt<'_, 'ty, '_> {
         }
 
         if !self.flat {
-            if self.inline {
-                self.out.write(" }");
-            } else {
-                self.out.ln();
-                self.out.dec_indent();
-                self.out.write("}");
-            }
+            self.out.ln();
+            self.out.dec_indent();
+            self.out.write("}");
         }
     }
 
@@ -51,11 +43,7 @@ impl<'ty> Ctxt<'_, 'ty, '_> {
         variant: Option<&'ty Variant>,
     ) {
         if field_id > 0 {
-            if self.inline {
-                self.out.write(", ");
-            } else {
-                self.out.writeln(",");
-            }
+            self.out.writeln(",");
         }
 
         let field_val = self

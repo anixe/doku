@@ -101,7 +101,6 @@ impl<'a> Printer<'a> {
             parent: Default::default(),
             example: Default::default(),
             flat: Default::default(),
-            inline: Default::default(),
             depth: Default::default(),
         }
         .print();

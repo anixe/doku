@@ -55,10 +55,16 @@ impl<'a> Output<'a> {
         let comment = comment.to_string();
 
         for comment in comment.split('\n') {
+            let comment = if comment.contains('\t') {
+                comment.replace('\t', &" ".repeat(self.fmt.indent_style.size))
+            } else {
+                comment.to_owned()
+            };
+
             self.comments
                 .entry(self.lines.len())
                 .or_default()
-                .push(comment.to_owned());
+                .push(comment);
         }
     }
 

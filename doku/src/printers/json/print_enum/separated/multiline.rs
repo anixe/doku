@@ -5,8 +5,14 @@ pub(super) fn print<'ty>(
     tag: Tag,
     variants: &[&'ty Variant],
 ) {
-    ctxt.out.ln();
-    ctxt.out.inc_indent();
+    let indent = ctxt.parent.map_or(false, |parent| {
+        matches!(parent.kind, TypeKind::Struct { .. })
+    });
+
+    if indent {
+        ctxt.out.ln();
+        ctxt.out.inc_indent();
+    }
 
     for (variant_idx, variant) in variants.iter().enumerate() {
         if variant_idx > 0 {
@@ -20,7 +26,9 @@ pub(super) fn print<'ty>(
         print_variant(ctxt, tag, variant);
     }
 
-    ctxt.out.dec_indent();
+    if indent {
+        ctxt.out.dec_indent();
+    }
 }
 
 fn print_variant<'ty>(

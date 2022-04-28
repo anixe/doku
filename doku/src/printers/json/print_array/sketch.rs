@@ -4,12 +4,8 @@ use super::*;
 
 impl<'ty> Ctxt<'_, 'ty, '_> {
     pub(super) fn sketch_array(&mut self, ty: &'ty Type, size: Option<usize>) {
-        if self.inline {
-            self.out.write("[ ");
-        } else {
-            self.out.writeln("[");
-            self.out.inc_indent();
-        }
+        self.out.writeln("[");
+        self.out.inc_indent();
 
         if self.try_expanding_variants(ty) {
             //
@@ -22,38 +18,21 @@ impl<'ty> Ctxt<'_, 'ty, '_> {
                     .with_example(Some(*example))
                     .print();
 
-                if self.inline {
-                    self.out.write(", ");
-                } else {
-                    self.out.writeln(",");
+                self.out.writeln(",");
 
-                    // TODO if `size.is_some()` and this is the last example, the comma should not be printed
-                }
+                // TODO if `size.is_some()` and this is the last example, the comma should not be printed
             }
 
             if size.map_or(true, |size| examples.len() < size) {
-                self.out.write("/* ... */");
-
-                if !self.inline {
-                    self.out.ln();
-                }
+                self.out.writeln("/* ... */");
             }
         } else {
             self.nested().with_ty(ty).print();
-
-            if self.inline {
-                self.out.write(", /* ... */");
-            } else {
-                self.out.writeln(",");
-                self.out.writeln("/* ... */");
-            }
+            self.out.writeln(",");
+            self.out.writeln("/* ... */");
         }
 
-        if self.inline {
-            self.out.write(" ]");
-        } else {
-            self.out.dec_indent();
-            self.out.write("]");
-        }
+        self.out.dec_indent();
+        self.out.write("]");
     }
 }

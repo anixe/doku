@@ -1,12 +1,11 @@
-
-  // This is `Foo`
-  {
-    "t": "Foo",
-    "c": "string"
-  }
-  // or
-  // This is `Bar`
-  {
-    "t": "Bar",
-    "c": ["string", 123]
-  }
+// This is `Foo`
+{
+  "t": "Foo",
+  "c": "string"
+}
+// or
+// This is `Bar`
+{
+  "t": "Bar",
+  "c": ["string", 123]
+}

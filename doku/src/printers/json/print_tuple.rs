@@ -14,31 +14,19 @@ impl<'ty> Ctxt<'_, 'ty, '_> {
             return;
         }
 
-        if self.inline {
-            self.out.write("[ ");
-        } else {
-            self.out.writeln("[");
-            self.out.inc_indent();
-        }
+        self.out.writeln("[");
+        self.out.inc_indent();
 
         for (field_id, field) in fields.iter().enumerate() {
             if field_id > 0 {
-                if self.inline {
-                    self.out.write(",");
-                } else {
-                    self.out.writeln(",");
-                }
+                self.out.writeln(",");
             }
 
             self.nested().with_ty(&field).print();
         }
 
-        if self.inline {
-            self.out.write(" ]");
-        } else {
-            self.out.ln();
-            self.out.dec_indent();
-            self.out.write("]");
-        }
+        self.out.ln();
+        self.out.dec_indent();
+        self.out.write("]");
     }
 }

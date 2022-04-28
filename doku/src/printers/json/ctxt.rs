@@ -47,29 +47,6 @@ pub struct Ctxt<'p, 'ty, 'out> {
     /// ```
     pub flat: bool,
 
-    /// When enabled, `ty` will be printed in one line.
-    ///
-    /// # Example
-    ///
-    /// Without `inline`:
-    ///
-    /// ```json
-    /// {
-    ///   // Some field
-    ///   "a": "string",
-    ///
-    ///   // Some other field
-    ///   "b": "string",
-    /// }
-    /// ```
-    ///
-    /// With `inline`:
-    ///
-    /// ```json
-    /// { "a": "string", "b": "string" }
-    /// ```
-    pub inline: bool,
-
     /// Incremented each time `Ctxt::nested()` is called; used to detect
     /// recursion.
     pub depth: u8,
@@ -88,7 +65,6 @@ impl<'p, 'ty, 'out> Ctxt<'p, 'ty, 'out> {
             parent: self.parent,
             example: self.example,
             flat: self.flat,
-            inline: self.inline,
             depth: self.depth.checked_add(1).expect(
                 "Seems like the printer got stuck; this might indicate a bug \
                  in Doku or a recursive type in your code-base",
@@ -181,11 +157,9 @@ impl<'p, 'ty, 'out> Ctxt<'p, 'ty, 'out> {
 
         self.print_comment();
 
-        if !self.inline {
-            if let Some(example) = self.literal_example() {
-                self.out.write(example);
-                return;
-            }
+        if let Some(example) = self.literal_example() {
+            self.out.write(example);
+            return;
         }
 
         match &self.ty.kind {

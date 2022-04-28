@@ -1,8 +1,7 @@
-
-  {
-    "Foo": "string"
-  }
-  // or
-  {
-    "Bar": ["string", 123]
-  }
+{
+  "Foo": "string"
+}
+// or
+{
+  "Bar": ["string", 123]
+}

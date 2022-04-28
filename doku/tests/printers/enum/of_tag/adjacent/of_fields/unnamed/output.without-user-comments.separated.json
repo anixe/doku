@@ -1,10 +1,9 @@
-
-  {
-    "t": "Foo",
-    "c": "string"
-  }
-  // or
-  {
-    "t": "Bar",
-    "c": ["string", 123]
-  }
+{
+  "t": "Foo",
+  "c": "string"
+}
+// or
+{
+  "t": "Bar",
+  "c": ["string", 123]
+}

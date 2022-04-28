@@ -2,10 +2,6 @@ use super::*;
 
 impl Ctxt<'_, '_, '_> {
     pub(super) fn comment_array(&mut self, size: Option<usize>) {
-        if self.inline {
-            return;
-        }
-
         if !self.fmt.auto_comments.array_size {
             return;
         }
