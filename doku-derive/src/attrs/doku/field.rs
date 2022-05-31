@@ -1,3 +1,4 @@
+use super::DokuMetas;
 use crate::prelude::*;
 use darling::FromMeta;
 
@@ -16,6 +17,9 @@ pub struct DokuField {
 
     #[darling(default, rename = "example", multiple)]
     pub examples: Vec<syn::LitStr>,
+
+    #[darling(default, rename = "meta", multiple)]
+    pub metas: Vec<DokuMetas>,
 
     #[darling(default)]
     pub literal_example: Option<syn::LitStr>,
@@ -43,9 +47,12 @@ impl DokuField {
         let examples =
             self.examples.into_iter().chain(other.examples).collect();
 
+        let metas = self.metas.into_iter().chain(other.metas).collect();
+
         Self {
             as_: other.as_.or(self.as_),
             examples,
+            metas,
             literal_example: other.literal_example.or(self.literal_example),
             flatten: other.flatten.or(self.flatten),
             rename: other.rename.or(self.rename),

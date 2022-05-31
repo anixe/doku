@@ -1,11 +1,11 @@
 use super::*;
 
-pub struct Ctxt<'p, 'ty, 'out> {
+pub struct Ctxt<'fmt, 'ty, 'out> {
     pub ty: &'ty Type,
     pub val: Option<&'ty Value>,
     pub vis: Visibility,
-    pub fmt: &'p Formatting,
-    pub out: &'out mut Output<'p>,
+    pub fmt: &'fmt Formatting,
+    pub out: &'out mut Output,
 
     /// Parent of `ty`.
     ///
@@ -52,10 +52,10 @@ pub struct Ctxt<'p, 'ty, 'out> {
     pub depth: u8,
 }
 
-impl<'p, 'ty, 'out> Ctxt<'p, 'ty, 'out> {
+impl<'fmt, 'ty, 'out> Ctxt<'fmt, 'ty, 'out> {
     /// Clones `self`, but preserves the same `self.out` (hence the returned
     /// object has to have a shorter output borrow's lifetime - `out2`).
-    pub fn nested<'out2>(&'out2 mut self) -> Ctxt<'p, 'ty, 'out2> {
+    pub fn nested<'out2>(&'out2 mut self) -> Ctxt<'fmt, 'ty, 'out2> {
         Ctxt {
             ty: self.ty,
             val: self.val,
@@ -117,6 +117,23 @@ impl<'p, 'ty, 'out> Ctxt<'p, 'ty, 'out> {
         self
     }
 
+    pub fn with_fmt<'fmt2>(
+        self,
+        fmt: &'fmt2 Formatting,
+    ) -> Ctxt<'fmt2, 'ty, 'out> {
+        Ctxt {
+            ty: self.ty,
+            val: self.val,
+            vis: self.vis,
+            fmt,
+            out: self.out,
+            parent: self.parent,
+            example: self.example,
+            flat: self.flat,
+            depth: self.depth,
+        }
+    }
+
     pub fn with_example(mut self, example: Option<impl Into<Example>>) -> Self {
         self.example = example.map(Into::into);
         self
@@ -145,9 +162,7 @@ impl<'p, 'ty, 'out> Ctxt<'p, 'ty, 'out> {
         })
     }
 
-    pub fn print(mut self) {
-        use super::*;
-
+    pub fn print(self) {
         if !self
             .vis
             .allows(self.ty.serializable, self.ty.deserializable)
@@ -155,6 +170,21 @@ impl<'p, 'ty, 'out> Ctxt<'p, 'ty, 'out> {
             return;
         }
 
+        let requires_custom_formatting =
+            self.ty.metas.iter().any(|meta| {
+                meta.key() == "fmt" || meta.key().starts_with("fmt.")
+            });
+
+        if requires_custom_formatting {
+            let fmt = self.fmt.customize(self.ty.metas.iter());
+
+            self.with_fmt(&fmt).print_inner();
+        } else {
+            self.print_inner();
+        }
+    }
+
+    fn print_inner(mut self) {
         self.print_comment();
 
         if let Some(example) = self.literal_example() {

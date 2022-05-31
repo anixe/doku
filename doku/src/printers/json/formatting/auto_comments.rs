@@ -6,7 +6,7 @@ use crate::*;
 /// type and provide a dedicated hint such as "this field is optional". This
 /// struct allows to configure whether you'd like for such comments to be
 /// printed or not.
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct AutoComments {
     /// When set, displays hints for arrays of known sizes:

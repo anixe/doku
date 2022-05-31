@@ -1,7 +1,7 @@
 use crate::*;
 
 /// Determines how enums should get displayed.
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub enum EnumsStyle {
     /// Displays enum variants as comments:

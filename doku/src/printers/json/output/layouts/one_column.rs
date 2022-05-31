@@ -1,6 +1,6 @@
 use super::*;
 
-pub fn render(out: Output<'_>) -> String {
+pub fn render(out: Output) -> String {
     let mut result = String::new();
 
     for Line {

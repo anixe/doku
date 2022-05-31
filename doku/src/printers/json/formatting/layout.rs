@@ -1,7 +1,7 @@
 use crate::*;
 
 /// Determines whether the document should contain one or two columns.
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub enum Layout {
     /// Prints types and comments inline, in a single chunk of text:

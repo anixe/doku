@@ -1,7 +1,7 @@
 use crate::*;
 
 /// Determines the indenting style.
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct IndentStyle {
     /// How many spaces use to indicate that objects are nested:

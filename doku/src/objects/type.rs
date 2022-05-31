@@ -4,6 +4,7 @@ use crate::*;
 pub struct Type {
     pub comment: Option<&'static str>,
     pub example: Option<Example>,
+    pub metas: Metas,
 
     /// When we have an adjacently-tagged enum, this field contains name of the
     /// field that should represent that enum's tag.
@@ -26,6 +27,7 @@ impl From<TypeKind> for Type {
         Self {
             comment: None,
             example: None,
+            metas: Metas::default(),
             tag: None,
             serializable: true,
             deserializable: true,

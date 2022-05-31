@@ -1,6 +1,6 @@
 use super::*;
 
-pub fn render(out: Output<'_>, align: bool, spacing: usize) -> String {
+pub fn render(out: Output, align: bool, spacing: usize) -> String {
     let mut result = String::new();
 
     let left_col_max_width =

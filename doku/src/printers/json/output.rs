@@ -5,8 +5,8 @@ use std::collections::BTreeMap;
 use std::mem;
 
 #[derive(Debug)]
-pub struct Output<'a> {
-    fmt: &'a Formatting,
+pub struct Output {
+    fmt: Formatting,
 
     /// Pending line
     line: String,
@@ -24,10 +24,12 @@ pub struct Output<'a> {
     indents: BTreeMap<usize, usize>,
 }
 
-impl<'a> Output<'a> {
-    pub fn new(fmt: &'a Formatting) -> Self {
+impl Output {
+    pub fn new(fmt: &Formatting) -> Self {
         Self {
-            fmt,
+            // Borrowing `fmt` makes the code awkward in a few places, so let's
+            // just clone it
+            fmt: fmt.to_owned(),
             line: Default::default(),
             indent: Default::default(),
             lines: Default::default(),

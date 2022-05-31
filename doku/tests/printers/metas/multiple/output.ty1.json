@@ -1,0 +1,6 @@
+{
+  "foo": {
+    // This is `Bar`; optional
+    "bar": "string"
+  }
+}

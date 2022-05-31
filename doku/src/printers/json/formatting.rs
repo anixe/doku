@@ -11,9 +11,10 @@ pub use self::{
 };
 
 use crate::*;
+use std::any;
 
 /// Determines the look & feel of the documentation.
-#[derive(Clone, Debug, Default, Deserialize)]
+#[derive(Clone, Debug, Default, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 #[serde(default)]
 pub struct Formatting {
@@ -35,4 +36,37 @@ pub struct Formatting {
 
     /// Determines how values should get displayed.
     pub values_style: ValuesStyle,
+}
+
+impl Formatting {
+    pub(crate) fn customize(&self, metas: impl Iterator<Item = Meta>) -> Self {
+        let mut this = serde_json::to_value(self).unwrap();
+
+        for meta in metas {
+            if meta.key() == "fmt" {
+                this =
+                    serde_json::from_str(meta.value()).unwrap_or_else(|err| {
+                        panic!(
+                            "Not a valid {}: {}",
+                            any::type_name::<Self>(),
+                            err
+                        )
+                    });
+            } else if let Some(key) = meta.key().strip_prefix("fmt") {
+                let key = key.replace('.', "/");
+
+                let this = this.pointer_mut(&key).unwrap_or_else(|| {
+                    panic!(
+                        "Tried to overwrite a non-existing formatting option: {}",
+                        key
+                    );
+                });
+
+                *this = serde_json::from_str(meta.value())
+                    .unwrap_or_else(|err| panic!("Not a valid JSON: {}", err));
+            }
+        }
+
+        serde_json::from_value(this).unwrap()
+    }
 }

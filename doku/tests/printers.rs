@@ -15,6 +15,10 @@ mod r#enum;
 mod map;
 
 #[allow(dead_code)]
+#[path = "printers/metas/mod.rs"]
+mod metas;
+
+#[allow(dead_code)]
 #[path = "printers/optional/mod.rs"]
 mod optional;
 
@@ -29,6 +33,8 @@ mod tuple;
 // ---
 
 mod prelude {
+    #![allow(clippy::single_component_path_imports)]
+
     pub use super::*;
     pub use doku::Document;
     pub use serde::{Deserialize, Serialize};

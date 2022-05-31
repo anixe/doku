@@ -1,7 +1,7 @@
 use crate::*;
 
 /// Determines if doc-comments should get displayed.
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub enum DocComments {
     /// Shows doc-comments:

@@ -1,4 +1,6 @@
 use super::*;
+use crate::attrs::DokuMetas;
+use std::iter::FromIterator;
 
 pub fn expand_field(field: &syn::Field, named: bool) -> Result<TokenStream2> {
     let syn::Field {
@@ -8,6 +10,7 @@ pub fn expand_field(field: &syn::Field, named: bool) -> Result<TokenStream2> {
     let mut field = Field {
         name: quote! { stringify!(#ident) },
         ty: quote! { #ty },
+        metas: quote! { Default::default() },
         comment: quote! { None },
         example: quote! { None },
         tag: quote! { None },
@@ -28,6 +31,7 @@ struct Field {
     ty: TokenStream2,
     comment: TokenStream2,
     example: TokenStream2,
+    metas: TokenStream2,
     tag: TokenStream2,
     serializable: bool,
     deserializable: bool,
@@ -83,6 +87,7 @@ impl Field {
         let attrs::DokuField {
             as_,
             examples,
+            metas,
             literal_example,
             flatten,
             rename,
@@ -105,6 +110,18 @@ impl Field {
                     Some(::doku::Example::from(&[#(#examples,)*][..]))
                 };
             }
+        }
+
+        if !metas.is_empty() {
+            let metas = DokuMetas::from_iter(metas);
+
+            let meta_keys = metas.metas.keys();
+            let meta_values = metas.metas.values();
+
+            self.metas = quote! {
+                ::doku::Metas::default()
+                #( .with(#meta_keys, #meta_values) )*
+            };
         }
 
         if let Some(val) = flatten {
@@ -133,6 +150,7 @@ impl Field {
             ty,
             comment,
             example,
+            metas,
             tag,
             serializable,
             deserializable,
@@ -147,6 +165,7 @@ impl Field {
                     ty: ::doku::Type {
                         comment: #comment,
                         example: #example.or(ty.example),
+                        metas: #metas,
                         tag: #tag,
                         serializable: #serializable,
                         deserializable: #deserializable,

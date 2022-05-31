@@ -13,6 +13,7 @@ keywords = ["doc", "docs", "documentation", "serialization"]
 chrono = { version = "0.4", optional = true }
 doku-derive = { version = "=0.11.0", path = "../doku-derive" }
 serde = "1.0"
+serde_json = "1.0"
 
 [features]
 chrono-04 = ["chrono"]
@@ -21,5 +22,4 @@ chrono-04 = ["chrono"]
 difference = "2.0"
 indoc = "1.0"
 serde = { version = "1.0", features = ["derive"] }
-serde_json = "1.0"
 test-case = "1.2"

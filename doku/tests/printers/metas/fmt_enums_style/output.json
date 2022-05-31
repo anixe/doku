@@ -1,0 +1,16 @@
+{
+  // Possible variants:
+  // - "Foo" = This is `Foo`
+  // - "Bar" = This is `Bar`
+  // - "Zar" = This is `Zar`
+  "f1": "Foo",
+  "f2": 
+    // This is `Foo`
+    "Foo"
+    // or
+    // This is `Bar`
+    "Bar"
+    // or
+    // This is `Zar`
+    "Zar"
+}

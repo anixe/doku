@@ -1,7 +1,7 @@
 use crate::*;
 
 /// Determines how values should get displayed.
-#[derive(Clone, Debug, Deserialize)]
+#[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub enum ValuesStyle {
     /// Displays values _outside_ of objects, as comments:
