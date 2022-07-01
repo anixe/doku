@@ -11,6 +11,10 @@ mod attribute;
 mod r#enum;
 
 #[allow(dead_code)]
+#[path = "printers/features/mod.rs"]
+mod features;
+
+#[allow(dead_code)]
 #[path = "printers/map/mod.rs"]
 mod map;
 
