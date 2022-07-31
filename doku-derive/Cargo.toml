@@ -1,6 +1,6 @@
 [package]
 name = "doku-derive"
-version = "0.11.0"
+version = "0.12.0"
 authors = ["Patryk Wychowaniec <patryk.wychowaniec@anixe.pl>"]
 license = "MIT"
 edition = "2018"
