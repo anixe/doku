@@ -11,8 +11,8 @@ use darling::FromMeta;
 /// ````
 #[derive(Clone, Debug, Default, FromMeta)]
 pub struct SerdeVariant {
-    #[darling(default)]
-    pub alias: Option<syn::LitStr>,
+    #[darling(default, multiple)]
+    pub alias: Vec<syn::LitStr>,
 
     #[darling(default)]
     pub deserialize_with: Option<syn::Meta>,
@@ -47,9 +47,9 @@ impl SerdeVariant {
 
     pub fn merge(self, other: Self) -> Self {
         Self {
-            alias: None,            // it's a no-op for us
-            deserialize_with: None, // it's a no-op for us
-            other: None,            // it's a no-op for us
+            alias: Default::default(), // it's a no-op for us
+            deserialize_with: None,    // it's a no-op for us
+            other: None,               // it's a no-op for us
             rename: other.rename.or(self.rename),
             serialize_with: None, // it's a no-op for us
             skip: other.skip.or(self.skip),

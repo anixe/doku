@@ -2,7 +2,7 @@ use crate::prelude::*;
 
 #[derive(Deserialize, Document)]
 struct Ty {
-    #[serde(alias = "bar")]
+    #[serde(alias = "bar", alias = "zar")]
     foo: String,
 }
 

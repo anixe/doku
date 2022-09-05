@@ -2,7 +2,7 @@ use crate::prelude::*;
 
 #[derive(Deserialize, Document)]
 enum Ty {
-    #[serde(alias = "Bar")]
+    #[serde(alias = "Bar", alias = "Zar")]
     Foo,
 }
 
