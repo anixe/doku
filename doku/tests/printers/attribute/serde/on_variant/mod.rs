@@ -1,3 +1,4 @@
+mod alias;
 mod deserialize_with;
 mod other;
 mod rename;

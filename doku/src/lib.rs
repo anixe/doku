@@ -247,7 +247,7 @@
 //! - ❌ `#[serde(rename(serialize = "..."))]`
 //! - ❌ `#[serde(rename(deserialize = "..."))]`
 //! - ❌ `#[serde(rename(serialize = "...", deserialize = "..."))]`
-//! - ❌ `#[serde(alias = "...")]`
+//! - ✅ `#[serde(alias = "...")]` (no-op)
 //! - ❌ `#[serde(rename_all = "...")]`
 //! - ✅ `#[serde(skip)]`
 //! - ✅ `#[serde(skip_serializing)]`
@@ -266,7 +266,7 @@
 //! - ❌ `#[serde(rename(serialize = "..."))]`
 //! - ❌ `#[serde(rename(deserialize = "..."))]`
 //! - ❌ `#[serde(rename(serialize = "...", deserialize = "..."))]`
-//! - ❌ `#[serde(alias = "...")]`
+//! - ✅ `#[serde(alias = "...")]` (no-op)
 //! - ✅ `#[serde(default)]` (no-op)
 //! - ✅ `#[serde(default = "...'")]` (no-op)
 //! - ✅ `#[serde(skip)]`

@@ -12,6 +12,9 @@ use darling::FromMeta;
 #[derive(Clone, Debug, Default, FromMeta)]
 pub struct SerdeField {
     #[darling(default)]
+    pub alias: Option<syn::LitStr>,
+
+    #[darling(default)]
     pub default: Option<syn::Meta>,
 
     #[darling(default)]
@@ -50,6 +53,7 @@ impl SerdeField {
 
     pub fn merge(self, other: Self) -> Self {
         Self {
+            alias: None,            // it's a no-op for us
             default: None,          // it's a no-op for us
             deserialize_with: None, // it's a no-op for us
             flatten: other.flatten.or(self.flatten),

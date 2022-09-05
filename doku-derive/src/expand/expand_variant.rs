@@ -42,6 +42,7 @@ impl Variant {
 
     fn add_serde_attrs(&mut self, attrs: &[syn::Attribute]) -> Result<()> {
         let attrs::SerdeVariant {
+            alias: _,
             deserialize_with: _,
             other: _,
             rename,

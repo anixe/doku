@@ -47,6 +47,7 @@ impl Field {
 
     fn add_serde_attrs(&mut self, attrs: &[syn::Attribute]) -> Result<()> {
         let attrs::SerdeField {
+            alias: _,
             default: _,
             deserialize_with: _,
             flatten,
