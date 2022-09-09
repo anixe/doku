@@ -5,6 +5,7 @@ use ::std::collections::{
 use ::std::net::IpAddr;
 use ::std::rc::Rc;
 use ::std::sync::{Arc, Mutex, RwLock};
+use ::std::time::Duration;
 
 document! {
     for String
@@ -63,4 +64,39 @@ document! {
 
     for BTreeMap<K, V> where (K: Document, V: Document)
         => <HashMap<K, V>>::ty();
+
+    /* ----- */
+
+    for Duration
+        => duration();
+}
+
+fn duration() -> Type {
+    Type::from(TypeKind::Struct {
+        fields: Fields::Named {
+            fields: vec![
+                (
+                    "secs",
+                    Field {
+                        ty: Type {
+                            example: Some(Example::Simple("123")),
+                            ..u64::ty()
+                        },
+                        flattened: false,
+                    },
+                ),
+                (
+                    "nanos",
+                    Field {
+                        ty: Type {
+                            example: Some(Example::Simple("456000000")),
+                            ..u32::ty()
+                        },
+                        flattened: false,
+                    },
+                ),
+            ],
+        },
+        transparent: false,
+    })
 }

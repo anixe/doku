@@ -1,3 +1,5 @@
+mod std;
+
 #[cfg(feature = "chrono-04")]
 mod chrono_04;
 
