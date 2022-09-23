@@ -1,4 +1,5 @@
 mod auto_comments;
+mod comments_style;
 mod doc_comments;
 mod enums_style;
 mod indent_style;
@@ -6,8 +7,8 @@ mod layout;
 mod values_style;
 
 pub use self::{
-    auto_comments::*, doc_comments::*, enums_style::*, indent_style::*,
-    layout::*, values_style::*,
+    auto_comments::*, comments_style::*, doc_comments::*, enums_style::*,
+    indent_style::*, layout::*, values_style::*,
 };
 
 use crate::*;
@@ -21,6 +22,9 @@ pub struct Formatting {
     /// Determines which auto-comments - _hints_, so to say - should get
     /// displayed.
     pub auto_comments: AutoComments,
+
+    /// Determines how comments should get displayed.
+    pub comments_style: CommentsStyle,
 
     /// Determines if doc-comments should get displayed.
     pub doc_comments: DocComments,

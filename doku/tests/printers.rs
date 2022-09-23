@@ -15,6 +15,10 @@ mod r#enum;
 mod features;
 
 #[allow(dead_code)]
+#[path = "printers/formatting/mod.rs"]
+mod formatting;
+
+#[allow(dead_code)]
 #[path = "printers/map/mod.rs"]
 mod map;
 

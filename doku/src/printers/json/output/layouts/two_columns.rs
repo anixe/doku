@@ -31,7 +31,12 @@ pub fn render(out: Output, align: bool, spacing: usize) -> String {
                     swrite!(result, for 0..spacing, " ");
                 }
 
-                swrite!(result, "// {}", comment);
+                swrite!(
+                    result,
+                    "{} {}",
+                    &out.fmt.comments_style.separator,
+                    comment
+                );
             }
         }
     }

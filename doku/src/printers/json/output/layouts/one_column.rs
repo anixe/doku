@@ -14,7 +14,12 @@ pub fn render(out: Output) -> String {
 
         for comment in comments {
             swrite!(result, for 0..indent, " ");
-            swrite!(result, "// {}\n", comment);
+            swrite!(
+                result,
+                "{} {}\n",
+                &out.fmt.comments_style.separator,
+                comment
+            );
         }
 
         swrite!(result, for 0..indent, " ");
