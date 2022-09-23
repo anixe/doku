@@ -44,13 +44,14 @@ impl<'ty> Ctxt<'_, 'ty, '_> {
             }
 
             self.out.inc_indent();
-            self.out.write(format!(r#""{}": "{}""#, tag, variant.id));
+            self.out.write_key_and_separator(tag);
+            self.out.write(format!(r#""{}""#, variant.id));
 
             if let Fields::Named { .. } | Fields::Unnamed { .. } =
                 variant.fields
             {
                 self.out.writeln(",");
-                self.out.write(format!(r#""{}": "#, content));
+                self.out.write_key_and_separator(content);
                 self.print_fields(&variant.fields, None);
             }
 

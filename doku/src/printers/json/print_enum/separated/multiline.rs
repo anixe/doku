@@ -40,13 +40,14 @@ fn print_variant<'ty>(
         Tag::Adjacent { tag, content } => {
             ctxt.out.writeln("{");
             ctxt.out.inc_indent();
-            ctxt.out.write(format!(r#""{}": "{}","#, tag, variant.id));
+            ctxt.out.write_key_and_separator(tag);
+            ctxt.out.write(format!(r#""{}","#, variant.id));
 
             if let Fields::Named { .. } | Fields::Unnamed { .. } =
                 variant.fields
             {
                 ctxt.out.ln();
-                ctxt.out.write(format!(r#""{}": "#, content));
+                ctxt.out.write_key_and_separator(content);
                 ctxt.print_fields(&variant.fields, None);
             }
 
@@ -58,7 +59,8 @@ fn print_variant<'ty>(
         Tag::Internal { tag } => {
             ctxt.out.writeln("{");
             ctxt.out.inc_indent();
-            ctxt.out.writeln(format!(r#""{}": "{}","#, tag, variant.id));
+            ctxt.out.write_key_and_separator(tag);
+            ctxt.out.writeln(format!(r#""{}","#, variant.id));
 
             if let Fields::Named { .. } | Fields::Unnamed { .. } =
                 variant.fields
@@ -78,7 +80,7 @@ fn print_variant<'ty>(
             Fields::Named { .. } | Fields::Unnamed { .. } => {
                 ctxt.out.writeln("{");
                 ctxt.out.inc_indent();
-                ctxt.out.write(format!(r#""{}": "#, variant.id));
+                ctxt.out.write_key_and_separator(variant.id);
                 ctxt.print_fields(&variant.fields, None);
                 ctxt.out.ln();
                 ctxt.out.dec_indent();

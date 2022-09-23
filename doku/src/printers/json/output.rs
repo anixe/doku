@@ -38,6 +38,18 @@ impl Output {
         }
     }
 
+    pub fn write_key_and_separator(&mut self, key: impl ToString) {
+        if self.fmt.objects_style.surround_keys_with_quotes {
+            self.write_char('"');
+            self.write(key);
+            self.write_char('"');
+        } else {
+            self.write(key);
+        }
+        self.write(':');
+        self.write(' ');
+    }
+
     pub fn write(&mut self, str: impl ToString) {
         for ch in str.to_string().chars() {
             self.write_char(ch);

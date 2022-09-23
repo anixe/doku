@@ -1,0 +1,22 @@
+{
+  value: 
+    // This is `Foo`
+    {
+      t: "Foo",
+      c: {
+        // Some comment
+        a: "string"
+      }
+    }
+    // or
+    // This is `Bar`
+    {
+      t: "Bar",
+      c: {
+        // Some comment
+        a: "string",
+        // Some comment
+        b: 123
+      }
+    }
+}

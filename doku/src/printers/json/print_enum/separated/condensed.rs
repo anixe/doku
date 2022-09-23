@@ -20,7 +20,7 @@ pub(super) fn print(
         Tag::Adjacent { tag, .. } | Tag::Internal { tag } => {
             ctxt.out.writeln("{");
             ctxt.out.inc_indent();
-            ctxt.out.write(format!(r#""{}": "#, tag));
+            ctxt.out.write_key_and_separator(tag);
         }
 
         Tag::External => {

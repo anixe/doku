@@ -98,6 +98,7 @@ impl<'a> Printer<'a> {
             vis: self.visibility,
             fmt: fmt.as_ref(),
             out: &mut out,
+            is_key: Default::default(),
             parent: Default::default(),
             example: Default::default(),
             flat: Default::default(),

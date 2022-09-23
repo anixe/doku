@@ -4,11 +4,12 @@ mod doc_comments;
 mod enums_style;
 mod indent_style;
 mod layout;
+mod objects_style;
 mod values_style;
 
 pub use self::{
     auto_comments::*, comments_style::*, doc_comments::*, enums_style::*,
-    indent_style::*, layout::*, values_style::*,
+    indent_style::*, layout::*, objects_style::*, values_style::*,
 };
 
 use crate::*;
@@ -37,6 +38,9 @@ pub struct Formatting {
 
     /// Determines whether the document should contain one or two columns.
     pub layout: Layout,
+
+    /// Determines how objects should get displayed.
+    pub objects_style: ObjectsStyle,
 
     /// Determines how values should get displayed.
     pub values_style: ValuesStyle,

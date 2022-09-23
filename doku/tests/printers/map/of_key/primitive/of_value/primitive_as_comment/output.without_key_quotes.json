@@ -1,0 +1,15 @@
+// This is `BTreeMap`
+{
+  BTreeMap: {
+    string: "string",
+    /* ... */
+  }
+}
+// or
+// This is `HashMap`
+{
+  HashMap: {
+    string: "string",
+    /* ... */
+  }
+}

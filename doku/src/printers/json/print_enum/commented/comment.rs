@@ -72,40 +72,63 @@ fn render_variant(
     tag: Tag,
     variant: &Variant,
 ) -> String {
+    let quote = if ctxt.fmt.objects_style.surround_keys_with_quotes {
+        "\""
+    } else {
+        ""
+    };
+
     match tag {
         Tag::Adjacent { tag, content } => match &variant.fields {
             Fields::Unit => {
-                format!("{{\n\t\"{}\": \"{}\"\n}}", tag, variant.id)
+                format!(
+                    "{{\n\t{q}{}{q}: \"{}\"\n}}",
+                    tag,
+                    variant.id,
+                    q = quote
+                )
             }
 
             fields => format!(
-                "{{\n\t\"{}\": \"{}\",\n\t\"{}\": {}\n}}",
+                "{{\n\t{q}{}{q}: \"{}\",\n\t{q}{}{q}: {}\n}}",
                 tag,
                 variant.id,
                 content,
-                render_variant_fields(ctxt, fields, false, true)
+                render_variant_fields(ctxt, fields, false, true),
+                q = quote
             ),
         },
 
         Tag::Internal { tag } => {
             if let Fields::Named { fields } = &variant.fields {
                 if fields.is_empty() {
-                    format!("{{\n\t\"{}\": \"{}\"\n}}", tag, variant.id)
+                    format!(
+                        "{{\n\t{q}{}{q}: \"{}\"\n}}",
+                        tag,
+                        variant.id,
+                        q = quote
+                    )
                 } else {
                     format!(
-                        "{{\n\t\"{}\": \"{}\",\n\t{}\n}}",
+                        "{{\n\t{q}{}{q}: \"{}\",\n\t{}\n}}",
                         tag,
                         variant.id,
                         render_variant_fields(
                             ctxt,
                             &variant.fields,
                             true,
-                            true
-                        )
+                            true,
+                        ),
+                        q = quote
                     )
                 }
             } else {
-                format!("{{\n\t\"{}\": \"{}\"\n}}", tag, variant.id)
+                format!(
+                    "{{\n\t{q}{}{q}: \"{}\"\n}}",
+                    tag,
+                    variant.id,
+                    q = quote
+                )
             }
         }
 
@@ -113,9 +136,10 @@ fn render_variant(
             Fields::Unit => format!("\"{}\"", variant.id),
 
             fields => format!(
-                "{{\n\t\"{}\": {}\n}}",
+                "{{\n\t{q}{}{q}: {}\n}}",
                 variant.id,
-                render_variant_fields(ctxt, fields, false, true)
+                render_variant_fields(ctxt, fields, false, true),
+                q = quote
             ),
         },
 
@@ -151,6 +175,7 @@ fn render_variant_fields(
         vis: ctxt.vis,
         fmt: &fmt,
         out: &mut out,
+        is_key: Default::default(),
         parent: Default::default(),
         example: Default::default(),
         flat,

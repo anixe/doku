@@ -1,0 +1,19 @@
+{
+  // This is `foo`
+  foo: {
+    // This is `f1`
+    f1: "string",
+    // This is `f2`
+    f2: "string"
+  },
+  // This is `bar`
+  // This is `f3`
+  bar: "string",
+  // This is `zar`
+  zar: {
+    // This is `f4`
+    f4: "string",
+    // This is `f5`
+    f5: "string"
+  }
+}

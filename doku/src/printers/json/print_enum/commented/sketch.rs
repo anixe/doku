@@ -23,19 +23,25 @@ pub(super) fn sketch(
 fn sketch_variant(ctxt: &mut Ctxt<'_, '_, '_>, tag: Tag, variant: &Variant) {
     match tag {
         Tag::Adjacent { tag, content } => {
-            ctxt.out.write(format!(r#"{{ "{}": "{}""#, tag, variant.id));
+            ctxt.out.write("{ ");
+            ctxt.out.write_key_and_separator(tag);
+            ctxt.out.write(format!(r#""{}""#, variant.id));
 
             if let Fields::Named { .. } | Fields::Unnamed { .. } =
                 variant.fields
             {
-                ctxt.out.write(format!(r#", "{}": ..."#, content));
+                ctxt.out.write(", ");
+                ctxt.out.write_key_and_separator(content);
+                ctxt.out.write("...");
             }
 
             ctxt.out.write(" }");
         }
 
         Tag::Internal { tag } => {
-            ctxt.out.write(format!(r#"{{ "{}": "{}""#, tag, variant.id));
+            ctxt.out.write("{ ");
+            ctxt.out.write_key_and_separator(tag);
+            ctxt.out.write(format!(r#""{}""#, variant.id));
 
             if let Fields::Named { .. } | Fields::Unnamed { .. } =
                 variant.fields
@@ -48,7 +54,9 @@ fn sketch_variant(ctxt: &mut Ctxt<'_, '_, '_>, tag: Tag, variant: &Variant) {
 
         Tag::External => match variant.fields {
             Fields::Named { .. } | Fields::Unnamed { .. } => {
-                ctxt.out.write(format!(r#"{{ "{}": ... }}"#, variant.id));
+                ctxt.out.write("{ ");
+                ctxt.out.write_key_and_separator(variant.id);
+                ctxt.out.write("... }")
             }
 
             Fields::Unit => {

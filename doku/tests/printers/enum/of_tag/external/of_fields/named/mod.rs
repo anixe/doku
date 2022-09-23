@@ -72,4 +72,14 @@ printer_test! {
     "output.with-user-comments-wrapped.separated.json" => to_json_fmt(WithUserCommentsWrapped, {
          "enums_style": "Separated",
     }),
+
+    "output.without_key_quotes.with-user-comments-wrapped.commented.json" => to_json_fmt(WithUserCommentsWrapped, {
+          "objects_style": { "surround_keys_with_quotes": false },
+          "enums_style": "Commented",
+     }),
+
+     "output.without_key_quotes.with-user-comments-wrapped.separated.json" => to_json_fmt(WithUserCommentsWrapped, {
+          "objects_style": { "surround_keys_with_quotes": false },
+          "enums_style": "Separated",
+     }),
 }

@@ -56,8 +56,9 @@ impl<'ty> Ctxt<'_, 'ty, '_> {
                  variants, but it seems like we're not",
             );
 
-            self.out.writeln(format!(r#""{}": "{}","#, tag, variant.id));
-            self.out.write(format!(r#""{}": "#, field_name));
+            self.out.write_key_and_separator(tag);
+            self.out.writeln(format!(r#""{}","#, variant.id));
+            self.out.write_key_and_separator(field_name);
             self.print_fields(&variant.fields, None);
 
             return;
@@ -70,7 +71,7 @@ impl<'ty> Ctxt<'_, 'ty, '_> {
                 .with_flat()
                 .print();
         } else {
-            self.out.write(format!("\"{}\": ", field_name));
+            self.out.write_key_and_separator(field_name);
             self.nested().with_ty(&field.ty).with_val(field_val).print();
         }
     }
