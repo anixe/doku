@@ -15,15 +15,6 @@ use self::{
 use crate::prelude::*;
 
 pub fn expand(input: &syn::DeriveInput) -> Result<TokenStream2> {
-    if !input.generics.params.is_empty() {
-        return Err(syn::Error::new_spanned(
-            &input.generics.params,
-            "generic types are not supported yet; please `impl doku::Document \
-             for ...` by hand",
-        )
-        .into());
-    }
-
     match &input.data {
         syn::Data::Struct(data) => expand_struct(input, data),
         syn::Data::Enum(data) => expand_enum(input, data),
@@ -33,4 +24,23 @@ pub fn expand(input: &syn::DeriveInput) -> Result<TokenStream2> {
         )
         .into()),
     }
+}
+
+fn new_generics_with_where_clause(
+    generics: &syn::Generics,
+) -> Result<syn::Generics> {
+    let mut new_generics = generics.to_owned();
+    let where_clause = new_generics.make_where_clause();
+    for generic in &generics.params {
+        match generic {
+            syn::GenericParam::Const(_) => (),
+            syn::GenericParam::Lifetime(_) => (),
+            syn::GenericParam::Type(t) => {
+                let predicate: syn::WherePredicate =
+                    syn::parse2(quote! { #t: ::doku::Document }).unwrap();
+                where_clause.predicates.push(predicate);
+            }
+        };
+    }
+    Ok(new_generics)
 }

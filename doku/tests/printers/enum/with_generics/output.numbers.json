@@ -1,0 +1,21 @@
+"A"
+// or
+{
+  "B": 123
+}
+// or
+{
+  "C": 123
+}
+// or
+{
+  "D": "string"
+}
+// or
+{
+  // Must contain exactly 3 elements
+  "E": [
+    123,
+    /* ... */
+  ]
+}

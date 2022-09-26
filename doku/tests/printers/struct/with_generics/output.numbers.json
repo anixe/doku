@@ -1,0 +1,12 @@
+{
+  "map": {
+    123: "string",
+    /* ... */
+  },
+  "s": "string",
+  // Must contain exactly 3 elements
+  "arr": [
+    123,
+    /* ... */
+  ]
+}

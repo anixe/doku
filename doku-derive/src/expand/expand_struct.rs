@@ -31,8 +31,11 @@ pub fn expand_struct(
         ty
     };
 
+    let generics = new_generics_with_where_clause(&input.generics)?;
+    let (impl_generics, ty_generics, where_clause) = generics.split_for_impl();
+
     Ok(quote! {
-        impl ::doku::Document for #ident {
+        impl #impl_generics ::doku::Document for #ident #ty_generics #where_clause {
             fn ty() -> ::doku::Type {
                 #ty
             }
