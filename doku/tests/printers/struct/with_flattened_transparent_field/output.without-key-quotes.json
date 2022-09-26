@@ -1,0 +1,12 @@
+{
+  // This is `f1`
+  f1: "string",
+  // This is `foo`
+  // This is `bar`
+  // This is `f2`
+  f2: "string",
+  // This is `f3`
+  f3: "string",
+  // This is `f4`
+  f4: "string"
+}

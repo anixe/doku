@@ -46,7 +46,7 @@ impl<'ty> Ctxt<'_, 'ty, '_> {
                     }
 
                     self.out.inc_indent();
-                    self.out.write(format!(r#""{}": "#, variant.id));
+                    self.out.write_key_and_separator(variant.id);
                     self.print_fields(&variant.fields, None);
                     self.out.ln();
                     self.out.dec_indent();

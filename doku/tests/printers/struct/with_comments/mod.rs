@@ -16,4 +16,5 @@ struct Ty {
 
 printer_test! {
     "output.json" => to_json(Ty),
+    "output.without-key-quotes.json" => to_json_without_key_quotes(Ty),
 }

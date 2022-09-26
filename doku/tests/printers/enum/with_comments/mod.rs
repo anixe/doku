@@ -20,4 +20,8 @@ printer_test! {
     "output.json" => to_json_fmt(Ty, {
          "enums_style": "Commented",
     }),
+
+    "output.without-key-quotes.json" => to_json_without_key_quotes(Ty, {
+        "enums_style": "Commented",
+   }),
 }

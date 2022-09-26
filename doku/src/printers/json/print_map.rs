@@ -10,7 +10,7 @@ impl<'ty> Ctxt<'_, 'ty, '_> {
         if let Some(example) = self.first_example() {
             self.out.write(example);
         } else {
-            self.nested().with_ty(key).print();
+            self.nested().with_ty(key).set_is_key().print();
             self.out.write(": ");
             self.nested().with_ty(value).print();
             self.out.writeln(",");

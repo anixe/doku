@@ -1,0 +1,7 @@
+{
+  // Comment for f1
+  // Another comment for f1
+  // Yet another comment for f1
+  // Optional
+  f1: "string"
+}

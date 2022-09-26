@@ -80,6 +80,18 @@ mod prelude {
             doku::to_json::<$ty>()
         }};
 
+        (@assert to_json_without_key_quotes($ty:ty)) => {{
+            printer_test!(@assert to_json_without_key_quotes($ty, {}))
+        }};
+
+        (@assert to_json_without_key_quotes($ty:ty, $fmt:tt)) => {{
+            let fmt = serde_json::json!($fmt);
+            let mut fmt: doku::json::Formatting = serde_json::from_value(fmt).expect("Given formatting is not valid");
+            fmt.objects_style.surround_keys_with_quotes = false;
+
+            doku::to_json_fmt::<$ty>(&fmt)
+        }};
+
         (@assert to_json_fmt($ty:ty, $fmt:tt)) => {{
             let fmt = serde_json::json!($fmt);
             let fmt = serde_json::from_value(fmt).expect("Given formatting is not valid");
@@ -87,8 +99,22 @@ mod prelude {
             doku::to_json_fmt::<$ty>(&fmt)
         }};
 
+        (@assert to_json_fmt_val($ty:ty, $fmt:tt)) => {{
+            let fmt = serde_json::json!($fmt);
+            let fmt = serde_json::from_value(fmt).expect("Given formatting is not valid");
+
+            doku::to_json_fmt_val(&fmt, &<$ty>::default())
+        }};
+
         (@assert to_json_val($ty:ty)) => {{
             doku::to_json_val(&<$ty>::default())
+        }};
+
+        (@assert to_json_val_without_key_quotes($ty:ty)) => {{
+            let mut fmt = doku::json::Formatting::default();
+            fmt.objects_style.surround_keys_with_quotes = false;
+
+            doku::to_json_fmt_val(&fmt, &<$ty>::default())
         }};
     }
 

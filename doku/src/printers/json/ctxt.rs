@@ -6,6 +6,7 @@ pub struct Ctxt<'fmt, 'ty, 'out> {
     pub vis: Visibility,
     pub fmt: &'fmt Formatting,
     pub out: &'out mut Output,
+    pub is_key: bool,
 
     /// Parent of `ty`.
     ///
@@ -62,6 +63,7 @@ impl<'fmt, 'ty, 'out> Ctxt<'fmt, 'ty, 'out> {
             vis: self.vis,
             fmt: self.fmt,
             out: self.out,
+            is_key: false,
             parent: self.parent,
             example: self.example,
             flat: self.flat,
@@ -127,6 +129,7 @@ impl<'fmt, 'ty, 'out> Ctxt<'fmt, 'ty, 'out> {
             vis: self.vis,
             fmt,
             out: self.out,
+            is_key: false,
             parent: self.parent,
             example: self.example,
             flat: self.flat,
@@ -141,6 +144,11 @@ impl<'fmt, 'ty, 'out> Ctxt<'fmt, 'ty, 'out> {
 
     pub fn with_flat(mut self) -> Self {
         self.flat = true;
+        self
+    }
+
+    pub fn set_is_key(mut self) -> Self {
+        self.is_key = true;
         self
     }
 
