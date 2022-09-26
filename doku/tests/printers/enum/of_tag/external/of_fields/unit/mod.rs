@@ -64,13 +64,11 @@ printer_test! {
          "enums_style": "Separated",
     }),
 
-    "output.without_key_quotes.with-user-comments-wrapped.commented.json" => to_json_fmt(WithUserCommentsWrapped, {
-          "objects_style": { "surround_keys_with_quotes": false },
+    "output.without-key-quotes.with-user-comments-wrapped.commented.json" => to_json_without_key_quotes(WithUserCommentsWrapped, {
           "enums_style": "Commented",
      }),
 
-     "output.without_key_quotes.with-user-comments-wrapped.separated.json" => to_json_fmt(WithUserCommentsWrapped, {
-          "objects_style": { "surround_keys_with_quotes": false },
+     "output.without-key-quotes.with-user-comments-wrapped.separated.json" => to_json_without_key_quotes(WithUserCommentsWrapped, {
           "enums_style": "Separated",
      }),
 }

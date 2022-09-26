@@ -28,13 +28,11 @@ printer_test! {
          "enums_style": "Separated",
     }),
 
-    "output.without_key_quotes.commented.json" => to_json_fmt(Ty, {
-        "objects_style": { "surround_keys_with_quotes": false },
+    "output.without-key-quotes.commented.json" => to_json_without_key_quotes(Ty, {
         "enums_style": "Commented",
    }),
 
-   "output.without_key_quotes.separated.json" => to_json_fmt(Ty, {
-        "objects_style": { "surround_keys_with_quotes": false },
+   "output.without-key-quotes.separated.json" => to_json_without_key_quotes(Ty, {
         "enums_style": "Separated",
    }),
 }

@@ -37,6 +37,6 @@ impl Default for F3 {
 printer_test! {
     "output.ty.json" => to_json(Ty),
     "output.val.json" => to_json_val(Ty),
-    "output.without_key_quotes.ty.json" => to_json_without_key_quotes(Ty),
+    "output.without-key-quotes.ty.json" => to_json_without_key_quotes(Ty),
     "output.without_quotes.val.json" => to_json_val_without_key_quotes(Ty),
 }
