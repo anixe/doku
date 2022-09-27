@@ -105,12 +105,10 @@ impl Field {
             self.example = quote! {
                 Some(::doku::Example::Literal(#literal_example))
             };
-        } else {
-            if !examples.is_empty() {
-                self.example = quote! {
-                    Some(::doku::Example::from(&[#(#examples,)*][..]))
-                };
-            }
+        } else if !examples.is_empty() {
+            self.example = quote! {
+                Some(::doku::Example::from(&[#(#examples,)*][..]))
+            };
         }
 
         if !metas.is_empty() {
