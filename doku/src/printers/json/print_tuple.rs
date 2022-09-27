@@ -19,7 +19,7 @@ impl<'ty> Ctxt<'_, 'ty, '_> {
 
         for (field_id, field) in fields.iter().enumerate() {
             if field_id > 0 {
-                self.out.writeln(",");
+                self.out.write_property_separator_ln();
             }
 
             self.nested().with_ty(&field).print();

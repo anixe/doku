@@ -21,7 +21,11 @@ printer_test! {
          "enums_style": "Commented",
     }),
 
+    "output.without-comma.json" => to_json_without_comma(Ty, {
+        "enums_style": "Commented",
+    }),
+
     "output.without-key-quotes.json" => to_json_without_key_quotes(Ty, {
         "enums_style": "Commented",
-   }),
+    }),
 }

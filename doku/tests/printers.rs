@@ -80,6 +80,18 @@ mod prelude {
             doku::to_json::<$ty>()
         }};
 
+        (@assert to_json_without_comma($ty:ty)) => {{
+            printer_test!(@assert to_json_without_comma($ty, {}))
+        }};
+
+        (@assert to_json_without_comma($ty:ty, $fmt:tt)) => {{
+            let fmt = serde_json::json!($fmt);
+            let mut fmt: doku::json::Formatting = serde_json::from_value(fmt).expect("Given formatting is not valid");
+            fmt.objects_style.use_comma_as_separator = false;
+
+            doku::to_json_fmt::<$ty>(&fmt)
+        }};
+
         (@assert to_json_without_key_quotes($ty:ty)) => {{
             printer_test!(@assert to_json_without_key_quotes($ty, {}))
         }};
@@ -108,6 +120,13 @@ mod prelude {
 
         (@assert to_json_val($ty:ty)) => {{
             doku::to_json_val(&<$ty>::default())
+        }};
+
+        (@assert to_json_val_without_comma($ty:ty)) => {{
+            let mut fmt = doku::json::Formatting::default();
+            fmt.objects_style.use_comma_as_separator = false;
+
+            doku::to_json_fmt_val(&fmt, &<$ty>::default())
         }};
 
         (@assert to_json_val_without_key_quotes($ty:ty)) => {{

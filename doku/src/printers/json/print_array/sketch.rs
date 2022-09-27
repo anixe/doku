@@ -18,7 +18,7 @@ impl<'ty> Ctxt<'_, 'ty, '_> {
                     .with_example(Some(*example))
                     .print();
 
-                self.out.writeln(",");
+                self.out.write_property_separator_ln();
 
                 // TODO if `size.is_some()` and this is the last example, the comma should not be printed
             }
@@ -28,7 +28,7 @@ impl<'ty> Ctxt<'_, 'ty, '_> {
             }
         } else {
             self.nested().with_ty(ty).print();
-            self.out.writeln(",");
+            self.out.write_property_separator_ln();
             self.out.writeln("/* ... */");
         }
 

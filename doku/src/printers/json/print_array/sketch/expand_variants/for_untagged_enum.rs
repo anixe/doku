@@ -81,7 +81,7 @@ impl<'ty> Ctxt<'_, 'ty, '_> {
 
         for (variant_idx, variant) in variants.iter().enumerate() {
             if variant_idx > 0 {
-                self.out.writeln(",");
+                self.out.write_property_separator_ln();
             }
 
             self.print_fields(fields_obj, Some(variant));

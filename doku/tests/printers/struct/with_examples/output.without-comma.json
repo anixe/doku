@@ -1,0 +1,16 @@
+{
+  // Comment for f1
+  "f1": "f1-value"
+  // Comment for f2; optional
+  "f2": "f2-value"
+  // Comment for f3; optional
+  "f3": "f3-value"
+  // Comment for f4; optional
+  "f4": "f4-value"
+  // Comment for f5; optional
+  "f5": "f5-value"
+  // Comment for f6; optional
+  "f6": "f6-value"
+  // Comment for f7
+  "f7": "f7-value"
+}
