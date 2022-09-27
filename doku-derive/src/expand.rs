@@ -5,25 +5,17 @@ mod expand_struct;
 mod expand_variant;
 mod expand_variants;
 mod expand_wrap;
+mod utils;
 
 use self::{
     expand_enum::expand_enum, expand_field::expand_field,
     expand_fields::expand_fields, expand_struct::expand_struct,
     expand_variant::expand_variant, expand_variants::expand_variants,
-    expand_wrap::expand_wrap,
+    expand_wrap::expand_wrap, utils::*,
 };
 use crate::prelude::*;
 
 pub fn expand(input: &syn::DeriveInput) -> Result<TokenStream2> {
-    if !input.generics.params.is_empty() {
-        return Err(syn::Error::new_spanned(
-            &input.generics.params,
-            "generic types are not supported yet; please `impl doku::Document \
-             for ...` by hand",
-        )
-        .into());
-    }
-
     match &input.data {
         syn::Data::Struct(data) => expand_struct(input, data),
         syn::Data::Enum(data) => expand_enum(input, data),
