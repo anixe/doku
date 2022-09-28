@@ -43,7 +43,7 @@ impl<'ty> Ctxt<'_, 'ty, '_> {
         variant: Option<&'ty Variant>,
     ) {
         if field_id > 0 {
-            self.out.writeln(",");
+            self.out.write_property_separator_ln();
         }
 
         let field_val = self
@@ -57,7 +57,8 @@ impl<'ty> Ctxt<'_, 'ty, '_> {
             );
 
             self.out.write_key_and_separator(tag);
-            self.out.writeln(format!(r#""{}","#, variant.id));
+            self.out.write(format!(r#""{}""#, variant.id));
+            self.out.write_property_separator_ln();
             self.out.write_key_and_separator(field_name);
             self.print_fields(&variant.fields, None);
 

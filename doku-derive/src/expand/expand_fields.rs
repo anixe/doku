@@ -4,7 +4,7 @@ pub fn expand_fields(fields: &syn::Fields) -> Result<TokenStream2> {
     match fields {
         syn::Fields::Named(inner) => expand_named_fields(inner),
         syn::Fields::Unnamed(inner) => expand_unnamed_fields(inner),
-        syn::Fields::Unit => expand_unit_fields(),
+        syn::Fields::Unit => Ok(expand_unit_fields()),
     }
 }
 
@@ -36,8 +36,8 @@ fn expand_unnamed_fields(fields: &syn::FieldsUnnamed) -> Result<TokenStream2> {
     })
 }
 
-fn expand_unit_fields() -> Result<TokenStream2> {
-    Ok(quote! {
+fn expand_unit_fields() -> TokenStream2 {
+    quote! {
         ::doku::Fields::Unit
-    })
+    }
 }

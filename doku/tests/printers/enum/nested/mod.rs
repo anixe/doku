@@ -28,11 +28,11 @@ printer_test! {
          "enums_style": "Separated",
     }),
 
-    "output.without-key-quotes.commented.json" => to_json_without_key_quotes(Ty, {
+   "output.without-key-quotes.commented.json" => to_json_without_key_quotes(Ty, {
         "enums_style": "Commented",
-   }),
+    }),
 
-   "output.without-key-quotes.separated.json" => to_json_without_key_quotes(Ty, {
+    "output.without-key-quotes.separated.json" => to_json_without_key_quotes(Ty, {
         "enums_style": "Separated",
-   }),
+    }),
 }

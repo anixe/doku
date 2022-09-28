@@ -46,8 +46,15 @@ impl Output {
         } else {
             self.write(key);
         }
-        self.write(':');
-        self.write(' ');
+        self.write_char(':');
+        self.write_char(' ');
+    }
+
+    pub fn write_property_separator_ln(&mut self) {
+        if self.fmt.objects_style.use_comma_as_separator {
+            self.write_char(',');
+        }
+        self.ln();
     }
 
     pub fn write(&mut self, str: impl ToString) {

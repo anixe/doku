@@ -1,0 +1,20 @@
+{
+  // Possible variants:
+  // - {
+  //     "Foo": {
+  //       // Some comment
+  //       "a": "string"
+  //     }
+  //   }
+  //   = This is `Foo`
+  // - {
+  //     "Bar": {
+  //       // Some comment
+  //       "a": "string"
+  //       // Some comment
+  //       "b": 123
+  //     }
+  //   }
+  //   = This is `Bar`
+  "value": { "Foo": ... }
+}

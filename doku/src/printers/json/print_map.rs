@@ -13,7 +13,7 @@ impl<'ty> Ctxt<'_, 'ty, '_> {
             self.nested().with_ty(key).set_is_key().print();
             self.out.write(": ");
             self.nested().with_ty(value).print();
-            self.out.writeln(",");
+            self.out.write_property_separator_ln();
             self.out.write("/* ... */");
         }
 

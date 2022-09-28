@@ -26,7 +26,7 @@ impl<'ty> Ctxt<'_, 'ty, '_> {
 
         for (variant_idx, variant) in variants {
             if variant_idx > 0 {
-                self.out.writeln(",");
+                self.out.write_property_separator_ln();
             }
 
             let comment = variant.comment.or_else(|| {
@@ -50,7 +50,7 @@ impl<'ty> Ctxt<'_, 'ty, '_> {
             if let Fields::Named { .. } | Fields::Unnamed { .. } =
                 variant.fields
             {
-                self.out.writeln(",");
+                self.out.write_property_separator_ln();
                 self.out.write_key_and_separator(content);
                 self.print_fields(&variant.fields, None);
             }

@@ -1,0 +1,20 @@
+// Possible variants:
+// - {
+//     "Foo": {
+//       // Some comment
+//       // (another line)
+//       // (yet another line!)
+//       "a": "string"
+//     }
+//   }
+//   = This...
+//     ... is `Foo`!
+// - {
+//     "Bar": {
+//       "a": "string"
+//       "b": 123
+//     }
+//   }
+//   = This...
+//     ... is `Bar`!
+{ "Foo": ... }

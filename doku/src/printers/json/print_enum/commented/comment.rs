@@ -72,6 +72,11 @@ fn render_variant(
     tag: Tag,
     variant: &Variant,
 ) -> String {
+    let comma = if ctxt.fmt.objects_style.use_comma_as_separator {
+        ","
+    } else {
+        ""
+    };
     let quote = if ctxt.fmt.objects_style.surround_keys_with_quotes {
         "\""
     } else {
@@ -90,11 +95,12 @@ fn render_variant(
             }
 
             fields => format!(
-                "{{\n\t{q}{}{q}: \"{}\",\n\t{q}{}{q}: {}\n}}",
+                "{{\n\t{q}{}{q}: \"{}\"{c}\n\t{q}{}{q}: {}\n}}",
                 tag,
                 variant.id,
                 content,
                 render_variant_fields(ctxt, fields, false, true),
+                c = comma,
                 q = quote
             ),
         },
@@ -110,7 +116,7 @@ fn render_variant(
                     )
                 } else {
                     format!(
-                        "{{\n\t{q}{}{q}: \"{}\",\n\t{}\n}}",
+                        "{{\n\t{q}{}{q}: \"{}\"{c}\n\t{}\n}}",
                         tag,
                         variant.id,
                         render_variant_fields(
@@ -119,6 +125,7 @@ fn render_variant(
                             true,
                             true,
                         ),
+                        c = comma,
                         q = quote
                     )
                 }
