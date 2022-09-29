@@ -1,0 +1,6 @@
+# Possible variants:
+# - This is `Foo`
+#     Foo = "string"
+# - This is `Bar`
+#     Bar = ["string", 123]
+Foo = ...

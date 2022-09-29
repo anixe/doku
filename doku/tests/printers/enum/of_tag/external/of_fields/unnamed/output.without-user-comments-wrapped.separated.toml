@@ -1,0 +1,6 @@
+[value]
+  Foo = "string"
+
+# or
+
+  Bar = ["string", 123]

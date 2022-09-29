@@ -35,4 +35,12 @@ printer_test! {
     "output.without-key-quotes.separated.json" => to_json_without_key_quotes(Ty, {
         "enums_style": "Separated",
     }),
+
+    "output.commented.toml" => to_toml_fmt(Ty, {
+        "enums_style": "Commented",
+   }),
+
+   "output.separated.toml" => to_toml_fmt(Ty, {
+        "enums_style": "Separated",
+   }),
 }

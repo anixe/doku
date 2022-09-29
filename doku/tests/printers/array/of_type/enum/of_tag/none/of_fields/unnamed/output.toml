@@ -1,0 +1,15 @@
+[[inner]]
+# Some comment
+foo = "string"
+# Another comment
+bar = "string"
+tag = "Foo"
+payload = "string"
+
+[[inner]]
+# Some comment
+foo = "string"
+# Another comment
+bar = "string"
+tag = "Bar"
+payload = ["string", 123]

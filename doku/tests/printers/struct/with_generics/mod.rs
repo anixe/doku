@@ -16,4 +16,11 @@ where
 printer_test! {
     "output.numbers.json" => to_json(Generic<'static, u32, String, 3>),
     "output.strings.json" => to_json(Generic<'static, String, String, 4>),
+
+    // TODO
+    "output.strings.toml" => to_toml(Generic<'static, String, String, 4>),
+}
+
+panic_test! {
+    "Only String types are supported for map keys" => to_toml(Generic<'static, u32, String, 3>)
 }

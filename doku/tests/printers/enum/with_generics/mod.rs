@@ -12,4 +12,6 @@ enum GenericEnum<'a, T1, T2, const N: usize> {
 printer_test! {
     "output.numbers.json" => to_json(GenericEnum<'static, u32, u64, 3>),
     "output.strings.json" => to_json(GenericEnum<'static, String, String, 4>),
+    "output.numbers.toml" => to_toml(GenericEnum<'static, u32, u64, 3>),
+    "output.strings.toml" => to_toml(GenericEnum<'static, String, String, 4>),
 }

@@ -1,0 +1,16 @@
+[value]
+  # This is `Foo`
+  t = "Foo"
+  [value.c]
+  # Some comment
+  a = "string"
+
+# or
+
+  # This is `Bar`
+  t = "Bar"
+  [value.c]
+  # Some comment
+  a = "string"
+  # Some comment
+  b = 123

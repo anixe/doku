@@ -1,0 +1,14 @@
+[value]
+# Possible variants:
+# - 
+#     t = "Foo"
+#     [value.c]
+#     a = "string"
+# - 
+#     t = "Bar"
+#     [value.c]
+#     a = "string"
+#     b = 123
+t = "Foo"
+[value.c]
+...

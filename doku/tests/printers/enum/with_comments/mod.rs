@@ -28,4 +28,8 @@ printer_test! {
     "output.without-key-quotes.json" => to_json_without_key_quotes(Ty, {
         "enums_style": "Commented",
     }),
+
+    "output.toml" => to_toml_fmt(Ty, {
+        "enums_style": "Commented",
+   }),
 }

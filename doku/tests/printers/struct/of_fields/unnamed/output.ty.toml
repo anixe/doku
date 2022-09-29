@@ -1,0 +1,3 @@
+f1 = "string"
+f2 = ["string", 123]
+f3 = ["string", 123, 123.45]

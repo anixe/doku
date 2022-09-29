@@ -10,7 +10,6 @@ mod print_optional;
 mod print_scalar;
 mod print_struct;
 mod print_tuple;
-mod value_to_string;
 
 use self::{ctxt::*, output::*};
 use crate::printers::prelude::*;

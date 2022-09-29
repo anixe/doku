@@ -135,8 +135,60 @@ mod prelude {
 
             doku::to_json_fmt_val(&fmt, &<$ty>::default())
         }};
+
+        (@assert to_toml($ty:ty)) => {{
+            doku::to_toml::<$ty>()
+        }};
+
+        (@assert to_toml_fmt($ty:ty, $fmt:tt)) => {{
+            let fmt = serde_json::json!($fmt);
+            let fmt = serde_json::from_value(fmt).expect("Given formatting is not valid");
+
+            doku::to_toml_fmt::<$ty>(&fmt)
+        }};
+
+        (@assert to_toml_fmt_val($ty:ty, $fmt:tt)) => {{
+            let fmt = serde_toml::toml!($fmt);
+            let fmt = serde_toml::from_value(fmt).expect("Given formatting is not valid");
+
+            doku::to_toml_fmt_val(&fmt, &<$ty>::default())
+        }};
+
+        (@assert to_toml_val($ty:ty)) => {{
+            doku::to_toml_val(&<$ty>::default())
+        }};
     }
 
+    macro_rules! panic_test {
+        (
+            $message:literal => $assert_fn:ident $assert_args:tt
+        ) => {
+            panic_test!{test: $message => $assert_fn $assert_args}
+        };
+
+        (
+            $($mod_name:ident: $message:literal => $assert_fn:ident $assert_args:tt),+
+            $(,)?
+        ) => {
+            $(mod $mod_name {
+                use super::*;
+
+                #[test]
+                #[should_panic = $message]
+                fn panic_test() {
+                    printer_test!(@assert $assert_fn $assert_args);
+                }
+            })+
+        };
+    }
+
+    #[derive(Document)]
+    #[allow(dead_code)]
+    pub(crate) struct TomlWrapper<T> {
+        inner: T,
+    }
+
+    pub(crate) use panic_test;
     pub(crate) use printer_test;
 }
 

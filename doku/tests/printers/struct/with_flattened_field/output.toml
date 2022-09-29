@@ -1,0 +1,16 @@
+# This is `bar`
+f3 = "string"
+f4 = "string"
+
+[f5]
+f6 = "string"
+
+# This is `foo`
+[foo]
+f1 = "string"
+f2 = "string"
+
+# This is `zar`
+[zar]
+f7 = "string"
+f8 = "string"

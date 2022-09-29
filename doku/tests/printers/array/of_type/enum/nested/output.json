@@ -1,0 +1,130 @@
+[
+  // This is `A` (Untagged)
+  {
+    "t": "A",
+    {
+      // Some comment
+      "something": 123,
+      // Another comment
+      "something_else": 123
+    }
+    // or
+    {
+      // Some comment
+      "a": "string",
+      // Another comment
+      "b": "string"
+    }
+  }
+  // or
+  // This is `B` (AdjacentlyTagged)
+  {
+    "t": "B",
+    {
+      "t2": "B1",
+      "c": {
+        // Some comment
+        "something": 123,
+        // Another comment
+        "something_else": 123
+      }
+    }
+    // or
+    {
+      "t2": "B2",
+      "c": {
+        // Some comment
+        "a": "string",
+        // Another comment
+        "b": 123
+      }
+    }
+  }
+  // or
+  // This is `C` (InternallyTagged)
+  {
+    "t": "C",
+    {
+      "t2": "C1",
+      // Some comment
+      "something": 123,
+      // Another comment
+      "something_else": 123
+    }
+    // or
+    {
+      "t2": "C2",
+      // Some comment
+      "a": "string",
+      // Another comment
+      "b": 123
+    }
+  }
+  // or
+  // This is `D` (ExternallyTagged)
+  {
+    "t": "D",
+    {
+      "D1": {
+        // Some comment
+        "something": 123,
+        // Another comment
+        "something_else": 123
+      }
+    }
+    // or
+    {
+      "D2": {
+        // Some comment
+        "a": "string",
+        // Another comment
+        "b": 123
+      }
+    }
+  }
+  // or
+  // This is `E` (Complex)
+  {
+    "t": "E",
+    {
+      "name": "string",
+      // This is `b` (AdjacentlyTagged); optional
+      "b": {
+        "t2": "B1",
+        "c": {
+          // Some comment
+          "something": 123,
+          // Another comment
+          "something_else": 123
+        }
+      }
+      // or
+      {
+        "t2": "B2",
+        "c": {
+          // Some comment
+          "a": "string",
+          // Another comment
+          "b": 123
+        }
+      },
+      // This is `c` (InternallyTagged); optional
+      "c": {
+        "t2": "C1",
+        // Some comment
+        "something": 123,
+        // Another comment
+        "something_else": 123
+      }
+      // or
+      {
+        "t2": "C2",
+        // Some comment
+        "a": "string",
+        // Another comment
+        "b": 123
+      }
+    }
+  },
+  /* ... */
+]

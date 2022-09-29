@@ -50,3 +50,12 @@ pub enum TypeKind {
     /// A heterogeneous list of an up-front known size
     Tuple { fields: Vec<Type> },
 }
+
+impl From<Fields> for TypeKind {
+    fn from(fields: Fields) -> Self {
+        TypeKind::Struct {
+            fields,
+            transparent: false,
+        }
+    }
+}

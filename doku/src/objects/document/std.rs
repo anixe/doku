@@ -6,6 +6,7 @@ use ::std::net::IpAddr;
 use ::std::rc::Rc;
 use ::std::sync::{Arc, Mutex, RwLock};
 use ::std::time::Duration;
+use std::path::PathBuf;
 
 document! {
     for String
@@ -64,6 +65,9 @@ document! {
 
     for BTreeMap<K, V> where (K: Document, V: Document)
         => <HashMap<K, V>>::ty();
+
+    for PathBuf
+        => TypeKind::String.into();
 
     /* ----- */
 

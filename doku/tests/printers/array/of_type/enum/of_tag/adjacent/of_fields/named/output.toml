@@ -1,0 +1,17 @@
+[[inner]]
+# This is `Foo`
+t = "Foo"
+
+[inner.c]
+# Some comment
+a = "string"
+
+[[inner]]
+# This is `Bar`
+t = "Bar"
+
+[inner.c]
+# Some comment
+a = "string"
+# Some comment
+b = 123

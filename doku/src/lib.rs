@@ -527,3 +527,162 @@ where
         .with_value(&Value::from(val))
         .print(&T::ty())
 }
+
+/// Generates a TOML documentation for specified type.
+///
+/// # Example
+///
+/// ```
+/// use doku::Document;
+///
+/// #[derive(Document)]
+/// struct Config {
+///     /// Database's host
+///     db_host: String,
+/// }
+///
+/// let doc = doku::to_toml::<Config>();
+///
+/// doku::assert_doc!(r#"
+///   ## Database's host
+///   db_host = "string"
+/// "#, doc);
+/// ```
+///
+/// For more control over the output format, please see: [`to_toml_fmt()`].
+pub fn to_toml<T>() -> String
+where
+    T: Document,
+{
+    toml::Printer::default().print(&T::ty())
+}
+
+/// Generates a TOML documentation for specified type using custom formatting
+/// settings.
+///
+/// # Example
+///
+/// ```
+/// use doku::Document;
+///
+/// #[derive(Document)]
+/// struct Config {
+///     /// Database's host
+///     db_host: String,
+/// }
+///
+/// let fmt = doku::toml::Formatting {
+///     layout: doku::toml::Layout::TwoColumns {
+///         align: true,
+///         spacing: 1,
+///     },
+///     ..Default::default()
+/// };
+///
+/// let doc = doku::to_toml_fmt::<Config>(&fmt);
+///
+/// doku::assert_doc!(r#"
+///   db_host = "string" # Database's host
+/// "#, doc);
+/// ```
+///
+/// For more details, please see: [`toml::Formatting`].
+pub fn to_toml_fmt<T>(fmt: &toml::Formatting) -> String
+where
+    T: Document,
+{
+    toml::Printer::default()
+        .with_formatting(fmt)
+        .print(&T::ty())
+}
+
+/// Generates a TOML documentation for specified type, extracting example values
+/// from given serializable object.
+///
+/// This is useful e.g. if you've got a configuration with predefined values
+/// that you'd like to show your users.
+///
+/// # Example
+///
+/// ```
+/// use doku::Document;
+/// use serde::Serialize;
+///
+/// #[derive(Serialize, Document)]
+/// struct Config {
+///     /// Database's host
+///     db_host: String,
+/// }
+///
+/// impl Default for Config {
+///     fn default() -> Self {
+///         Self {
+///             db_host: "localhost".to_string(),
+///         }
+///     }
+/// }
+///
+/// let doc = doku::to_toml_val(&Config::default());
+///
+/// doku::assert_doc!(r#"
+///   ## Database's host
+///   db_host = "localhost"
+/// "#, doc);
+/// ```
+///
+/// For more control over the output format, please see: [`to_toml_fmt_val()`].
+pub fn to_toml_val<T>(val: &T) -> String
+where
+    T: Document + Serialize,
+{
+    toml::Printer::default()
+        .with_value(&Value::from(val))
+        .print(&T::ty())
+}
+
+/// Generates a TOML documentation for specified type using custom formatting
+/// settings, and extracting example values from given serializable object.
+///
+/// # Example
+///
+/// ```
+/// use doku::Document;
+/// use serde::Serialize;
+///
+/// #[derive(Serialize, Document)]
+/// struct Config {
+///     /// Database's host
+///     db_host: String,
+/// }
+///
+/// impl Default for Config {
+///     fn default() -> Self {
+///         Self {
+///             db_host: "localhost".to_string(),
+///         }
+///     }
+/// }
+///
+/// let fmt = doku::toml::Formatting {
+///     layout: doku::toml::Layout::TwoColumns {
+///         align: true,
+///         spacing: 1,
+///     },
+///     ..Default::default()
+/// };
+///
+/// let doc = doku::to_toml_fmt_val(&fmt, &Config::default());
+///
+/// doku::assert_doc!(r#"
+///   db_host = "localhost" # Database's host
+/// "#, doc);
+/// ```
+pub fn to_toml_fmt_val<T>(fmt: &toml::Formatting, val: &T) -> String
+where
+    T: Document + Serialize,
+{
+    toml::Printer::default()
+        .with_formatting(fmt)
+        .with_value(&Value::from(val))
+        .print(&T::ty())
+}

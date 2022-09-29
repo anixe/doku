@@ -1,0 +1,7 @@
+[value]
+# Possible variants:
+# - This is `Foo`
+#     t = "Foo"
+# - This is `Bar`
+#     t = "Bar"
+t = "Foo"

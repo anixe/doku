@@ -1,0 +1,23 @@
+[[inner]]
+# Some comment
+foo = "string"
+# Another comment
+bar = "string"
+tag = "Foo"
+
+[inner.payload]
+# Some comment
+a = "string"
+
+[[inner]]
+# Some comment
+foo = "string"
+# Another comment
+bar = "string"
+tag = "Bar"
+
+[inner.payload]
+# Some comment
+a = "string"
+# Some comment
+b = 123

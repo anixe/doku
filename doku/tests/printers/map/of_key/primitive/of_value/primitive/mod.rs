@@ -8,4 +8,6 @@ printer_test! {
     "output.without-comma.hashmap.json" => to_json_without_comma(HashMap::<String, String>),
     "output.without-key-quotes.btreemap.json" => to_json_without_key_quotes(BTreeMap::<String, String>),
     "output.without-key-quotes.hashmap.json" => to_json_without_key_quotes(HashMap::<String, String>),
+    "output.btreemap.toml" => to_toml(BTreeMap::<String, String>),
+    "output.hashmap.toml" => to_toml(HashMap::<String, String>),
 }

@@ -1,0 +1,7 @@
+[value]
+# Possible variants:
+# - 
+#     Foo = "string"
+# - 
+#     Bar = ["string", 123]
+Foo = ...
