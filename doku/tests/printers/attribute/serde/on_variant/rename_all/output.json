@@ -1,0 +1,8 @@
+{
+  "foo": {
+    // This should be kebab-case
+    "a-field-with-many-words": "string",
+    // This should be renamed to foo
+    "foo": "string"
+  }
+}

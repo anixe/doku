@@ -15,6 +15,9 @@ pub struct DokuContainer {
     pub content: Option<syn::LitStr>,
 
     #[darling(default)]
+    pub rename_all: Option<RenameRule>,
+
+    #[darling(default)]
     pub tag: Option<syn::LitStr>,
 
     #[darling(default)]
@@ -36,6 +39,7 @@ impl DokuContainer {
     fn merge(self, other: Self) -> Self {
         Self {
             content: other.content.or(self.content),
+            rename_all: other.rename_all.or(self.rename_all),
             tag: other.tag.or(self.tag),
             transparent: other.transparent.or(self.transparent),
             untagged: other.untagged.or(self.untagged),

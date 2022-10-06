@@ -2,13 +2,24 @@ use super::*;
 use crate::attrs::DokuMetas;
 use std::iter::FromIterator;
 
-pub fn expand_field(field: &syn::Field, named: bool) -> Result<TokenStream2> {
+pub fn expand_field(
+    field: &syn::Field,
+    named: bool,
+    rename_fields: Option<RenameRule>,
+) -> Result<TokenStream2> {
     let syn::Field {
         attrs, ident, ty, ..
     } = field;
 
+    let ident = ident.as_ref().map(|ident| {
+        let ident = ident.to_string();
+        rename_fields
+            .map(|r| r.apply_to_field(&ident))
+            .unwrap_or(ident)
+    });
+
     let mut field = Field {
-        name: quote! { stringify!(#ident) },
+        name: quote! { #ident },
         ty: quote! { #ty },
         metas: quote! { Default::default() },
         comment: quote! { None },
