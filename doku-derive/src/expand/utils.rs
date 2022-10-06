@@ -10,8 +10,9 @@ pub fn new_generics_with_where_clause(
             syn::GenericParam::Const(_) => (),
             syn::GenericParam::Lifetime(_) => (),
             syn::GenericParam::Type(t) => {
+                let t = &t.ident;
                 let predicate: syn::WherePredicate =
-                    syn::parse2(quote! { #t: ::doku::Document }).unwrap();
+                    syn::parse2(quote! { #t: ::doku::Document })?;
                 where_clause.predicates.push(predicate);
             }
         };

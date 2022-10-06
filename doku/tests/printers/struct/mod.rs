@@ -5,6 +5,7 @@ mod with_examples;
 mod with_flattened_field;
 mod with_flattened_transparent_field;
 mod with_generics;
+mod with_generics_and_trait;
 mod with_literal_examples;
 mod with_multiline_comment;
 mod with_optional_field;
