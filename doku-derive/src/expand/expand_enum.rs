@@ -48,7 +48,9 @@ pub fn expand_enum(
             }
         };
 
-        let variants = expand_variants(&data.variants)?;
+        let rename_variants =
+            doku.rename_all.or(serde.rename_all).unwrap_or_default();
+        let variants = expand_variants(&data.variants, rename_variants)?;
 
         quote! {
             ::doku::TypeKind::Enum {

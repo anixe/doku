@@ -24,6 +24,9 @@ pub struct SerdeVariant {
     pub rename: Option<syn::LitStr>,
 
     #[darling(default)]
+    pub rename_all: Option<RenameRule>,
+
+    #[darling(default)]
     pub serialize_with: Option<syn::Meta>,
 
     #[darling(default)]
@@ -51,6 +54,7 @@ impl SerdeVariant {
             deserialize_with: None,    // it's a no-op for us
             other: None,               // it's a no-op for us
             rename: other.rename.or(self.rename),
+            rename_all: other.rename_all.or(self.rename_all),
             serialize_with: None, // it's a no-op for us
             skip: other.skip.or(self.skip),
             skip_deserializing: other

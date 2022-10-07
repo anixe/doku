@@ -25,6 +25,9 @@ pub struct SerdeContainer {
     pub deny_unknown_fields: Option<syn::Meta>,
 
     #[darling(default)]
+    pub rename_all: Option<RenameRule>,
+
+    #[darling(default)]
     pub tag: Option<syn::LitStr>,
 
     #[darling(default)]
@@ -46,6 +49,7 @@ impl SerdeContainer {
             krate: None,               // it's a no-op for us
             default: None,             // it's a no-op for us
             deny_unknown_fields: None, // it's a no-op for us
+            rename_all: other.rename_all.or(self.rename_all),
             tag: other.tag.or(self.tag),
             transparent: other.transparent.or(self.transparent),
             untagged: other.untagged.or(self.untagged),

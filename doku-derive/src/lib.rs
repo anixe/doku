@@ -4,7 +4,11 @@ mod expand;
 mod utils;
 
 mod prelude {
-    pub(crate) use super::{attrs, error::*, utils::*};
+    pub(crate) use super::{
+        attrs::{self, RenameRule},
+        error::*,
+        utils::*,
+    };
     pub use proc_macro::TokenStream;
     pub use proc_macro2::{Span, TokenStream as TokenStream2};
     pub use quote::{quote, quote_spanned};

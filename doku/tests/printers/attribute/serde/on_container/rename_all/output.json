@@ -1,0 +1,11 @@
+{
+  // This should be kebab-case
+  "a-field-with-many-words": "string",
+  // This should be renamed to foo
+  "foo": 
+    // This should be lowercase
+    "avariantwithmanywords"
+    // or
+    // This should be renamed to FOO
+    "FOO"
+}

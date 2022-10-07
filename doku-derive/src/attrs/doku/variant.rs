@@ -15,6 +15,9 @@ pub struct DokuVariant {
     pub rename: Option<syn::LitStr>,
 
     #[darling(default)]
+    pub rename_all: Option<RenameRule>,
+
+    #[darling(default)]
     pub skip: Option<bool>,
 }
 
@@ -27,6 +30,7 @@ impl DokuVariant {
     fn merge(self, other: Self) -> Self {
         Self {
             rename: other.rename.or(self.rename),
+            rename_all: other.rename_all.or(self.rename_all),
             skip: other.skip.or(self.skip),
         }
     }

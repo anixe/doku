@@ -1,8 +1,9 @@
 mod doc;
 mod doku;
 mod serde;
+mod types;
 
-pub use self::{doc::*, doku::*, serde::*};
+pub use self::{doc::*, doku::*, serde::*, types::*};
 
 use crate::prelude::*;
 use darling::FromMeta;

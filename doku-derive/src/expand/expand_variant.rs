@@ -1,6 +1,9 @@
 use super::*;
 
-pub fn expand_variant(variant: &syn::Variant) -> Result<TokenStream2> {
+pub fn expand_variant(
+    variant: &syn::Variant,
+    rename_variants: RenameRule,
+) -> Result<TokenStream2> {
     let syn::Variant {
         attrs,
         ident,
@@ -8,11 +11,19 @@ pub fn expand_variant(variant: &syn::Variant) -> Result<TokenStream2> {
         ..
     } = variant;
 
+    let doku = attrs::DokuVariant::from_ast(attrs)?;
+    let serde = attrs::SerdeVariant::from_ast(attrs)?;
+
+    let ident = rename_variants.apply_to_variant(&ident.to_string());
+
+    let rename_fields =
+        doku.rename_all.or(serde.rename_all).unwrap_or_default();
+
     let mut variant = Variant {
-        id: quote! { stringify!(#ident) },
-        title: quote! { stringify!(#ident) },
+        id: quote! { #ident },
+        title: quote! { #ident },
         comment: quote! { None },
-        fields: expand_fields(fields)?,
+        fields: expand_fields(fields, rename_fields)?,
         serializable: true,
         deserializable: true,
     };
@@ -46,6 +57,7 @@ impl Variant {
             deserialize_with: _,
             other: _,
             rename,
+            rename_all: _,
             serialize_with: _,
             skip,
             skip_deserializing,
@@ -74,8 +86,11 @@ impl Variant {
     }
 
     fn add_doku_attrs(&mut self, attrs: &[syn::Attribute]) -> Result<()> {
-        let attrs::DokuVariant { rename, skip } =
-            attrs::DokuVariant::from_ast(&attrs)?;
+        let attrs::DokuVariant {
+            rename,
+            rename_all: _,
+            skip,
+        } = attrs::DokuVariant::from_ast(&attrs)?;
 
         if let Some(val) = rename {
             self.id = quote_spanned! { val.span() => #val };
