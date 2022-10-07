@@ -6,6 +6,6 @@
     // This should be lowercase
     "avariantwithmanywords"
     // or
-    // This should be renamed to foo
-    "foo"
+    // This should be renamed to FOO
+    "FOO"
 }

@@ -5,10 +5,6 @@
 
 use darling::FromMeta;
 
-// See https://users.rust-lang.org/t/psa-dealing-with-warning-unused-import-std-ascii-asciiext-in-today-s-nightly/13726
-#[allow(deprecated, unused_imports)]
-use std::ascii::AsciiExt;
-
 use self::RenameRule::*;
 
 /// The different possible ways to change case of fields in a struct, or variants in an enum.

@@ -1,8 +1,17 @@
+// This should be lowercase
 {
-  "foo": {
+  "onevariant": {
     // This should be kebab-case
     "a-field-with-many-words": "string",
     // This should be renamed to foo
     "foo": "string"
+  }
+}
+// or
+// This should also be lowercase
+{
+  "anothervariant": {
+    // This should remain unchanged
+    "a_field_that_remains_unchanged": "string"
   }
 }

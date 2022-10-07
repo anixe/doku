@@ -9,7 +9,8 @@ pub fn expand_struct(
     let serde = attrs::SerdeContainer::from_ast(&input.attrs)?;
 
     let ty = {
-        let rename_fields = doku.rename_all.or(serde.rename_all);
+        let rename_fields =
+            doku.rename_all.or(serde.rename_all).unwrap_or_default();
         let fields = expand_fields(&data.fields, rename_fields)?;
 
         let transparent = {

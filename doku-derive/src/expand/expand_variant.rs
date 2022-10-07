@@ -2,7 +2,7 @@ use super::*;
 
 pub fn expand_variant(
     variant: &syn::Variant,
-    rename_variants: Option<RenameRule>,
+    rename_variants: RenameRule,
 ) -> Result<TokenStream2> {
     let syn::Variant {
         attrs,
@@ -14,12 +14,10 @@ pub fn expand_variant(
     let doku = attrs::DokuVariant::from_ast(attrs)?;
     let serde = attrs::SerdeVariant::from_ast(attrs)?;
 
-    let ident = ident.to_string();
-    let ident = rename_variants
-        .map(|r| r.apply_to_variant(&ident))
-        .unwrap_or(ident);
+    let ident = rename_variants.apply_to_variant(&ident.to_string());
 
-    let rename_fields = doku.rename_all.or(serde.rename_all);
+    let rename_fields =
+        doku.rename_all.or(serde.rename_all).unwrap_or_default();
 
     let mut variant = Variant {
         id: quote! { #ident },

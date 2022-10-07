@@ -17,8 +17,8 @@ enum Enum {
     /// This should be lowercase
     AVariantWithManyWords,
 
-    /// This should be renamed to foo
-    #[serde(rename = "foo")]
+    /// This should be renamed to FOO
+    #[serde(rename = "FOO")]
     AnotherVariantWithManyWords,
 }
 

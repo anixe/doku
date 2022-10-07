@@ -5,18 +5,15 @@ use std::iter::FromIterator;
 pub fn expand_field(
     field: &syn::Field,
     named: bool,
-    rename_fields: Option<RenameRule>,
+    rename_fields: RenameRule,
 ) -> Result<TokenStream2> {
     let syn::Field {
         attrs, ident, ty, ..
     } = field;
 
-    let ident = ident.as_ref().map(|ident| {
-        let ident = ident.to_string();
-        rename_fields
-            .map(|r| r.apply_to_field(&ident))
-            .unwrap_or(ident)
-    });
+    let ident = ident
+        .as_ref()
+        .map(|ident| rename_fields.apply_to_field(&ident.to_string()));
 
     let mut field = Field {
         name: quote! { #ident },

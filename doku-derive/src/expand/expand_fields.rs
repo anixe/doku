@@ -2,7 +2,7 @@ use super::*;
 
 pub fn expand_fields(
     fields: &syn::Fields,
-    rename_fields: Option<RenameRule>,
+    rename_fields: RenameRule,
 ) -> Result<TokenStream2> {
     match fields {
         syn::Fields::Named(inner) => expand_named_fields(inner, rename_fields),
@@ -13,7 +13,7 @@ pub fn expand_fields(
 
 fn expand_named_fields(
     fields: &syn::FieldsNamed,
-    rename_fields: Option<RenameRule>,
+    rename_fields: RenameRule,
 ) -> Result<TokenStream2> {
     let fields: Vec<_> = fields
         .named
@@ -32,7 +32,7 @@ fn expand_unnamed_fields(fields: &syn::FieldsUnnamed) -> Result<TokenStream2> {
     let fields: Vec<_> = fields
         .unnamed
         .iter()
-        .map(|field| expand_field(field, false, None))
+        .map(|field| expand_field(field, false, RenameRule::None))
         .collect::<Result<_>>()?;
 
     Ok(quote! {

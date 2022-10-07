@@ -48,7 +48,8 @@ pub fn expand_enum(
             }
         };
 
-        let rename_variants = doku.rename_all.or(serde.rename_all);
+        let rename_variants =
+            doku.rename_all.or(serde.rename_all).unwrap_or_default();
         let variants = expand_variants(&data.variants, rename_variants)?;
 
         quote! {
