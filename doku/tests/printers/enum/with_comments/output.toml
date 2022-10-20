@@ -1,0 +1,15 @@
+# Possible variants:
+# - This...
+#   ... is `Foo`!
+#     [Foo]
+#     # Some comment
+#     # (another line)
+#     # (yet another line!)
+#     a = "string"
+# - This...
+#   ... is `Bar`!
+#     [Bar]
+#     a = "string"
+#     b = 123
+[Foo]
+...

@@ -1,0 +1,20 @@
+"A"
+# or
+
+  B = "string"
+
+# or
+
+  C = "string"
+
+# or
+
+  D = "string"
+
+# or
+
+  # Must contain exactly 4 elements
+  E = [
+    123,
+    # ...
+  ]

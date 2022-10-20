@@ -23,4 +23,5 @@ enum Enum {
 
 printer_test! {
     "output.json" => to_json(Struct),
+    "output.toml" => to_toml(Struct),
 }

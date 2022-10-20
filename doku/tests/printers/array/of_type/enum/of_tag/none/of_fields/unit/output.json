@@ -1,0 +1,20 @@
+{
+  "inner": [
+    {
+      // Some comment
+      "foo": "string",
+      // Another comment
+      "bar": "string",
+      "tag": "Foo",
+      "payload": null
+    },
+    {
+      // Some comment
+      "foo": "string",
+      // Another comment
+      "bar": "string",
+      "tag": "Bar",
+      "payload": null
+    }
+  ]
+}

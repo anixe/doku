@@ -13,11 +13,11 @@ pub enum Layout {
     /// struct Person {
     ///     /// First name
     ///     /// (aka forename)
-    ///     fname: String,
+    ///     first_name: String,
     ///
     ///     /// Last name
     ///     /// (aka surname)
-    ///     lname: String,
+    ///     last_name: String,
     /// }
     ///
     /// let fmt = doku::json::Formatting {
@@ -31,10 +31,10 @@ pub enum Layout {
     ///   {
     ///     // First name
     ///     // (aka forename)
-    ///     "fname": "string",
+    ///     "first_name": "string",
     ///     // Last name
     ///     // (aka surname)
-    ///     "lname": "string"
+    ///     "last_name": "string"
     ///   }
     /// "#, doc);
     /// ```
@@ -49,11 +49,11 @@ pub enum Layout {
     /// struct Person {
     ///     /// First name
     ///     /// (aka forename)
-    ///     fname: String,
+    ///     first_name: String,
     ///
     ///     /// Last name
     ///     /// (aka surname)
-    ///     lname: String,
+    ///     last_name: String,
     /// }
     ///
     /// let fmt = doku::json::Formatting {
@@ -68,10 +68,10 @@ pub enum Layout {
     ///
     /// doku::assert_doc!(r#"
     ///   {
-    ///     "fname": "string", // First name
-    ///                        // (aka forename)
-    ///     "lname": "string"  // Last name
-    ///                        // (aka surname)
+    ///     "first_name": "string", // First name
+    ///                             // (aka forename)
+    ///     "last_name": "string"   // Last name
+    ///                             // (aka surname)
     ///   }
     /// "#, doc);
     /// ```
@@ -85,11 +85,11 @@ pub enum Layout {
         /// struct Person {
         ///     /// First name
         ///     /// (aka forename)
-        ///     fname: String,
+        ///     first_name: String,
         ///
         ///     /// Last name
         ///     /// (aka surname)
-        ///     lname: String,
+        ///     last_name: String,
         /// }
         ///
         /// let fmt = doku::json::Formatting {
@@ -104,10 +104,10 @@ pub enum Layout {
         ///
         /// doku::assert_doc!(r#"
         ///   {
-        ///     "fname": "string", // First name
-        ///                        // (aka forename)
-        ///     "lname": "string" // Last name
-        ///                       // (aka surname)
+        ///     "first_name": "string", // First name
+        ///                             // (aka forename)
+        ///     "last_name": "string" // Last name
+        ///                           // (aka surname)
         ///   }
         /// "#, doc);
         /// ```
@@ -122,11 +122,11 @@ pub enum Layout {
         /// struct Person {
         ///     /// First name
         ///     /// (aka forename)
-        ///     fname: String,
+        ///     first_name: String,
         ///
         ///     /// Last name
         ///     /// (aka surname)
-        ///     lname: String,
+        ///     last_name: String,
         /// }
         ///
         /// let fmt = doku::json::Formatting {
@@ -141,10 +141,10 @@ pub enum Layout {
         ///
         /// doku::assert_doc!(r#"
         ///   {
-        ///     "fname": "string",     // First name
-        ///                            // (aka forename)
-        ///     "lname": "string"      // Last name
-        ///                            // (aka surname)
+        ///     "first_name": "string",     // First name
+        ///                                 // (aka forename)
+        ///     "last_name": "string"       // Last name
+        ///                                 // (aka surname)
         ///   }
         /// "#, doc);
         /// ```

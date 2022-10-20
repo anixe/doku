@@ -88,4 +88,38 @@ printer_test! {
      "output.without-key-quotes.with-user-comments-wrapped.separated.json" => to_json_without_key_quotes(WithUserCommentsWrapped, {
           "enums_style": "Separated",
      }),
+
+     // --- TOML ---
+
+     "output.without-user-comments.commented.toml" => to_toml_fmt(WithoutUserComments, {
+          "enums_style": "Commented",
+     }),
+
+     "output.without-user-comments.separated.toml" => to_toml_fmt(WithoutUserComments, {
+          "enums_style": "Separated",
+     }),
+
+     "output.without-user-comments-wrapped.commented.toml" => to_toml_fmt(WithoutUserCommentsWrapped, {
+          "enums_style": "Commented",
+     }),
+
+     "output.without-user-comments-wrapped.separated.toml" => to_toml_fmt(WithoutUserCommentsWrapped, {
+          "enums_style": "Separated",
+     }),
+
+     "output.with-user-comments.commented.toml" => to_toml_fmt(WithUserComments, {
+          "enums_style": "Commented",
+     }),
+
+     "output.with-user-comments.separated.toml" => to_toml_fmt(WithUserComments, {
+          "enums_style": "Separated",
+     }),
+
+     "output.with-user-comments-wrapped.commented.toml" => to_toml_fmt(WithUserCommentsWrapped, {
+          "enums_style": "Commented",
+     }),
+
+     "output.with-user-comments-wrapped.separated.toml" => to_toml_fmt(WithUserCommentsWrapped, {
+          "enums_style": "Separated",
+     }),
 }

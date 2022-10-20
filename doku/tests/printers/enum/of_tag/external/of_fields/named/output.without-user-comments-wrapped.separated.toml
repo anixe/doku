@@ -1,0 +1,9 @@
+[value]
+  [value.Foo]
+  a = "string"
+
+# or
+
+  [value.Bar]
+  a = "string"
+  b = 123

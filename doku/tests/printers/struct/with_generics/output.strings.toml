@@ -1,0 +1,10 @@
+s = "string"
+# Must contain exactly 4 elements
+arr = [
+  123,
+  # ...
+]
+
+[map]
+string = "string"
+# ...

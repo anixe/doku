@@ -1,0 +1,14 @@
+[value]
+# Possible variants:
+# - This is `Foo`
+#     [value.Foo]
+#     # Some comment
+#     a = "string"
+# - This is `Bar`
+#     [value.Bar]
+#     # Some comment
+#     a = "string"
+#     # Some comment
+#     b = 123
+[value.Foo]
+...

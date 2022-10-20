@@ -1,5 +1,3 @@
-mod layouts;
-
 use super::*;
 use std::collections::BTreeMap;
 use std::mem;
@@ -121,9 +119,9 @@ impl Output {
         }
 
         match self.fmt.layout {
-            Layout::OneColumn => layouts::one_column::render(self),
+            Layout::OneColumn => layouts::one_column::render(&self),
             Layout::TwoColumns { align, spacing } => {
-                layouts::two_columns::render(self, align, spacing)
+                layouts::two_columns::render(&self, align, spacing)
             }
         }
     }
@@ -151,39 +149,19 @@ impl Output {
             }
         }
     }
+}
 
-    fn lines(&self) -> impl Iterator<Item = Line<'_>> + '_ {
-        debug_assert!(self.line.is_empty());
-
-        self.lines.iter().enumerate().map(move |(id, body)| {
-            let indent = self.fmt.indent_style.size
-                * self.indents.get(&id).copied().unwrap_or_default();
-
-            let comments = self
-                .comments
-                .get(&id)
-                .map(|comments| &comments[..])
-                .unwrap_or(&[]);
-
-            Line {
-                id,
-                indent,
-                body,
-                comments,
-            }
-        })
+impl<'a> common::Output<'a> for Output {
+    fn comment_separator(&self) -> &str {
+        &self.fmt.comments_style.separator
     }
-}
 
-struct Line<'a> {
-    id: usize,
-    indent: usize,
-    body: &'a str,
-    comments: &'a [String],
-}
-
-impl Line<'_> {
-    fn len(&self) -> usize {
-        self.indent + self.body.chars().count()
+    fn lines(&'a self) -> Lines<'a> {
+        Lines::new(
+            &self.lines,
+            self.fmt.indent_style.size,
+            &self.indents,
+            &self.comments,
+        )
     }
 }

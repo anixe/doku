@@ -1,0 +1,5 @@
+# Must contain exactly 10 elements
+inner = [
+  123,
+  # ...
+]

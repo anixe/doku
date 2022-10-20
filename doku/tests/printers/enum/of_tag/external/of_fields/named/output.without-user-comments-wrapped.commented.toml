@@ -1,0 +1,11 @@
+[value]
+# Possible variants:
+# - 
+#     [value.Foo]
+#     a = "string"
+# - 
+#     [value.Bar]
+#     a = "string"
+#     b = 123
+[value.Foo]
+...

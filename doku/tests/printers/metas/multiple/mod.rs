@@ -23,4 +23,6 @@ struct Foo {
 printer_test! {
     "output.ty1.json" => to_json(Ty1),
     "output.ty2.json" => to_json(Ty2),
+    "output.ty1.toml" => to_toml(Ty1),
+    "output.ty2.toml" => to_toml(Ty2),
 }

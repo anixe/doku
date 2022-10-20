@@ -35,7 +35,7 @@ impl Ctxt<'_, '_, '_> {
                 return;
             };
 
-        let val = if let Some(val) = self.val.and_then(Self::value_to_string) {
+        let val = if let Some(val) = self.val.and_then(value_to_string) {
             val
         } else {
             return;
@@ -49,7 +49,7 @@ impl Ctxt<'_, '_, '_> {
 
     fn sketch_scalar(&mut self, val: &str) {
         if let ValuesStyle::Field = self.fmt.values_style {
-            if let Some(val) = self.val.and_then(Self::value_to_string) {
+            if let Some(val) = self.val.and_then(value_to_string) {
                 self.out.write(val);
                 return;
             }

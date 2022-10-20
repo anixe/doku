@@ -1,0 +1,8 @@
+  [Foo]
+  a = "string"
+
+# or
+
+  [Bar]
+  a = "string"
+  b = 123

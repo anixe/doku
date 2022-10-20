@@ -1,0 +1,7 @@
+[[foos]]
+
+[[foos.bars]]
+val = "string"
+
+[[foos.bars.zars]]
+value = "string"

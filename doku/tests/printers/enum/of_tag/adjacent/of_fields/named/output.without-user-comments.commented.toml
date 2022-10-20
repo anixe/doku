@@ -1,0 +1,13 @@
+# Possible variants:
+# - 
+#     t = "Foo"
+#     [c]
+#     a = "string"
+# - 
+#     t = "Bar"
+#     [c]
+#     a = "string"
+#     b = 123
+t = "Foo"
+[c]
+...

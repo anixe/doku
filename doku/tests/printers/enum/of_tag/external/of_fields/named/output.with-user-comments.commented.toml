@@ -1,0 +1,13 @@
+# Possible variants:
+# - This is `Foo`
+#     [Foo]
+#     # Some comment
+#     a = "string"
+# - This is `Bar`
+#     [Bar]
+#     # Some comment
+#     a = "string"
+#     # Some comment
+#     b = 123
+[Foo]
+...

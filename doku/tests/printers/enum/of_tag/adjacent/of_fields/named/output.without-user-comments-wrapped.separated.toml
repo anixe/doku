@@ -1,0 +1,11 @@
+[value]
+  t = "Foo"
+  [value.c]
+  a = "string"
+
+# or
+
+  t = "Bar"
+  [value.c]
+  a = "string"
+  b = 123

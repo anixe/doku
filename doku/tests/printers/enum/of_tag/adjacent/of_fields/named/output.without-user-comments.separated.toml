@@ -1,0 +1,10 @@
+  t = "Foo"
+  [c]
+  a = "string"
+
+# or
+
+  t = "Bar"
+  [c]
+  a = "string"
+  b = 123

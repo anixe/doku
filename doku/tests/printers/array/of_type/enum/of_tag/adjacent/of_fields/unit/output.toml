@@ -1,0 +1,7 @@
+[[inner]]
+# This is `Foo`
+t = "Foo"
+
+[[inner]]
+# This is `Bar`
+t = "Bar"

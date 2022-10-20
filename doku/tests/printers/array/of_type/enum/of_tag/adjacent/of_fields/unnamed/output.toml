@@ -1,0 +1,9 @@
+[[inner]]
+# This is `Foo`
+t = "Foo"
+c = "string"
+
+[[inner]]
+# This is `Bar`
+t = "Bar"
+c = ["string", 123]
