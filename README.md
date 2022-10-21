@@ -57,7 +57,7 @@ fn main() {
 }
 ```
 
-```json
+```
 {
   // Database's engine
   "db_engine": "pgsql" | "mysql",
@@ -68,7 +68,7 @@ fn main() {
 }
 ```
 
-```toml
+```
 # Database's engine
 db_engine = "pgsql" | "mysql"
 
