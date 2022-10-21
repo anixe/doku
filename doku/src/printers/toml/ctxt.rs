@@ -209,12 +209,10 @@ impl<'fmt, 'ty, 'out> Ctxt<'fmt, 'ty, 'out> {
 
     fn print_inner(mut self) {
         if let Some(example) = self.literal_example() {
-            // scalar with example
             self.print_comment();
             self.out.write(example);
             return;
         } else if self.name.is_some() && self.should_write_table_name() {
-            // table
             self.out.space_between_tables();
             self.print_comment();
             self.out.write_table_name(
@@ -222,7 +220,6 @@ impl<'fmt, 'ty, 'out> Ctxt<'fmt, 'ty, 'out> {
                 self.has_array_parent(),
             );
         } else {
-            // scalar without example
             self.print_comment();
         }
 

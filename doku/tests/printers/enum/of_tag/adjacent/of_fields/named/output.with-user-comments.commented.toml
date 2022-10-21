@@ -9,6 +9,7 @@
 #     [c]
 #     # Some comment
 #     a = "string"
+#     
 #     # Some comment
 #     b = 123
 t = "Foo"

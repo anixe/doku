@@ -1,13 +1,17 @@
 [[inner]]
 # Some comment
 foo = "string"
+
 # Another comment
 bar = "string"
+
 tag = "Foo"
 
 [[inner]]
 # Some comment
 foo = "string"
+
 # Another comment
 bar = "string"
+
 tag = "Bar"

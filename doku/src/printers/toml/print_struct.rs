@@ -10,7 +10,7 @@ impl<'ty> Ctxt<'_, 'ty, '_> {
         if transparent {
             self.print_transparent_struct(fields);
         } else {
-            self.print_fields(fields, variant);
+            self.print_fields(fields, variant, false);
         }
     }
 

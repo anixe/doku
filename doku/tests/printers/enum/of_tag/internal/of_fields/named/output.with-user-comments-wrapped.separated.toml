@@ -1,6 +1,7 @@
 [value]
   # This is `Foo`
   t = "Foo"
+
   # Some comment
   a = "string"
 
@@ -8,7 +9,9 @@
 
   # This is `Bar`
   t = "Bar"
+
   # Some comment
   a = "string"
+
   # Some comment
   b = 123

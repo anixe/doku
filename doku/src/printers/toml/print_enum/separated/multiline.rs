@@ -79,7 +79,7 @@ fn print_variant<'ty>(
 
             if !matches!(variant.fields, Fields::Unit) {
                 ctxt.print_child_name(content, variant.fields.is_table());
-                ctxt.print_fields(&variant.fields, None);
+                ctxt.print_fields(&variant.fields, None, true);
                 ctxt.out.ln();
             }
 
@@ -94,9 +94,11 @@ fn print_variant<'ty>(
 
             match &variant.fields {
                 Fields::Named { .. } => {
-                    ctxt.nested()
-                        .with_flat()
-                        .print_fields(&variant.fields, None);
+                    ctxt.nested().with_flat().print_fields(
+                        &variant.fields,
+                        None,
+                        true,
+                    );
 
                     ctxt.out.ln();
                 }
@@ -112,11 +114,9 @@ fn print_variant<'ty>(
         Tag::External => match variant.fields {
             Fields::Named { .. } | Fields::Unnamed { .. } => {
                 ctxt.out.inc_indent();
-
                 ctxt.print_child_name(variant.id, variant.fields.is_table());
-                ctxt.print_fields(&variant.fields, None);
+                ctxt.print_fields(&variant.fields, None, false);
                 ctxt.out.ln();
-
                 ctxt.out.dec_indent();
             }
 
@@ -130,8 +130,9 @@ fn print_variant<'ty>(
                 if !variant.fields.is_table() {
                     panic!("Untagged scalar variants are unsupported in TOML")
                 }
+
                 ctxt.out.inc_indent();
-                ctxt.print_fields(&variant.fields, None);
+                ctxt.print_fields(&variant.fields, None, false);
                 ctxt.out.ln();
                 ctxt.out.dec_indent();
             }

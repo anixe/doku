@@ -76,25 +76,38 @@ impl Output {
         }
     }
 
-    fn ln_multiple(&mut self, count: usize) {
+    pub fn ln_multiple(&mut self, count: usize) {
         if !self.lines.is_empty() {
             self.ln();
+
             for _ in 0..count {
                 self.write_char('\n');
             }
         }
     }
 
-    pub fn space_between_fields(&mut self, is_table: bool) {
+    pub fn force_ln(&mut self) {
+        self.write_char('\n');
+    }
+
+    pub fn space_between_fields(
+        &mut self,
+        is_table: bool,
+        already_added_spacing: usize,
+    ) {
         if is_table {
             self.space_between_tables();
         } else {
-            self.space_between_scalar();
+            self.space_between_scalar(already_added_spacing);
         }
     }
 
-    pub fn space_between_scalar(&mut self) {
-        self.ln_multiple(self.fmt.spacing.lines_between_scalar_fields);
+    pub fn space_between_scalar(&mut self, already_added_spacing: usize) {
+        let spacing = self.fmt.spacing.lines_between_scalar_fields;
+
+        if spacing > already_added_spacing {
+            self.ln_multiple(spacing - already_added_spacing);
+        }
     }
 
     pub fn space_between_tables(&mut self) {

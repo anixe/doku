@@ -6,6 +6,7 @@ bar = "string"
 [foo]
 # This is `f1`
 f1 = "string"
+
 # This is `f2`
 f2 = "string"
 
@@ -13,5 +14,6 @@ f2 = "string"
 [zar]
 # This is `f4`
 f4 = "string"
+
 # This is `f5`
 f5 = "string"

@@ -17,8 +17,8 @@ enum Ty {
     /// This should also be lowercase
     AnotherVariant {
         /// This should remain unchanged
-        a_field_that_remains_unchanged: String
-    }
+        a_field_that_remains_unchanged: String,
+    },
 }
 
 printer_test! {

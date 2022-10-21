@@ -31,6 +31,7 @@ pub enum Layout {
     ///   ## First name
     ///   ## (aka forename)
     ///   first_name = "string"
+    ///
     ///   ## Last name
     ///   ## (aka surname)
     ///   last_name = "string"
@@ -67,6 +68,7 @@ pub enum Layout {
     /// doku::assert_doc!(r#"
     ///   first_name = "string" # First name
     ///                         ## (aka forename)
+    ///
     ///   last_name = "string"  # Last name
     ///                         ## (aka surname)
     /// "#, doc);
@@ -101,6 +103,7 @@ pub enum Layout {
         /// doku::assert_doc!(r#"
         ///   first_name = "string" # First name
         ///                         ## (aka forename)
+        ///
         ///   last_name = "string" # Last name
         ///                        ## (aka surname)
         /// "#, doc);
@@ -136,6 +139,7 @@ pub enum Layout {
         /// doku::assert_doc!(r#"
         ///   first_name = "string"     # First name
         ///                             ## (aka forename)
+        ///
         ///   last_name = "string"      # Last name
         ///                             ## (aka surname)
         /// "#, doc);

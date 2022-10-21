@@ -11,7 +11,11 @@ pub struct Spacing {
     ///
     /// #[derive(Document)]
     /// struct Person {
+    ///     /// Person's name
     ///     name: String,
+    ///     surname: String,
+    ///
+    ///     /// Person's address
     ///     address: String,
     /// }
     ///
@@ -26,12 +30,52 @@ pub struct Spacing {
     /// let doc = doku::to_toml_fmt::<Person>(&fmt);
     ///
     /// doku::assert_doc!(r#"
+    ///   ## Person's name
     ///   name = "string"
     ///
+    ///   surname = "string"
+    ///
+    ///   ## Person's address
     ///   address = "string"
     /// "#, doc);
     /// ```
     pub lines_between_scalar_fields: usize,
+
+    /// How many lines to use before a scalar field's comment:
+    ///
+    /// ```
+    /// use doku::Document;
+    ///
+    /// #[derive(Document)]
+    /// struct Person {
+    ///     /// Person's name
+    ///     name: String,
+    ///     surname: String,
+    ///
+    ///     /// Person's address
+    ///     address: String,
+    /// }
+    ///
+    /// let fmt = doku::toml::Formatting {
+    ///     spacing: doku::toml::Spacing {
+    ///         lines_between_scalar_field_comments: 1,
+    ///         ..Default::default()
+    ///     },
+    ///     ..Default::default()
+    /// };
+    ///
+    /// let doc = doku::to_toml_fmt::<Person>(&fmt);
+    ///
+    /// doku::assert_doc!(r#"
+    ///   ## Person's name
+    ///   name = "string"
+    ///   surname = "string"
+    ///
+    ///   ## Person's address
+    ///   address = "string"
+    /// "#, doc);
+    /// ```
+    pub lines_between_scalar_field_comments: usize,
 
     /// How many lines to use to split tables:
     ///
@@ -76,6 +120,7 @@ impl Default for Spacing {
     fn default() -> Self {
         Self {
             lines_between_scalar_fields: 0,
+            lines_between_scalar_field_comments: 1,
             lines_between_tables: 1,
         }
     }

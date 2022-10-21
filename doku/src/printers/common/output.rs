@@ -1,12 +1,10 @@
 pub mod layouts;
 
-use std::collections::BTreeMap;
-
 use crate::printers::prelude::*;
+use std::collections::BTreeMap;
 
 pub trait Output<'a> {
     fn comment_separator(&self) -> &str;
-
     fn lines(&'a self) -> Lines<'a>;
 }
 

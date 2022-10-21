@@ -3,6 +3,7 @@
 t = "A"
 # Some comment
 something = 123
+
 # Another comment
 something_else = 123
 
@@ -11,6 +12,7 @@ something_else = 123
 t = "A"
 # Some comment
 a = "string"
+
 # Another comment
 b = "string"
 
@@ -22,6 +24,7 @@ t2 = "B1"
 [c]
 # Some comment
 something = 123
+
 # Another comment
 something_else = 123
 
@@ -33,6 +36,7 @@ t2 = "B2"
 [c]
 # Some comment
 a = "string"
+
 # Another comment
 b = 123
 
@@ -40,8 +44,10 @@ b = 123
 # This is `C` (InternallyTagged)
 t = "C"
 t2 = "C1"
+
 # Some comment
 something = 123
+
 # Another comment
 something_else = 123
 
@@ -49,8 +55,10 @@ something_else = 123
 # This is `C` (InternallyTagged)
 t = "C"
 t2 = "C2"
+
 # Some comment
 a = "string"
+
 # Another comment
 b = 123
 
@@ -61,6 +69,7 @@ t = "D"
 [D1]
 # Some comment
 something = 123
+
 # Another comment
 something_else = 123
 
@@ -71,6 +80,7 @@ t = "D"
 [D2]
 # Some comment
 a = "string"
+
 # Another comment
 b = 123
 
@@ -86,14 +96,17 @@ t2 = "B1"
 [b.c]
 # Some comment
 something = 123
+
 # Another comment
 something_else = 123
 # This is `c` (InternallyTagged); optional
 
 [c]
 t2 = "C1"
+
 # Some comment
 something = 123
+
 # Another comment
 something_else = 123
 
@@ -109,14 +122,17 @@ t2 = "B1"
 [b.c]
 # Some comment
 something = 123
+
 # Another comment
 something_else = 123
 # This is `c` (InternallyTagged); optional
 
 [c]
 t2 = "C2"
+
 # Some comment
 a = "string"
+
 # Another comment
 b = 123
 
@@ -132,14 +148,17 @@ t2 = "B2"
 [b.c]
 # Some comment
 a = "string"
+
 # Another comment
 b = 123
 # This is `c` (InternallyTagged); optional
 
 [c]
 t2 = "C1"
+
 # Some comment
 something = 123
+
 # Another comment
 something_else = 123
 
@@ -155,13 +174,16 @@ t2 = "B2"
 [b.c]
 # Some comment
 a = "string"
+
 # Another comment
 b = 123
 # This is `c` (InternallyTagged); optional
 
 [c]
 t2 = "C2"
+
 # Some comment
 a = "string"
+
 # Another comment
 b = 123

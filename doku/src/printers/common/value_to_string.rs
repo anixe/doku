@@ -1,6 +1,6 @@
 use crate::Value;
 
-pub(crate) fn value_to_string(val: &Value) -> Option<String> {
+pub fn value_to_string(val: &Value) -> Option<String> {
     let escape_char = |val: char| match val {
         '\t' => "\\t".to_string(),
         '\r' => "\\r".to_string(),

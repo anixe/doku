@@ -16,20 +16,22 @@ impl<'ty> Ctxt<'_, 'ty, '_> {
     /// Starts by collecting the visible variants of an enum, and then
     /// recursively walks through them to find all nested enums
     /// and convert them to new variants with equivalent structs.
-    fn collect_variants_recursive(&self, variants: &[Variant]) -> Vec<Variant> {
-        let variants: Vec<_> = variants
+    fn collect_variants(&self, variants: &[Variant]) -> Vec<Variant> {
+        let variants = variants
             .iter()
             .filter(|variant| {
                 self.vis
                     .allows(variant.serializable, variant.deserializable)
             })
-            .map(ToOwned::to_owned)
-            .collect();
-        collect_variants_recursive_int(variants)
+            .map(ToOwned::to_owned);
+
+        collect_variants(variants)
     }
 }
 
-fn collect_variants_recursive_int(variants: Vec<Variant>) -> Vec<Variant> {
+fn collect_variants(
+    variants: impl IntoIterator<Item = Variant>,
+) -> Vec<Variant> {
     let mut modified = false;
     let mut new_variants = Vec::new();
 
@@ -79,7 +81,7 @@ fn collect_variants_recursive_int(variants: Vec<Variant>) -> Vec<Variant> {
     }
 
     if modified {
-        collect_variants_recursive_int(new_variants)
+        collect_variants(new_variants)
     } else {
         new_variants
     }

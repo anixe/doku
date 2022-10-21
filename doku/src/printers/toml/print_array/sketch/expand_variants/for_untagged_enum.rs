@@ -79,18 +79,16 @@ impl<'ty> Ctxt<'_, 'ty, '_> {
             );
         }
 
-        let variants = self.collect_variants_recursive(variants);
-        for variant in &variants {
+        for variant in self.collect_variants(variants) {
             if fields_obj.should_write_table_name() {
                 self.print_current_name();
             }
 
-            self.print_fields(fields_obj, Some(variant));
+            self.print_fields(fields_obj, Some(&variant), false);
             self.out.ln();
         }
 
         self.out.ln();
-
         true
     }
 }

@@ -15,7 +15,8 @@ impl<'ty> Ctxt<'_, 'ty, '_> {
             return false;
         };
 
-        let variants = self.collect_variants_recursive(variants);
+        let variants = self.collect_variants(variants);
+
         for (variant_idx, variant) in variants.iter().enumerate() {
             let comment = variant.comment.or_else(|| {
                 if variant.id == variant.title {
@@ -36,16 +37,18 @@ impl<'ty> Ctxt<'_, 'ty, '_> {
                     }
 
                     let indent = self.should_indent();
+
                     if indent {
                         self.out.inc_indent();
                     }
 
                     let is_table = variant.fields.is_table();
-                    self.out.space_between_fields(is_table);
-                    self.print_child_name(variant.id, is_table);
-                    self.print_fields(&variant.fields, None);
 
+                    self.out.space_between_fields(is_table, 0);
+                    self.print_child_name(variant.id, is_table);
+                    self.print_fields(&variant.fields, None, false);
                     self.out.ln();
+
                     if indent {
                         self.out.dec_indent();
                     }
@@ -66,7 +69,6 @@ impl<'ty> Ctxt<'_, 'ty, '_> {
         }
 
         self.out.ln();
-
         true
     }
 }

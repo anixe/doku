@@ -179,7 +179,7 @@ fn render_variant_fields(
         depth: Default::default(),
     };
 
-    ctxt.print_fields(fields, None);
+    ctxt.print_fields(fields, None, false);
 
     let out = out.render();
 
