@@ -17,5 +17,11 @@ struct Type {
 }
 
 fn main() {
+    println!("```json");
     println!("{}", doku::to_json::<Type>());
+    println!("```");
+    println!();
+    println!("```toml");
+    println!("{}", doku::to_toml::<Type>());
+    println!("```");
 }

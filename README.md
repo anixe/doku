@@ -5,9 +5,9 @@
 [docs-badge]: https://img.shields.io/badge/docs.rs-latest-informational
 [docs-link]: https://docs.rs/doku
 
-Doku is a framework for building textual, aesthetic documentation directly from
-the code; it allows to generate docs for configuration files, HTTP endpoints,
-and so on.
+Doku is a framework for documenting Rust data structures - it allows to generate
+aesthetic, human-friendly descriptions of your configuration files, HTTP
+endpoints and so on.
 
 Say goodbye to stale, hand-written documentation - with Doku, code _is_ the
 documentation!
@@ -47,11 +47,17 @@ enum DbEngine {
 }
 
 fn main() {
+    println!("```json");
     println!("{}", doku::to_json::<Config>());
+    println!("```");
+    println!();
+    println!("```toml");
+    println!("{}", doku::to_toml::<Config>());
+    println!("```");
 }
 ```
 
-``` 
+```json
 {
   // Database's engine
   "db_engine": "pgsql" | "mysql",
@@ -60,6 +66,17 @@ fn main() {
   // Database's port
   "db_port": 5432
 }
+```
+
+```toml
+# Database's engine
+db_engine = "pgsql" | "mysql"
+
+# Database's host
+db_host = "localhost"
+
+# Database's port
+db_port = 5432
 ```
 
 You'll find more examples in [./doku/examples](./doku/examples); there's also a
@@ -72,11 +89,12 @@ too!
 
 If you want to try hacking on Doku, the entry points are:
 
-- [the JSON pretty-printer](./doku/src/printers/json.rs).
+- [the JSON pretty-printer](./doku/src/printers/json.rs),
+- [the TOML pretty-printer](./doku/src/printers/toml.rs),
 - [the data model](./doku/src/objects.rs),
-- [the derive macro](./doku-derive/src/lib.rs),
+- [the derive macro](./doku-derive/src/lib.rs).
 
-As for the end-to-end tests, you'll find them inside [./doku/tests](./doku/tests).
+There are also integration tests at [./doku/tests](./doku/tests).
 
 ## License
 

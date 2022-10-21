@@ -27,5 +27,11 @@ enum DbEngine {
 }
 
 fn main() {
+    println!("```json");
     println!("{}", doku::to_json::<Config>());
+    println!("```");
+    println!();
+    println!("```toml");
+    println!("{}", doku::to_toml::<Config>());
+    println!("```");
 }

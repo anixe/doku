@@ -30,5 +30,11 @@ struct User {
 }
 
 fn main() {
+    println!("```json");
     println!("{}", doku::to_json::<Response>());
+    println!("```");
+    println!();
+    println!("```toml");
+    println!("{}", doku::to_toml::<Response>());
+    println!("```");
 }

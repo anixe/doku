@@ -50,5 +50,11 @@ impl serde::Serialize for Paper {
 }
 
 fn main() {
+    println!("```json");
     println!("{}", doku::to_json::<Papers>());
+    println!("```");
+    println!();
+    println!("```toml");
+    println!("{}", doku::to_toml::<Papers>());
+    println!("```");
 }

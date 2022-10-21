@@ -2,16 +2,16 @@
 //!
 //! # Overview
 //!
-//! Doku is a framework for building textual, aesthetic documentation directly
-//! from the code; it allows to generate docs for configuration files, HTTP
-//! endpoints, and so on.
+//! Doku is a framework for documenting Rust data structures - it allows to
+//! generate aesthetic, human-friendly descriptions of your configuration files,
+//! HTTP endpoints and so on.
 //!
 //! Say goodbye to stale, hand-written documentation - with Doku, code _is_ the
 //! documentation!
 //!
 //! # Example
 //!
-//! Say, you're writing a tool that requires some JSON configuration to work:
+//! Say, you're writing a tool that requires some TOML configuration to work:
 //!
 //! ```
 //! use serde::Deserialize;
@@ -38,8 +38,20 @@
 //! }
 //! ```
 //!
-//! Now, with Doku, generating a documentation for your users is as simple as
-//! adding `#[derive(Document)]`:
+//! Having that, usually you'd then create a `config.example.toml` describing
+//! the configuration's format, for your users to copy-paste and adjust:
+//!
+//! ```toml
+//! db_engine = "pgsql" # or mysql
+//! db_host = "localhost"
+//! db_port = 5432
+//! ```
+//!
+//! ... but that's both tedious to maintain and error-prone, since there's no
+//! guarantee that e.g. someone won't rename a field, forgetting to update the
+//! documentation.
+//!
+//! Now, with Doku, all you need to do is add a few `#[derive(Document)]`:
 //!
 //! ```
 //! # use serde::Deserialize;
@@ -56,7 +68,7 @@
 //! }
 //! ```
 //!
-//! ... and calling `doku::to_json()`:
+//! ... and call `doku::to_json()` / `doku::to_toml()`:
 //!
 //! ```
 //! # use doku::Document;
@@ -83,23 +95,24 @@
 //! #     MySQL,
 //! # }
 //! #
-//! let doc = doku::to_json::<Config>();
+//! println!("{}", doku::to_toml::<Config>());
 //!
-//! println!("{}", doc); // says:
-//!
+//! /*
 //! # doku::assert_doc!(r#"
-//!   {
-//!     // Database's engine
-//!     "db_engine": "pgsql" | "mysql",
-//!     // Database's host
-//!     "db_host": "string",
-//!     // Database's port
-//!     "db_port": 123
-//!   }
-//! # "#, doc);
+//!   ## Database's engine
+//!   db_engine = "pgsql" | "mysql"
+//!   
+//!   ## Database's host
+//!   db_host = "string"
+//!   
+//!   ## Database's port
+//!   db_port = 123
+//! # "#, doku::to_toml::<Config>());
+//! */
 //! ```
 //!
-//! The documentation can be then further fine-tuned e.g. by providing examples:
+//! This automatically-generated documentation can be then fine-tuned e.g. by
+//! providing examples:
 //!
 //! ```
 //! # use doku::Document;
@@ -128,38 +141,38 @@
 //!     MySQL,
 //! }
 //!
-//! let doc = doku::to_json::<Config>();
+//! println!("{}", doku::to_toml::<Config>());
 //!
-//! println!("{}", doc); // says:
-//!
+//! /*
 //! # doku::assert_doc!(r#"
-//!   {
-//!     // Database's engine
-//!     "db_engine": "pgsql" | "mysql",
-//!     // Database's host
-//!     "db_host": "localhost",
-//!     // Database's port
-//!     "db_port": 5432
-//!   }
-//! # "#, doc);
+//!   ## Database's engine
+//!   db_engine = "pgsql" | "mysql"
+//!
+//!   ## Database's host
+//!   db_host = "localhost"
+//!
+//!   ## Database's port
+//!   db_port = 5432
+//! # "#, doku::to_toml::<Config>());
+//! */
 //! ```
 //!
 //! And voilà, ready to deploy!
 //!
-//! Also, because `doku::to_json()` returns a good-old `String`, it's easy to
-//! e.g. create a test ensuring that docs stay in sync with the code:
+//! What's more -- because `doku::to_json()` returns a good-old `String`, it's
+//! possible to create a test to make sure your docs always stay up-to-date:
 //!
 //! ```no_run
 //! use std::fs;
 //!
 //! #[test]
 //! fn docs() {
-//!     let actual_docs = doku::to_json::<Config>();
-//!     let current_docs = fs::read_to_string("config.example.json").unwrap();
+//!     let expected_docs = doku::to_toml::<Config>();
+//!     let actual_docs = fs::read_to_string("config.example.toml").unwrap();
 //!
-//!     if current_docs != actual_docs {
-//!         fs::write("config.example.json.new", actual_docs);
-//!         panic!("`config.example.json` is stale; please see: `config.example.json.new`");
+//!     if actual_docs != expected_docs {
+//!         fs::write("config.example.toml.new", actual_docs);
+//!         panic!("`config.example.toml` is stale");
 //!     }
 //! }
 //! ```
@@ -168,28 +181,27 @@
 //!
 //! # Plug and Play
 //!
-//! Doku has been made with the plug-and-play approach in mind - it understands
-//! the most common Serde annotations and comes with a predefined formatting
-//! settings, so adding `#[derive(Document)]` here and there should get you
+//! Doku has been made with plug-and-play approach in mind - it understands most
+//! of the Serde's annotations and comes with a predefined, curated formatting
+//! settings, so that adding `#[derive(Document)]` here and there should get you
 //! started quickly & painlessly.
 //!
 //! At the same time, Doku is extensible - if the formatting settings don't
-//! match your taste, there is a way to tune them; if the derive macro doesn't
-//! work because you use custom `impl Serialize`, you can write `impl Document`
-//! by hand, too.
+//! match your taste, you can tune them; if the derive macro doesn't work
+//! because you've got a custom `impl Serialize`, you can write `impl Document`
+//! by hand.
 //!
-//! So - come join the doc side!
+//! So - **come join the doc side**!
 //!
-//! # Limits
+//! # Limitations
 //!
-//! ## Supported formats
+//! ## Formats
 //!
-//! Currently Doku provides functions for generating JSON docs; more formats,
-//! such as TOML, are on their way.
+//! At the moment Doku provides functions for rendering JSON-like and TOML-like
+//! documents.
 //!
-//! If you wanted, you could even implement a pretty-printer for your own
-//! format - all of the required types are public, so getting started is as
-//! easy as:
+//! All models used by Doku are public though, so if you wanted, you could very
+//! easily roll your own pretty-printer, for you own custom format:
 //!
 //! ```
 //! fn to_my_own_format<T>() -> String
@@ -206,84 +218,43 @@
 //! println!("{}", to_my_own_format::<String>());
 //! ```
 //!
-//! ## Supported Serde annotations
+//! ## Annotations
 //!
-//! Legend:
+//! Doku understands most of Serde's annotations, so e.g. the following will
+//! work as expected:
 //!
-//! - ❌ = not supported (the derive macro will return an error)
-//! - ✅ = supported
-//! - ✅ + no-op = supported, but doesn't affect the documentation
+//! ```
+//! # use doku::Document;
+//! # use serde::Serialize;
+//! #
+//! #[derive(Serialize, Document)]
+//! struct Something {
+//!     #[serde(rename = "foo")]
+//!     bar: String,
+//! }
+//! ```
 //!
-//! `#[serde]` for [containers](https://serde.rs/container-attrs.html):
+//! If you're not using Serde, but you'd like to pass Serde-like attributes for
+//! Doku to understand, there's also:
 //!
-//! - ❌ `#[serde(rename = "...")]`
-//! - ❌ `#[serde(rename(serialize = "..."))]`
-//! - ❌ `#[serde(rename(deserialize = "..."))]`
-//! - ❌ `#[serde(rename(serialize = "...", deserialize = "..."))]`
-//! - ❌ `#[serde(rename_all = "...")] `
-//! - ❌ `#[serde(rename_all(serialize = "..."))]`
-//! - ❌ `#[serde(rename_all(deserialize = "..."))]`
-//! - ❌ `#[serde(rename_all(serialize = "...", deserialize = "..."))]`
-//! - ✅ `#[serde(deny_unknown_fields)]` (no-op)
-//! - ✅ `#[serde(tag = "...")]`
-//! - ✅ `#[serde(tag = "...", content = "...")]`
-//! - ✅ `#[serde(untagged)]`
-//! - ❌ `#[serde(bound = "...")]`
-//! - ❌ `#[serde(bound(serialize = "..."))]`
-//! - ❌ `#[serde(bound(deserialize = "..."))]`
-//! - ❌ `#[serde(bound(serialize = "...", deserialize = "..."))]`
-//! - ✅ `#[serde(default)]` (no-op)
-//! - ✅ `#[serde(default = "...")]` (no-op)
-//! - ❌ `#[serde(remote = "...")]`
-//! - ✅ `#[serde(transparent)]`
-//! - ❌ `#[serde(from = "...")]`
-//! - ❌ `#[serde(try_from = "...")]`
-//! - ❌ `#[serde(into = "...")]`
-//! - ✅ `#[serde(crate = "...")]` (no-op)
+//! ```
+//! # use doku::Document;
+//! #
+//! #[derive(Document)]
+//! struct Something {
+//!     #[doku(rename = "foo")] // (note the attribute name here)
+//!     bar: String,
+//! }
+//! ```
 //!
-//! `#[serde]` for [variants](https://serde.rs/variant-attrs.html):
+//! ## Language features
 //!
-//! - ✅ `#[serde(rename = "...")]`
-//! - ❌ `#[serde(rename(serialize = "..."))]`
-//! - ❌ `#[serde(rename(deserialize = "..."))]`
-//! - ❌ `#[serde(rename(serialize = "...", deserialize = "..."))]`
-//! - ✅ `#[serde(alias = "...")]` (no-op)
-//! - ❌ `#[serde(rename_all = "...")]`
-//! - ✅ `#[serde(skip)]`
-//! - ✅ `#[serde(skip_serializing)]`
-//! - ✅ `#[serde(skip_deserializing)]`
-//! - ✅ `#[serde(serialize_with = "...")]` (no-op)
-//! - ✅ `#[serde(deserialize_with = "...")]` (no-op)
-//! - ✅ `#[serde(with = "...")]` (no-op)
-//! - ❌ `#[serde(bound = "...")]`
-//! - ❌ `#[serde(borrow)]`
-//! - ❌ `#[serde(borrow = "...")]`
-//! - ✅ `#[serde(other)]` (no-op)
+//! Doku supports most of Rust language's & standard library's features (such as
+//! strings, vectors, maps or generic types); the only exceptions are recursive
+//! types (which will cause the pretty-printers to panic, since they don't
+//! support those).
 //!
-//! `#[serde]` for [fields](https://serde.rs/field-attrs.html):
-//!
-//! - ✅ `#[serde(rename = "...")]`
-//! - ❌ `#[serde(rename(serialize = "..."))]`
-//! - ❌ `#[serde(rename(deserialize = "..."))]`
-//! - ❌ `#[serde(rename(serialize = "...", deserialize = "..."))]`
-//! - ✅ `#[serde(alias = "...")]` (no-op)
-//! - ✅ `#[serde(default)]` (no-op)
-//! - ✅ `#[serde(default = "...'")]` (no-op)
-//! - ✅ `#[serde(skip)]`
-//! - ✅ `#[serde(skip_serializing)]`
-//! - ✅ `#[serde(skip_deserializing)]`
-//! - ✅ `#[serde(skip_serializing_if = "...")]` (no-op)
-//! - ✅ `#[serde(serialize_with = "...")]` (no-op)
-//! - ✅ `#[serde(deserialize_with = "...")]` (no-op)
-//! - ✅ `#[serde(with = "...")]` (no-op)
-//! - ❌ `#[serde(borrow)]` (no-op)
-//! - ❌ `#[serde(borrow = "...")]` (no-op)
-//! - ❌ `#[serde(getter = "...")]`
-//!
-//! ## Supported language features
-//!
-//! - ❌ generic types (<https://github.com/anixe/doku/issues/3>)
-//! - ❌ recursive types (<https://github.com/anixe/doku/issues/10>)
+//! Some external crates (such as `chrono`) are supported behind feature-flags.
 //!
 //! # How does it work?
 //!
@@ -300,7 +271,7 @@
 //! }
 //! ```
 //!
-//! ... this derive macro generates an `impl doku::Document`:
+//! ... the macro will generate an `impl doku::Document`:
 //!
 //! ```
 //! # struct User;
@@ -328,10 +299,9 @@
 //! }
 //! ```
 //!
-//! ... and later, when you invoke `doku::to_json<...>()`, it just calls this
-//!`fn ty()` method:
+//! ... that will be invoked later, when you call `doku::to_*()`:
 //!
-//! ```rust,no_build,no_run
+//! ```
 //! fn to_json<T>() -> String
 //! where
 //!     T: doku::Document
@@ -340,20 +310,22 @@
 //!         doku::TypeKind::String => print_string(/* ... */),
 //!         doku::TypeKind::Struct { .. } => print_struct(/* ... */),
 //!         /* ... */
+//!         # _ => todo!(),
 //!     }
 //! }
+//! #
+//! # fn print_string() -> String { todo!() }
+//! # fn print_struct() -> String { todo!() }
 //! ```
 //!
 //! There's no magic, no [RTTI](https://en.wikipedia.org/wiki/Run-time_type_information)
-//! hacks, no unsafety - it's all just Rust.
+//! hacks, no unsafety - it's all just-Rust.
 
-/// Macros facilitating working on Doku
+#[doc(hidden)]
+#[macro_use]
 mod macros;
 
-/// Doku's data model
 mod objects;
-
-/// Doku's pretty-printers
 mod printers;
 
 pub use self::{objects::*, printers::*};
