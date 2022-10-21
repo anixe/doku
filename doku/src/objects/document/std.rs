@@ -1,16 +1,16 @@
 use crate::*;
-use ::std::collections::{
+use std::collections::{
     BTreeMap, BTreeSet, BinaryHeap, HashMap, HashSet, LinkedList, VecDeque,
 };
-use ::std::net::IpAddr;
-use ::std::rc::Rc;
-use ::std::sync::{Arc, Mutex, RwLock};
-use ::std::time::Duration;
+use std::net::IpAddr;
 use std::path::PathBuf;
+use std::rc::Rc;
+use std::sync::{Arc, Mutex, RwLock};
+use std::time::Duration;
 
 document! {
     for String
-        => TypeKind::String.into();
+        => TypeKind::String;
 
     for IpAddr
         => Type { example: Some(Example::Simple("127.0.0.1")), ..String::ty() };
@@ -20,7 +20,7 @@ document! {
     for Option<T> where (T: Document)
         => TypeKind::Optional {
             ty: Box::new(T::ty()),
-        }.into();
+        };
 
     for Box<T> where (T: Document + ?Sized)
         => T::ty();
@@ -61,13 +61,13 @@ document! {
         => TypeKind::Map {
             key: Box::new(K::ty()),
             value: Box::new(V::ty()),
-        }.into();
+        };
 
     for BTreeMap<K, V> where (K: Document, V: Document)
         => <HashMap<K, V>>::ty();
 
     for PathBuf
-        => TypeKind::String.into();
+        => TypeKind::String;
 
     /* ----- */
 

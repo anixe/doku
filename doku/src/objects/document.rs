@@ -1,6 +1,6 @@
 use crate::*;
 
-/// A type that's understandable by Doku.
+/// Type that can be pretty-printed by Doku.
 ///
 /// Usually you'll get this by adding `#[derive(Document)]` to your type:
 ///
@@ -10,6 +10,9 @@ use crate::*;
 /// #[derive(Document)]
 /// struct Foo;
 /// ```
+///
+/// ... but implementing it manually will be required if you're using a custom
+/// serializer / deserializer.
 pub trait Document {
     fn ty() -> Type;
 }
@@ -27,7 +30,7 @@ macro_rules! document {
             $( $( where $($where)+ )? )?
             {
                 fn ty() -> Type {
-                    $expr
+                    $expr.into()
                 }
             }
         )+
