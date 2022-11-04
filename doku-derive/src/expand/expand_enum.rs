@@ -60,16 +60,8 @@ pub fn expand_enum(
         }
     };
 
-    let ty = {
-        let mut ty = quote! {
-            ::doku::Type::from( #ty_kind )
-        };
-
-        if let Some(wrap) = doku.wrap {
-            ty = expand_wrap(wrap, ty);
-        }
-
-        ty
+    let ty = quote! {
+        ::doku::Type::from( #ty_kind )
     };
 
     let generics = new_generics_with_where_clause(&input.generics)?;

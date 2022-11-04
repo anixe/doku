@@ -4,7 +4,7 @@ use darling::FromMeta;
 /// Models the `#[doku]` attribute for containers:
 ///
 /// ```ignore
-/// #[doku(wrap = "container")]
+/// #[doku(transparent)]
 /// struct Foo {
 ///     field: Bar,
 /// }
@@ -25,9 +25,6 @@ pub struct DokuContainer {
 
     #[darling(default)]
     pub untagged: Option<bool>,
-
-    #[darling(default)]
-    pub wrap: Option<syn::LitStr>,
 }
 
 impl DokuContainer {
@@ -43,7 +40,6 @@ impl DokuContainer {
             tag: other.tag.or(self.tag),
             transparent: other.transparent.or(self.transparent),
             untagged: other.untagged.or(self.untagged),
-            wrap: other.wrap.or(self.wrap),
         }
     }
 }

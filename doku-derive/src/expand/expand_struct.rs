@@ -19,18 +19,12 @@ pub fn expand_struct(
             quote! { #transparent }
         };
 
-        let mut ty = quote! {
+        quote! {
             ::doku::Type::from(::doku::TypeKind::Struct {
                 fields: #fields,
                 transparent: #transparent,
             })
-        };
-
-        if let Some(wrap) = doku.wrap {
-            ty = expand_wrap(wrap, ty);
         }
-
-        ty
     };
 
     let generics = new_generics_with_where_clause(&input.generics)?;
