@@ -1,11 +1,9 @@
 use doku::Document;
 
 #[derive(Document)]
-struct Foo {
-    bar: Bar,
+union Person {
+    age: u8,
 }
-
-struct Bar;
 
 fn main() {
     //

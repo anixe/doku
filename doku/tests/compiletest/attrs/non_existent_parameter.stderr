@@ -1,5 +1,5 @@
 error: Unknown field: `non_existent_parameter`
- --> tests/compiletest/doku_attribute/non_existent_parameter.rs:5:12
+ --> tests/compiletest/attrs/non_existent_parameter.rs:5:12
   |
 5 |     #[doku(non_existent_parameter)]
   |            ^^^^^^^^^^^^^^^^^^^^^^

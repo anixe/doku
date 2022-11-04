@@ -1,0 +1,5 @@
+error: unions are not supported
+ --> tests/compiletest/items/union.rs:4:7
+  |
+4 | union Person {
+  |       ^^^^^^

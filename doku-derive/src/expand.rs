@@ -19,7 +19,7 @@ pub fn expand(input: &syn::DeriveInput) -> Result<TokenStream2> {
         syn::Data::Enum(data) => expand_enum(input, data),
         syn::Data::Union(_) => Err(syn::Error::new_spanned(
             &input.ident,
-            "unions are not supported yet",
+            "unions are not supported",
         )
         .into()),
     }

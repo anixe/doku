@@ -1,5 +1,5 @@
 error: Unexpected meta-item format `word`
- --> tests/compiletest/doku_attribute/missing_example.rs:5:12
+ --> tests/compiletest/attrs/missing_example.rs:5:12
   |
 5 |     #[doku(example)]
   |            ^^^^^^^
