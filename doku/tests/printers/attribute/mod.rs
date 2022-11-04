@@ -1,1 +1,2 @@
+mod doku;
 mod serde;
