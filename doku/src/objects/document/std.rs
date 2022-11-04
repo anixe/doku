@@ -3,7 +3,7 @@ use std::collections::{
     BTreeMap, BTreeSet, BinaryHeap, HashMap, HashSet, LinkedList, VecDeque,
 };
 use std::net::IpAddr;
-use std::path::PathBuf;
+use std::path::{Path, PathBuf};
 use std::rc::Rc;
 use std::sync::{Arc, Mutex, RwLock};
 use std::time::Duration;
@@ -65,6 +65,9 @@ document! {
 
     for BTreeMap<K, V> where (K: Document, V: Document)
         => <HashMap<K, V>>::ty();
+
+    for &Path
+        => TypeKind::String;
 
     for PathBuf
         => TypeKind::String;
