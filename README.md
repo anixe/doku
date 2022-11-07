@@ -6,17 +6,17 @@
 [docs-link]: https://docs.rs/doku
 
 Doku is a framework for documenting Rust data structures - it allows to generate
-aesthetic, human-friendly descriptions of your configuration files, HTTP
-endpoints and so on.
+aesthetic, human-friendly descriptions of configuration types, requests /
+responses, and so on.
 
-Say goodbye to stale, hand-written documentation - with Doku, code _is_ the
+Say goodbye to stale, hand-written documentation - with Doku, _code_ is the
 documentation!
 
 ## Example
 
 ```toml
 [dependencies]
-doku = "0.2.0-alpha.2"
+doku = "0.20"
 ```
 
 ```rust

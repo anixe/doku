@@ -1,17 +1,17 @@
 [package]
 name = "doku"
-version = "0.2.0-alpha.2"
+version = "0.20.0"
 authors = ["Athanasios Katsios <aka@anixe.io>", "Patryk Wychowaniec <patryk.wychowaniec@anixe.pl>"]
 license = "MIT"
 edition = "2018"
-description = "A framework for building documentation"
+description = "A framework for documenting Rust data structures"
 readme = "../README.md"
 repository = "https://github.com/anixe/doku"
 keywords = ["doc", "docs", "documentation", "serialization"]
 
 [dependencies]
 chrono = { version = "0.4", optional = true }
-doku-derive = { version = "=0.2.0-alpha.2", path = "../doku-derive" }
+doku-derive = { version = "=0.20.0", path = "../doku-derive" }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 url = { version = "2", optional = true }

@@ -3,28 +3,24 @@
 //! # Overview
 //!
 //! Doku is a framework for documenting Rust data structures - it allows to
-//! generate aesthetic, human-friendly descriptions of your configuration files,
-//! HTTP endpoints and so on.
+//! generate aesthetic, human-friendly descriptions of configuration types,
+//! requests / responses, and so on.
 //!
-//! Say goodbye to stale, hand-written documentation - with Doku, code _is_ the
+//! Say goodbye to stale, hand-written documentation - with Doku, _code_ is the
 //! documentation!
 //!
 //! # Example
 //!
-//! Say, you're writing a tool that requires some TOML configuration to work:
+//! Say, you're writing an application that requires some TOML configuration to
+//! work:
 //!
 //! ```
 //! use serde::Deserialize;
 //!
 //! #[derive(Deserialize)]
 //! struct Config {
-//!     /// Database's engine
 //!     db_engine: DbEngine,
-//!
-//!     /// Database's host
 //!     db_host: String,
-//!
-//!     /// Database's port
 //!     db_port: usize,
 //! }
 //!
@@ -38,8 +34,8 @@
 //! }
 //! ```
 //!
-//! Having that, usually you'd then create a `config.example.toml` describing
-//! the configuration's format, for your users to copy-paste and adjust:
+//! Usually you'll want to create a `config.example.toml`, describing the
+//! configuration's format for your users to copy-paste and adjust:
 //!
 //! ```toml
 //! db_engine = "pgsql" # or mysql
@@ -47,9 +43,9 @@
 //! db_port = 5432
 //! ```
 //!
-//! ... but that's both tedious to maintain and error-prone, since there's no
-//! guarantee that e.g. someone won't rename a field, forgetting to update the
-//! documentation.
+//! But writing such `config.example.toml` by hand is both tedious to maintain
+//! and error-prone, since there's no guarantee that e.g. someone won't rename a
+//! field, forgetting to update the documentation.
 //!
 //! Now, with Doku, all you need to do is add a few `#[derive(Document)]`:
 //!
@@ -68,7 +64,8 @@
 //! }
 //! ```
 //!
-//! ... and call `doku::to_json()` / `doku::to_toml()`:
+//! ... and call `doku::to_json()` / `doku::to_toml()`, which will generate the
+//! docs for you!
 //!
 //! ```
 //! # use doku::Document;
@@ -76,13 +73,8 @@
 //! #
 //! # #[derive(Deserialize, Document)]
 //! # struct Config {
-//! #     /// Database's engine
 //! #     db_engine: DbEngine,
-//! #
-//! #     /// Database's host
 //! #     db_host: String,
-//! #
-//! #     /// Database's port
 //! #     db_port: usize,
 //! # }
 //! #
@@ -99,13 +91,8 @@
 //!
 //! /*
 //! # doku::assert_doc!(r#"
-//!   ## Database's engine
 //!   db_engine = "pgsql" | "mysql"
-//!   
-//!   ## Database's host
 //!   db_host = "string"
-//!   
-//!   ## Database's port
 //!   db_port = 123
 //! # "#, doku::to_toml::<Config>());
 //! */
@@ -131,15 +118,15 @@
 //!     #[doku(example = "5432")]
 //!     db_port: usize,
 //! }
-//!
-//! #[derive(Deserialize, Document)]
-//! enum DbEngine {
-//!     #[serde(rename = "pgsql")]
-//!     PostgreSQL,
-//!
-//!     #[serde(rename = "mysql")]
-//!     MySQL,
-//! }
+//! #
+//! # #[derive(Deserialize, Document)]
+//! # enum DbEngine {
+//! #     #[serde(rename = "pgsql")]
+//! #     PostgreSQL,
+//! #
+//! #     #[serde(rename = "mysql")]
+//! #     MySQL,
+//! # }
 //!
 //! println!("{}", doku::to_toml::<Config>());
 //!
@@ -183,13 +170,13 @@
 //!
 //! Doku has been made with plug-and-play approach in mind - it understands most
 //! of the Serde's annotations and comes with a predefined, curated formatting
-//! settings, so that adding `#[derive(Document)]` here and there should get you
-//! started quickly & painlessly.
+//! settings, so that just adding `#[derive(Document)]` should get you started
+//! quickly & painlessly.
 //!
 //! At the same time, Doku is extensible - if the formatting settings don't
 //! match your taste, you can tune them; if the derive macro doesn't work
 //! because you've got a custom `impl Serialize`, you can write `impl Document`
-//! by hand.
+//! by hand as well.
 //!
 //! So - **come join the doc side**!
 //!
@@ -254,7 +241,8 @@
 //! types (which will cause the pretty-printers to panic, since they don't
 //! support those).
 //!
-//! Some external crates (such as `chrono`) are supported behind feature-flags.
+//! Some external crates (such as `chrono` or `url`) are supported behind
+//! feature-flags.
 //!
 //! # How does it work?
 //!

@@ -1,6 +1,6 @@
 use crate::*;
 
-/// Type that can be pretty-printed by Doku.
+/// A type that can be pretty-printed by Doku.
 ///
 /// Usually you'll get this by adding `#[derive(Document)]` to your type:
 ///
@@ -12,7 +12,7 @@ use crate::*;
 /// ```
 ///
 /// ... but implementing it manually will be required if you're using a custom
-/// serializer / deserializer.
+/// serializer / deserializer (see: the examples directory).
 pub trait Document {
     fn ty() -> Type;
 }
