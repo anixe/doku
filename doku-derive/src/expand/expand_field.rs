@@ -21,6 +21,7 @@ pub fn expand_field(
         metas: quote! { Default::default() },
         comment: quote! { None },
         example: quote! { None },
+        aliases: quote! { &[] },
         tag: quote! { None },
         serializable: true,
         deserializable: true,
@@ -38,6 +39,7 @@ struct Field {
     name: TokenStream2,
     ty: TokenStream2,
     comment: TokenStream2,
+    aliases: TokenStream2,
     example: TokenStream2,
     metas: TokenStream2,
     tag: TokenStream2,
@@ -55,7 +57,7 @@ impl Field {
 
     fn add_serde_attrs(&mut self, attrs: &[syn::Attribute]) -> Result<()> {
         let attrs::SerdeField {
-            alias: _,
+            alias,
             default: _,
             deserialize_with: _,
             flatten,
@@ -70,6 +72,10 @@ impl Field {
 
         if let Some(val) = flatten {
             self.flattened = val;
+        }
+
+        if !alias.is_empty() {
+            self.aliases = quote! { &[#(#alias,)*] };
         }
 
         if let Some(val) = rename {
@@ -162,6 +168,7 @@ impl Field {
             serializable,
             deserializable,
             flattened,
+            aliases,
         } = self;
 
         if serializable || deserializable {
@@ -180,6 +187,8 @@ impl Field {
                     },
 
                     flattened: #flattened,
+
+                    aliases: #aliases,
                 }
             };
 

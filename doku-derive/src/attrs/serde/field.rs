@@ -51,11 +51,12 @@ impl SerdeField {
             .map(|attrs| attrs.fold(Self::default(), Self::merge))
     }
 
-    pub fn merge(self, other: Self) -> Self {
+    pub fn merge(mut self, mut other: Self) -> Self {
+        self.alias.append(&mut other.alias);
         Self {
-            alias: Default::default(), // it's a no-op for us
-            default: None,             // it's a no-op for us
-            deserialize_with: None,    // it's a no-op for us
+            alias: self.alias,
+            default: None,          // it's a no-op for us
+            deserialize_with: None, // it's a no-op for us
             flatten: other.flatten.or(self.flatten),
             rename: other.rename.or(self.rename),
             serialize_with: None, // it's a no-op for us

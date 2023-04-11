@@ -26,6 +26,7 @@ pub fn expand_variant(
         fields: expand_fields(fields, rename_fields)?,
         serializable: true,
         deserializable: true,
+        aliases: quote! { &[] },
     };
 
     variant.add_doc_attrs(attrs);
@@ -42,6 +43,7 @@ struct Variant {
     fields: TokenStream2,
     serializable: bool,
     deserializable: bool,
+    aliases: TokenStream2,
 }
 
 impl Variant {
@@ -53,7 +55,7 @@ impl Variant {
 
     fn add_serde_attrs(&mut self, attrs: &[syn::Attribute]) -> Result<()> {
         let attrs::SerdeVariant {
-            alias: _,
+            alias,
             deserialize_with: _,
             other: _,
             rename,
@@ -72,6 +74,10 @@ impl Variant {
         if let Some(val) = skip {
             self.serializable = !val;
             self.deserializable = !val;
+        }
+
+        if !alias.is_empty() {
+            self.aliases = quote! { &[#(#alias),*] }
         }
 
         if let Some(val) = skip_deserializing {
@@ -112,6 +118,7 @@ impl Variant {
             serializable,
             deserializable,
             fields,
+            aliases,
         } = self;
 
         if serializable || deserializable {
@@ -123,6 +130,7 @@ impl Variant {
                     serializable: #serializable,
                     deserializable: #deserializable,
                     fields: #fields,
+                    aliases: #aliases,
                 },
             }
         } else {
