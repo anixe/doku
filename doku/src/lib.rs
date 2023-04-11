@@ -273,6 +273,7 @@
 //!                 ..String::ty()
 //!             },
 //!             flattened: false,
+//!             aliases: &[],
 //!         };
 //!
 //!         doku::Type::from(doku::TypeKind::Struct {

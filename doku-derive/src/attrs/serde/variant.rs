@@ -48,11 +48,13 @@ impl SerdeVariant {
             .map(|attrs| attrs.fold(Self::default(), Self::merge))
     }
 
-    pub fn merge(self, other: Self) -> Self {
+    pub fn merge(self, mut other: Self) -> Self {
+        let mut alias = self.alias;
+        alias.append(&mut other.alias);
         Self {
-            alias: Default::default(), // it's a no-op for us
-            deserialize_with: None,    // it's a no-op for us
-            other: None,               // it's a no-op for us
+            alias,
+            deserialize_with: None, // it's a no-op for us
+            other: None,            // it's a no-op for us
             rename: other.rename.or(self.rename),
             rename_all: other.rename_all.or(self.rename_all),
             serialize_with: None, // it's a no-op for us

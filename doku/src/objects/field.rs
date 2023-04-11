@@ -7,6 +7,9 @@ pub struct Field {
 
     /// Whether this field should get flattened (i.e. `#[serde(flatten)]`)
     pub flattened: bool,
+
+    /// The serde aliases for this field
+    pub aliases: &'static [&'static str],
 }
 
 impl From<Type> for Field {
@@ -14,6 +17,7 @@ impl From<Type> for Field {
         Self {
             ty,
             flattened: false,
+            aliases: &[],
         }
     }
 }

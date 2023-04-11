@@ -90,6 +90,7 @@ fn duration() -> Type {
                             ..u64::ty()
                         },
                         flattened: false,
+                        aliases: &[],
                     },
                 ),
                 (
@@ -100,6 +101,7 @@ fn duration() -> Type {
                             ..u32::ty()
                         },
                         flattened: false,
+                        aliases: &[],
                     },
                 ),
             ],

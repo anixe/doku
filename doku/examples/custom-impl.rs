@@ -21,6 +21,7 @@ impl doku::Document for Paper {
                     doku::Field {
                         ty: String::ty(),
                         flattened: false,
+                        aliases: &[],
                     },
                 )],
             },

@@ -15,4 +15,5 @@ pub struct Variant {
     pub serializable: bool,
     pub deserializable: bool,
     pub fields: Fields,
+    pub aliases: &'static [&'static str],
 }
