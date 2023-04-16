@@ -30,8 +30,8 @@ pub fn expand_variant(
     };
 
     variant.add_doc_attrs(attrs);
-    variant.add_serde_attrs(&attrs)?;
-    variant.add_doku_attrs(&attrs)?;
+    variant.add_serde_attrs(attrs)?;
+    variant.add_doku_attrs(attrs)?;
 
     Ok(variant.render())
 }
@@ -96,7 +96,7 @@ impl Variant {
             rename,
             rename_all: _,
             skip,
-        } = attrs::DokuVariant::from_ast(&attrs)?;
+        } = attrs::DokuVariant::from_ast(attrs)?;
 
         if let Some(val) = rename {
             self.id = quote_spanned! { val.span() => #val };

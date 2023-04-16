@@ -16,10 +16,10 @@ impl<'ty> Ctxt<'_, 'ty, '_> {
 
         match fields {
             Fields::Named { fields } => {
-                self.print_named_fields(&fields, variant);
+                self.print_named_fields(fields, variant);
             }
             Fields::Unnamed { fields } => {
-                self.print_unnamed_fields(&fields);
+                self.print_unnamed_fields(fields);
             }
             Fields::Unit => {
                 self.out.write("null");

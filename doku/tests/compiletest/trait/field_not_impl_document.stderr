@@ -4,5 +4,4 @@ error[E0277]: the trait bound `Bar: Document` is not satisfied
 3 | #[derive(Document)]
   |          ^^^^^^^^ the trait `Document` is not implemented for `Bar`
   |
-  = note: required by `ty`
-  = note: this error originates in a derive macro (in Nightly builds, run with -Z macro-backtrace for more info)
+  = note: this error originates in the derive macro `Document` (in Nightly builds, run with -Z macro-backtrace for more info)

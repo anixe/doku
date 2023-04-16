@@ -17,10 +17,10 @@ impl<'ty> Ctxt<'_, 'ty, '_> {
 
         match fields {
             Fields::Named { fields } => {
-                self.print_named_fields(has_preceding_field, &fields, variant);
+                self.print_named_fields(has_preceding_field, fields, variant);
             }
             Fields::Unnamed { fields } => {
-                self.print_unnamed_fields(&fields);
+                self.print_unnamed_fields(fields);
             }
             Fields::Unit => {}
         }

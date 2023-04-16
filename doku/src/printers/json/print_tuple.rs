@@ -22,7 +22,7 @@ impl<'ty> Ctxt<'_, 'ty, '_> {
                 self.out.write_property_separator_ln();
             }
 
-            self.nested().with_ty(&field).print();
+            self.nested().with_ty(field).print();
         }
 
         self.out.ln();

@@ -10,8 +10,8 @@ pub fn expand_enum(
 
     let ty_kind = {
         let untagged = doku.untagged.or(serde.untagged);
-        let content = doku.content.as_ref().or_else(|| serde.content.as_ref());
-        let tag = doku.tag.as_ref().or_else(|| serde.tag.as_ref());
+        let content = doku.content.as_ref().or(serde.content.as_ref());
+        let tag = doku.tag.as_ref().or(serde.tag.as_ref());
 
         let tag = if untagged.unwrap_or(false) {
             quote! {

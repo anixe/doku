@@ -29,8 +29,8 @@ pub fn expand_field(
     };
 
     field.add_doc_attrs(attrs);
-    field.add_serde_attrs(&attrs)?;
-    field.add_doku_attrs(&attrs)?;
+    field.add_serde_attrs(attrs)?;
+    field.add_doku_attrs(attrs)?;
 
     Ok(field.render(named))
 }
@@ -108,7 +108,7 @@ impl Field {
             rename,
             skip,
             tag,
-        } = attrs::DokuField::from_ast(&attrs)?;
+        } = attrs::DokuField::from_ast(attrs)?;
 
         if let Some(val) = as_ {
             let val = string_to_path(&val)?;
