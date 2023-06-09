@@ -6,7 +6,7 @@ pub(super) fn print<'ty>(
     variants: &[&'ty Variant],
 ) {
     let indent = ctxt.parent.map_or(false, |parent| {
-        matches!(parent.kind, TypeKind::Struct { .. })
+        matches!(parent.kind, TypeKind::Struct { .. }) && !ctxt.flat
     });
 
     if indent {
@@ -36,6 +36,23 @@ fn print_variant<'ty>(
     tag: Tag,
     variant: &'ty Variant,
 ) {
+    if let Tag::Adjacent { .. } | Tag::External { .. } = tag {
+        // Adjacent and external variants can't be flattened because we'd try to
+        // print something nonsensical like:
+        //
+        // ```
+        // {
+        //   "tag": "...",
+        //   "content": "foo": "bar"
+        // }
+        // ```
+        //
+        // Note that this property can't be specified from the frontend anyway
+        // in here - what we're guarding against is us calling `.with_flat()`
+        // somewhere before and carrying this flag too deep.
+        ctxt.flat = false;
+    }
+
     match tag {
         Tag::Adjacent { tag, content } => {
             ctxt.out.writeln("{");

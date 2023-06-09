@@ -1,0 +1,12 @@
+[value]
+  one = "string"
+
+# or
+
+  two = "string"
+  three = "string"
+
+# or
+
+  four = "string"
+  five = "string"

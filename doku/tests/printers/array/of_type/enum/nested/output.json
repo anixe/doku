@@ -2,19 +2,15 @@
   // This is `A` (Untagged)
   {
     "t": "A",
-    {
-      // Some comment
-      "something": 123,
-      // Another comment
-      "something_else": 123
-    }
+    // Some comment
+    "something": 123,
+    // Another comment
+    "something_else": 123
     // or
-    {
-      // Some comment
-      "a": "string",
-      // Another comment
-      "b": "string"
-    }
+    // Some comment
+    "a": "string",
+    // Another comment
+    "b": "string"
   }
   // or
   // This is `B` (AdjacentlyTagged)
@@ -86,44 +82,42 @@
   // This is `E` (Complex)
   {
     "t": "E",
-    {
-      "name": "string",
-      // This is `b` (AdjacentlyTagged); optional
-      "b": {
-        "t2": "B1",
-        "c": {
-          // Some comment
-          "something": 123,
-          // Another comment
-          "something_else": 123
-        }
-      }
-      // or
-      {
-        "t2": "B2",
-        "c": {
-          // Some comment
-          "a": "string",
-          // Another comment
-          "b": 123
-        }
-      },
-      // This is `c` (InternallyTagged); optional
+    "name": "string",
+    // This is `b` (AdjacentlyTagged); optional
+    "b": {
+      "t2": "B1",
       "c": {
-        "t2": "C1",
         // Some comment
         "something": 123,
         // Another comment
         "something_else": 123
       }
-      // or
-      {
-        "t2": "C2",
+    }
+    // or
+    {
+      "t2": "B2",
+      "c": {
         // Some comment
         "a": "string",
         // Another comment
         "b": 123
       }
+    },
+    // This is `c` (InternallyTagged); optional
+    "c": {
+      "t2": "C1",
+      // Some comment
+      "something": 123,
+      // Another comment
+      "something_else": 123
+    }
+    // or
+    {
+      "t2": "C2",
+      // Some comment
+      "a": "string",
+      // Another comment
+      "b": 123
     }
   },
   /* ... */

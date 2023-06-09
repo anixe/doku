@@ -19,12 +19,19 @@ impl<'ty> Ctxt<'_, 'ty, '_> {
 
         let field_val = self.val.and_then(|val| val.as_struct_unnamed_field(0));
         let field_example = self.example();
+        let is_flat = self.flat;
 
-        self.nested()
+        let mut ctxt = self
+            .nested()
             .with_ty(&field.ty)
             .with_val(field_val)
-            .with_example(field_example)
-            .print();
+            .with_example(field_example);
+
+        if is_flat {
+            ctxt = ctxt.with_flat();
+        }
+
+        ctxt.print();
 
         true
     }

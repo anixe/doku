@@ -1,5 +1,6 @@
 use super::*;
 
+#[derive(Debug)]
 pub struct Ctxt<'fmt, 'ty, 'out> {
     pub ty: &'ty Type,
     pub val: Option<&'ty Value>,

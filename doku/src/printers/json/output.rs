@@ -44,6 +44,7 @@ impl Output {
         } else {
             self.write(key);
         }
+
         self.write_char(':');
         self.write_char(' ');
     }
@@ -52,6 +53,7 @@ impl Output {
         if self.fmt.objects_style.use_comma_as_separator {
             self.write_char(',');
         }
+
         self.ln();
     }
 

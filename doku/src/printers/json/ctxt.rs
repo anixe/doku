@@ -1,5 +1,6 @@
 use super::*;
 
+#[derive(Debug)]
 pub struct Ctxt<'fmt, 'ty, 'out> {
     pub ty: &'ty Type,
     pub val: Option<&'ty Value>,
@@ -94,7 +95,6 @@ impl<'fmt, 'ty, 'out> Ctxt<'fmt, 'ty, 'out> {
         //   f1: ..., // <- doesn't get flattened
         //   f2: ..., // <- doesn't get flattened
         // }
-        //
         // ```
         //
         // There's one edge-case here though - when we flatten a transparent
