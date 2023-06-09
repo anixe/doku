@@ -12,7 +12,9 @@
     // Another comment
     "b": "string"
   }
+
   // or
+
   // This is `B` (AdjacentlyTagged)
   {
     "t": "B",
@@ -36,7 +38,9 @@
       }
     }
   }
+
   // or
+
   // This is `C` (InternallyTagged)
   {
     "t": "C",
@@ -56,7 +60,9 @@
       "b": 123
     }
   }
+
   // or
+
   // This is `D` (ExternallyTagged)
   {
     "t": "D",
@@ -78,7 +84,9 @@
       }
     }
   }
+
   // or
+
   // This is `E` (Complex)
   {
     "t": "E",

@@ -5,6 +5,29 @@ pub(super) fn print<'ty>(
     tag: Tag,
     variants: &[&'ty Variant],
 ) {
+    // Whether to additionally indent the variants or not.
+    //
+    // We want to add some extra indentation when we're during a field expansion
+    // so that we print:
+    //
+    // ```
+    // {
+    //   "enum":
+    //     variant 1
+    //     variant 2
+    //     variant 3
+    // }
+    // ```
+    //
+    // ... instead of:
+    //
+    // ```
+    // {
+    //   "enum": variant 1
+    //   variant 2
+    //   variant 3
+    // }
+    // ```
     let indent = ctxt.parent.map_or(false, |parent| {
         matches!(parent.kind, TypeKind::Struct { .. }) && !ctxt.flat
     });
@@ -14,9 +37,65 @@ pub(super) fn print<'ty>(
         ctxt.out.inc_indent();
     }
 
+    // Whether to additionally separate the variants or not.
+    //
+    // We want to add some extra spacing when the variants are "somewhat large"
+    // so that the `// or` comment clearly separates each particular variant.
+    //
+    // There is no single best metric here, but in general we prefer:
+    //
+    // ```
+    // {
+    //   "enum":
+    //     // Specify site using the concrete URL
+    //     {
+    //       "url": "http://google.com"
+    //     }
+    //
+    //     // or
+    //
+    //     // Specify site using just its name
+    //     {
+    //        "site": "google"
+    //     }
+    // }
+    // ```
+    //
+    // ... over:
+    //
+    // ```
+    // {
+    //   "enum":
+    //     // Specify site using the concrete URL
+    //     {
+    //       "url": "http://google.com"
+    //     }
+    //     // or
+    //     // Specify site using just its name
+    //     {
+    //        "site": "google"
+    //     }
+    // }
+    // ```
+    let separate = match &ctxt.fmt.layout {
+        Layout::OneColumn => {
+            variants.iter().any(|variant| variant.comment.is_some())
+        }
+        Layout::TwoColumns { .. } => false,
+    };
+
     for (variant_idx, variant) in variants.iter().enumerate() {
         if variant_idx > 0 {
-            ctxt.out.write("\n// or\n");
+            if separate {
+                ctxt.out.ln();
+            }
+
+            ctxt.out
+                .write(format!("\n{} or\n", ctxt.fmt.comments_style.separator));
+
+            if separate {
+                ctxt.out.ln();
+            }
         }
 
         if let Some(comment) = variant.comment {

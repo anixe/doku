@@ -5,7 +5,9 @@
   "foo": 
     // This should be lowercase
     "avariantwithmanywords"
+
     // or
+
     // This should be renamed to FOO
     "FOO"
 }

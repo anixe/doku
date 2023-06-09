@@ -5,7 +5,9 @@
     /* ... */
   }
 }
+
 // or
+
 // This is `HashMap`
 {
   HashMap: {

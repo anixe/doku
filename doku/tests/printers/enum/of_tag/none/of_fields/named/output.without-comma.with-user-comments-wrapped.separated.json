@@ -5,7 +5,9 @@
       // Some comment
       "a": "string"
     }
+
     // or
+
     // This is `Bar`
     {
       // Some comment

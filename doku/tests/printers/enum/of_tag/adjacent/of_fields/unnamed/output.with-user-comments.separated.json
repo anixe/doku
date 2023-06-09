@@ -3,7 +3,9 @@
   "t": "Foo",
   "c": "string"
 }
+
 // or
+
 // This is `Bar`
 {
   "t": "Bar",

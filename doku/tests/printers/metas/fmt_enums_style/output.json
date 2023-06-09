@@ -7,10 +7,14 @@
   "f2": 
     // This is `Foo`
     "Foo"
+
     // or
+
     // This is `Bar`
     "Bar"
+
     // or
+
     // This is `Zar`
     "Zar"
 }
