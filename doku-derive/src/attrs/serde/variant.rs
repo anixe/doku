@@ -10,6 +10,7 @@ use darling::FromMeta;
 /// }
 /// ````
 #[derive(Clone, Debug, Default, FromMeta)]
+#[allow(dead_code)]
 pub struct SerdeVariant {
     #[darling(default, multiple)]
     pub alias: Vec<syn::LitStr>,

@@ -10,6 +10,7 @@ use darling::FromMeta;
 /// }
 /// ````
 #[derive(Clone, Debug, Default, FromMeta)]
+#[allow(dead_code)]
 pub struct SerdeContainer {
     #[darling(default)]
     pub content: Option<syn::LitStr>,
