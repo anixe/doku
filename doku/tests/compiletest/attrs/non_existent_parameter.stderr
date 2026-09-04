@@ -1,4 +1,4 @@
-error: Unknown field: `non_existent_parameter`
+error: Unknown field: `non_existent_parameter`. Available values: `as`, `example`, `flatten`, `literal_example`, `meta`, `rename`, `skip`, `tag`
  --> tests/compiletest/attrs/non_existent_parameter.rs:5:12
   |
 5 |     #[doku(non_existent_parameter)]
