@@ -10,7 +10,7 @@ mod prelude {
         utils::*,
     };
     pub use proc_macro::TokenStream;
-    pub use proc_macro2::{Span, TokenStream as TokenStream2};
+    pub use proc_macro2::TokenStream as TokenStream2;
     pub use quote::{quote, quote_spanned};
     pub use syn::spanned::Spanned;
 

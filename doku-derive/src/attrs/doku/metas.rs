@@ -1,4 +1,4 @@
-use darling::{Error, FromMeta, Result};
+use darling::{ast::NestedMeta, Error, FromMeta, Result};
 use std::{collections::BTreeMap, iter::FromIterator};
 
 const ERROR_EXPECTED_KV_LITERAL: &str =
@@ -10,11 +10,11 @@ pub struct DokuMetas {
 }
 
 impl FromMeta for DokuMetas {
-    fn from_list(items: &[syn::NestedMeta]) -> Result<Self> {
+    fn from_list(items: &[NestedMeta]) -> Result<Self> {
         let metas = items
             .iter()
             .map(|item| match item {
-                syn::NestedMeta::Lit(syn::Lit::Str(lit)) => {
+                NestedMeta::Lit(syn::Lit::Str(lit)) => {
                     Ok((lit, lit.value()))
                 }
 

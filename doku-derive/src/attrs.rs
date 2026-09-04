@@ -17,10 +17,9 @@ where
 {
     let attrs: Vec<_> = attrs
         .iter()
-        .filter(|attr| path_to_string(&attr.path) == name)
+        .filter(|attr| path_to_string(attr.path()) == name)
         .map(|attr| {
-            let meta = attr.parse_meta()?;
-            let this = T::from_meta(&meta)?;
+            let this = T::from_meta(&attr.meta)?;
             Ok(this)
         })
         .collect::<Result<_>>()?;
