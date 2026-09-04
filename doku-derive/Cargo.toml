@@ -12,10 +12,10 @@ repository = "https://github.com/anixe/doku"
 proc-macro = true
 
 [dependencies]
-darling = "0.23"
+darling = "0.24"
 proc-macro2 = "1.0"
 quote = "1.0"
-syn = { version = "2.0", features = ["extra-traits"] }
+syn = { version = "3.0", features = ["extra-traits"] }
 
 [dev-dependencies]
 indoc = "2.0"
