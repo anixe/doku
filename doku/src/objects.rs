@@ -10,6 +10,6 @@ mod value;
 mod variant;
 
 pub use self::{
-    document::*, example::*, field::*, fields::*, meta::*, r#type::*, tag::*,
+    document::*, example::*, field::*, fields::*, meta::*, tag::*, r#type::*,
     type_kind::*, value::*, variant::*,
 };

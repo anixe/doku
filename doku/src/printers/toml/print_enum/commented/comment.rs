@@ -26,7 +26,7 @@ fn comment_variant(ctxt: &mut Ctxt<'_, '_, '_>, tag: Tag, variant: &Variant) {
         .enumerate()
         .map(|(line_idx, line)| {
             if line_idx > 0 {
-                format!("  {}", line)
+                format!("  {line}")
             } else {
                 line.to_owned()
             }
@@ -47,7 +47,7 @@ fn comment_variant(ctxt: &mut Ctxt<'_, '_, '_>, tag: Tag, variant: &Variant) {
             if rendered_variant.lines().count() == 1
                 && comment.lines().count() == 1
             {
-                format!("- {} = {}", rendered_variant, comment)
+                format!("- {rendered_variant} = {comment}")
             } else {
                 let mut str = String::new();
                 for (comment_line_idx, comment_line) in
@@ -63,7 +63,7 @@ fn comment_variant(ctxt: &mut Ctxt<'_, '_, '_>, tag: Tag, variant: &Variant) {
                 str
             }
         }
-        None => format!("- {}", rendered_variant),
+        None => format!("- {rendered_variant}"),
     };
 
     ctxt.out.writeln_comment(str);
@@ -84,7 +84,7 @@ fn render_variant(
                 let key_or_section = if fields.is_table() {
                     format!("[{}]\n\t", ctxt.name_for_child(content))
                 } else {
-                    format!("{} = ", content)
+                    format!("{content} = ")
                 };
                 format!(
                     "\n\t{} = \"{}\"\n\t{}{}\n",
@@ -115,7 +115,9 @@ fn render_variant(
                 }
             }
             Fields::Unnamed { .. } => {
-                panic!("Internally tagged unnamed variants are unsupported in TOML")
+                panic!(
+                    "Internally tagged unnamed variants are unsupported in TOML"
+                )
             }
             Fields::Unit => format!("\n\t{} = \"{}\"\n", tag, variant.id,),
         },
@@ -188,7 +190,7 @@ fn render_variant_fields(
             .enumerate()
             .map(|(line_idx, line)| {
                 if line_idx > 0 {
-                    format!("  {}", line)
+                    format!("  {line}")
                 } else {
                     line.to_owned()
                 }

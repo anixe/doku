@@ -8,7 +8,7 @@ pub use self::{doc::*, doku::*, serde::*, types::*};
 use crate::prelude::*;
 use darling::FromMeta;
 
-pub(self) fn from_ast<T>(
+fn from_ast<T>(
     attrs: &[syn::Attribute],
     name: &str,
 ) -> Result<impl Iterator<Item = T> + use<T>>

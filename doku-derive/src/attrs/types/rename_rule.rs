@@ -8,9 +8,10 @@ use darling::FromMeta;
 use self::RenameRule::*;
 
 /// The different possible ways to change case of fields in a struct, or variants in an enum.
-#[derive(Copy, Clone, PartialEq, Debug, FromMeta)]
+#[derive(Copy, Clone, PartialEq, Debug, FromMeta, Default)]
 pub enum RenameRule {
     /// Don't apply a default rename rule.
+    #[default]
     None,
 
     /// Rename direct children to "lowercase" style.
@@ -106,12 +107,6 @@ impl RenameRule {
                 ScreamingSnakeCase.apply_to_field(field).replace('_', "-")
             }
         }
-    }
-}
-
-impl Default for RenameRule {
-    fn default() -> Self {
-        None
     }
 }
 

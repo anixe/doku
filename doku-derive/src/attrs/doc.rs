@@ -67,7 +67,7 @@ impl Doc {
 mod tests {
     use super::*;
     use indoc::indoc;
-    use syn::{parse_quote, ItemMod};
+    use syn::{ItemMod, parse_quote};
 
     mod given_no_docs {
         use super::*;

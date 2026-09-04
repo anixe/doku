@@ -1,8 +1,7 @@
-use darling::{ast::NestedMeta, Error, FromMeta, Result};
+use darling::{Error, FromMeta, Result, ast::NestedMeta};
 use std::{collections::BTreeMap, iter::FromIterator};
 
-const ERROR_EXPECTED_KV_LITERAL: &str =
-    "Expected a key-value string literal such as: `#[doku(meta(\"key = value\"))]`";
+const ERROR_EXPECTED_KV_LITERAL: &str = "Expected a key-value string literal such as: `#[doku(meta(\"key = value\"))]`";
 
 #[derive(Clone, Debug, Default)]
 pub struct DokuMetas {
@@ -14,9 +13,7 @@ impl FromMeta for DokuMetas {
         let metas = items
             .iter()
             .map(|item| match item {
-                NestedMeta::Lit(syn::Lit::Str(lit)) => {
-                    Ok((lit, lit.value()))
-                }
+                NestedMeta::Lit(syn::Lit::Str(lit)) => Ok((lit, lit.value())),
 
                 _ => {
                     Err(Error::custom(ERROR_EXPECTED_KV_LITERAL)

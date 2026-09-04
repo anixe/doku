@@ -39,13 +39,13 @@ pub trait Table {
     /// There are currently 3 cases where the field is a table but we don't want to write its title:
     ///
     /// 1. For optionals, since the table title will be written by the child type.
-    /// Writing the table title here would result in having the same title displayed twice.
+    ///    Writing the table title here would result in having the same title displayed twice.
     ///
     /// 2. For arrays, similarly as above.
     ///
     /// 3. For structs, when they have no simple fields, so every child field is a table.
-    /// In this case writing the table title is not wrong, but it's unneccessary since every child
-    /// field will write their own table.
+    ///    In this case writing the table title is not wrong, but it's unneccessary since every child
+    ///    field will write their own table.
     fn should_write_table_name(&self) -> bool;
 }
 

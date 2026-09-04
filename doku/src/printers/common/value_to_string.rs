@@ -16,7 +16,7 @@ pub fn value_to_string(val: &Value) -> Option<String> {
             .flat_map(|str| str.chars().collect::<Vec<_>>())
             .collect();
 
-        format!(r#""{}""#, val)
+        format!(r#""{val}""#)
     };
 
     match val {

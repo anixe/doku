@@ -26,7 +26,7 @@ fn comment_variant(ctxt: &mut Ctxt<'_, '_, '_>, tag: Tag, variant: &Variant) {
         .enumerate()
         .map(|(line_idx, line)| {
             if line_idx > 0 {
-                format!("  {}", line)
+                format!("  {line}")
             } else {
                 line.to_owned()
             }
@@ -34,7 +34,7 @@ fn comment_variant(ctxt: &mut Ctxt<'_, '_, '_>, tag: Tag, variant: &Variant) {
         .collect::<Vec<_>>()
         .join("\n");
 
-    let mut str = format!("- {}", rendered_variant);
+    let mut str = format!("- {rendered_variant}");
 
     // ---
 
@@ -198,7 +198,7 @@ fn render_variant_fields(
             .enumerate()
             .map(|(line_idx, line)| {
                 if line_idx > 0 {
-                    format!("  {}", line)
+                    format!("  {line}")
                 } else {
                     line.to_owned()
                 }

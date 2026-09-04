@@ -6,7 +6,7 @@ pub(super) fn print<'ty>(
     variants: &[&'ty Variant],
 ) {
     let indent = ctxt.should_indent()
-        && ctxt.parent.map_or(false, |parent| {
+        && ctxt.parent.is_some_and(|parent| {
             matches!(parent.kind, TypeKind::Struct { .. })
         });
 
@@ -103,7 +103,9 @@ fn print_variant<'ty>(
                     ctxt.out.ln();
                 }
                 Fields::Unnamed { .. } => {
-                    panic!("Internally tagged unnamed variants are unsupported in TOML")
+                    panic!(
+                        "Internally tagged unnamed variants are unsupported in TOML"
+                    )
                 }
                 Fields::Unit => {}
             }

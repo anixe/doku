@@ -43,7 +43,9 @@ impl<'ty> Ctxt<'_, 'ty, '_> {
                 variant.fields
             {
                 if !variant.fields.is_table() {
-                    panic!("Internally tagged scalar variants are unsupported in TOML")
+                    panic!(
+                        "Internally tagged scalar variants are unsupported in TOML"
+                    )
                 }
 
                 self.print_fields(&variant.fields, None, true);

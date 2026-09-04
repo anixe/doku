@@ -1,5 +1,5 @@
 use crate::Value;
-use serde::{ser::*, Serializer};
+use serde::{Serializer, ser::*};
 use std::error::Error as StdError;
 use std::fmt;
 
