@@ -1,5 +1,5 @@
 use super::*;
-use crate::common::{layouts, Lines};
+use crate::common::{Lines, layouts};
 use std::collections::BTreeMap;
 use std::mem;
 

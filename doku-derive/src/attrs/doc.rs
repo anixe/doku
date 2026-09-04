@@ -8,14 +8,14 @@ impl Doc {
         let comments: Vec<_> = attrs
             .iter()
             .filter_map(|attr| {
-                let (path, lit) =
+                let (path, value) =
                     if let syn::Meta::NameValue(syn::MetaNameValue {
                         path,
-                        lit,
+                        value,
                         ..
-                    }) = attr.parse_meta().ok()?
+                    }) = &attr.meta
                     {
-                        (path, lit)
+                        (path, value)
                     } else {
                         return None;
                     };
@@ -24,7 +24,11 @@ impl Doc {
                     return None;
                 }
 
-                if let syn::Lit::Str(str) = lit {
+                if let syn::Expr::Lit(syn::ExprLit {
+                    lit: syn::Lit::Str(str),
+                    ..
+                }) = value
+                {
                     Some(str.value())
                 } else {
                     None
@@ -63,7 +67,7 @@ impl Doc {
 mod tests {
     use super::*;
     use indoc::indoc;
-    use syn::{parse_quote, ItemMod};
+    use syn::{ItemMod, parse_quote};
 
     mod given_no_docs {
         use super::*;

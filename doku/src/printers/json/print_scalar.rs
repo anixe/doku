@@ -16,7 +16,7 @@ impl Ctxt<'_, '_, '_> {
     pub(super) fn print_string(&mut self) {
         let first_example = self.first_example().unwrap_or("string");
         if !self.is_key || self.fmt.objects_style.surround_keys_with_quotes {
-            self.print_scalar(&format!("\"{}\"", first_example));
+            self.print_scalar(&format!("\"{first_example}\""));
         } else {
             self.print_scalar(first_example);
         }

@@ -5,7 +5,7 @@ pub mod toml;
 
 mod prelude {
     pub use super::Visibility;
-    pub(crate) use crate::common::{layouts, value_to_string, Lines};
+    pub(crate) use crate::common::{Lines, layouts, value_to_string};
     pub use crate::*;
     pub use std::fmt::Write;
 }

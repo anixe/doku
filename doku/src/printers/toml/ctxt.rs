@@ -159,7 +159,7 @@ impl<'fmt, 'ty, 'out> Ctxt<'fmt, 'ty, 'out> {
 
     pub fn name_for_child(&self, child_name: &str) -> String {
         match self.name.as_deref() {
-            Some(name) => format!("{}.{}", name, child_name),
+            Some(name) => format!("{name}.{child_name}"),
             None => child_name.to_owned(),
         }
     }

@@ -28,7 +28,7 @@ pub(super) fn print<'ty>(
     //   variant 3
     // }
     // ```
-    let indent = ctxt.parent.map_or(false, |parent| {
+    let indent = ctxt.parent.is_some_and(|parent| {
         matches!(parent.kind, TypeKind::Struct { .. }) && !ctxt.flat
     });
 
@@ -115,7 +115,7 @@ fn print_variant<'ty>(
     tag: Tag,
     variant: &'ty Variant,
 ) {
-    if let Tag::Adjacent { .. } | Tag::External { .. } = tag {
+    if let Tag::Adjacent { .. } | Tag::External = tag {
         // Adjacent and external variants can't be flattened because we'd try to
         // print something nonsensical like:
         //

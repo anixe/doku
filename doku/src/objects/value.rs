@@ -106,6 +106,6 @@ where
 {
     fn from(value: &S) -> Self {
         // Unwrap-safety: our serializer never actually panics
-        value.serialize(ValueSerializer::default()).unwrap()
+        value.serialize(ValueSerializer).unwrap()
     }
 }

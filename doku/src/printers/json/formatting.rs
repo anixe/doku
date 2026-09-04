@@ -65,13 +65,12 @@ impl Formatting {
 
                 let this = this.pointer_mut(&key).unwrap_or_else(|| {
                     panic!(
-                        "Tried to overwrite a non-existing formatting option: {}",
-                        key
+                        "Tried to overwrite a non-existing formatting option: {key}"
                     );
                 });
 
                 *this = serde_json::from_str(meta.value())
-                    .unwrap_or_else(|err| panic!("Not a valid JSON: {}", err));
+                    .unwrap_or_else(|err| panic!("Not a valid JSON: {err}"));
             }
         }
 

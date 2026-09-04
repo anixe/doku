@@ -18,7 +18,7 @@ impl Ctxt<'_, '_, '_> {
         if self.is_key {
             self.print_scalar(first_example);
         } else {
-            self.print_scalar(&format!("\"{}\"", first_example));
+            self.print_scalar(&format!("\"{first_example}\""));
         }
     }
 

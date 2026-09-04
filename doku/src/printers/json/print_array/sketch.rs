@@ -23,7 +23,7 @@ impl<'ty> Ctxt<'_, 'ty, '_> {
                 // TODO if `size.is_some()` and this is the last example, the comma should not be printed
             }
 
-            if size.map_or(true, |size| examples.len() < size) {
+            if size.is_none_or(|size| examples.len() < size) {
                 self.out.writeln("/* ... */");
             }
         } else {

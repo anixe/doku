@@ -8,19 +8,18 @@ pub use self::{doc::*, doku::*, serde::*, types::*};
 use crate::prelude::*;
 use darling::FromMeta;
 
-pub(self) fn from_ast<T>(
+fn from_ast<T>(
     attrs: &[syn::Attribute],
     name: &str,
-) -> Result<impl Iterator<Item = T>>
+) -> Result<impl Iterator<Item = T> + use<T>>
 where
     T: FromMeta,
 {
     let attrs: Vec<_> = attrs
         .iter()
-        .filter(|attr| path_to_string(&attr.path) == name)
+        .filter(|attr| path_to_string(attr.path()) == name)
         .map(|attr| {
-            let meta = attr.parse_meta()?;
-            let this = T::from_meta(&meta)?;
+            let this = T::from_meta(&attr.meta)?;
             Ok(this)
         })
         .collect::<Result<_>>()?;
