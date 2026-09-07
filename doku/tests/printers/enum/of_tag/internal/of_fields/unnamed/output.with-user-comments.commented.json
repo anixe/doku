@@ -1,0 +1,14 @@
+// Possible variants:
+// - {
+//     "t": "Foo"
+//   }
+//   = This is `Foo`
+// - {
+//     "t": "Bar"
+//   }
+//   = This is `Bar`
+// - {
+//     "t": "Zar"
+//   }
+//   = This is `Zar`
+{ "t": "Foo", ... }
