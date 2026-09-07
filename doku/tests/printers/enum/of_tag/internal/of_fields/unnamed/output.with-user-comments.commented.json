@@ -14,8 +14,7 @@
 //   }
 //   = This is `Bar`
 // - {
-//     "t": "Zar",
-//     null
+//     "t": "Zar"
 //   }
 //   = This is `Zar`
 { "t": "Foo", ... }
