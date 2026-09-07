@@ -1,13 +1,17 @@
 {
   // Possible variants:
   // - {
-  //     "t": "Foo"
+  //     "t": "Foo",
+  //     "a": "string"
   //   }
   // - {
-  //     "t": "Bar"
+  //     "t": "Bar",
+  //     "a": "string",
+  //     "b": 123
   //   }
   // - {
-  //     "t": "Zar"
+  //     "t": "Zar",
+  //     null
   //   }
   "value": { "t": "Foo", ... }
 }

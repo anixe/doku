@@ -105,8 +105,8 @@ fn render_variant(
             ),
         },
 
-        Tag::Internal { tag } => {
-            if let Fields::Named { fields } = &variant.fields {
+        Tag::Internal { tag } => match &variant.fields {
+            Fields::Named { fields } => {
                 if fields.is_empty() {
                     format!(
                         "{{\n\t{q}{}{q}: \"{}\"\n}}",
@@ -129,7 +129,31 @@ fn render_variant(
                         q = quote
                     )
                 }
-            } else {
+            }
+
+            Fields::Unnamed { .. } => {
+                let fields =
+                    render_variant_fields(ctxt, &variant.fields, true, true);
+                if fields.is_empty() {
+                    format!(
+                        "{{\n\t{q}{}{q}: \"{}\"\n}}",
+                        tag,
+                        variant.id,
+                        q = quote
+                    )
+                } else {
+                    format!(
+                        "{{\n\t{q}{}{q}: \"{}\"{c}\n\t{}\n}}",
+                        tag,
+                        variant.id,
+                        fields,
+                        c = comma,
+                        q = quote
+                    )
+                }
+            }
+
+            Fields::Unit => {
                 format!(
                     "{{\n\t{q}{}{q}: \"{}\"\n}}",
                     tag,
@@ -137,7 +161,7 @@ fn render_variant(
                     q = quote
                 )
             }
-        }
+        },
 
         Tag::External => match &variant.fields {
             Fields::Unit => format!("\"{}\"", variant.id),

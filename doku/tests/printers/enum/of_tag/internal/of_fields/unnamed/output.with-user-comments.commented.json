@@ -1,14 +1,21 @@
 // Possible variants:
 // - {
-//     "t": "Foo"
+//     "t": "Foo",
+//     // Some comment
+//     "a": "string"
 //   }
 //   = This is `Foo`
 // - {
-//     "t": "Bar"
+//     "t": "Bar",
+//     // Some comment
+//     "a": "string",
+//     // Some comment
+//     "b": 123
 //   }
 //   = This is `Bar`
 // - {
-//     "t": "Zar"
+//     "t": "Zar",
+//     null
 //   }
 //   = This is `Zar`
 { "t": "Foo", ... }
