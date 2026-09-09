@@ -10,11 +10,11 @@ repository = "https://github.com/anixe/doku"
 keywords = ["doc", "docs", "documentation", "serialization"]
 
 [dependencies]
-chrono = { version = "0.4", optional = true }
+chrono = { version = "0.4", optional = true, default-features = false }
 doku-derive = { version = "=0.21.1", path = "../doku-derive" }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
-url = { version = "2", optional = true }
+url = { version = "2", optional = true, default-features = false }
 
 [features]
 chrono-04 = ["chrono"]
@@ -24,5 +24,5 @@ url-2 = ["url"]
 difference = "2.0"
 indoc = "2.0"
 serde = { version = "1.0", features = ["derive"] }
-test-case = "3.3"
+test-case = { git = "https://github.com/anixe/test-case", branch = "master" }
 trybuild = { version = "1.0", features = ["diff"] }
