@@ -1,0 +1,27 @@
+{
+  "value": 
+    // This is `Foo`
+    {
+      "t": "Foo",
+      // Some comment
+      "a": "string"
+    }
+
+    // or
+
+    // This is `Bar`
+    {
+      "t": "Bar",
+      // Some comment
+      "a": "string",
+      // Some comment
+      "b": 123
+    }
+
+    // or
+
+    // This is `Zar`
+    {
+      "t": "Zar"
+    }
+}

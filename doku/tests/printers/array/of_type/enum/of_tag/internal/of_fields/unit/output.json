@@ -1,14 +1,14 @@
 [
   // This is `Foo`
   {
-    "t": "Foo",
+    "t": "Foo"
   }
 
   // or
 
   // This is `Bar`
   {
-    "t": "Bar",
+    "t": "Bar"
   },
   /* ... */
 ]

@@ -20,6 +20,9 @@ pub struct Output {
 
     /// Mapping from line number to indenting level present at that line
     indents: BTreeMap<usize, usize>,
+
+    /// Whether a property separator and a newline should be written before the next character
+    pending_property_separator_ln: bool,
 }
 
 impl Output {
@@ -33,6 +36,7 @@ impl Output {
             lines: Default::default(),
             comments: Default::default(),
             indents: Default::default(),
+            pending_property_separator_ln: Default::default(),
         }
     }
 
@@ -47,6 +51,14 @@ impl Output {
 
         self.write_char(':');
         self.write_char(' ');
+    }
+
+    pub fn prepare_property_separator_ln(&mut self) {
+        self.pending_property_separator_ln = true;
+    }
+
+    pub fn rollback_property_separator_ln(&mut self) {
+        self.pending_property_separator_ln = false;
     }
 
     pub fn write_property_separator_ln(&mut self) {
@@ -129,8 +141,16 @@ impl Output {
     }
 
     fn write_char(&mut self, ch: char) {
+        let mut release_property_separator_ln = || {
+            if self.pending_property_separator_ln {
+                self.pending_property_separator_ln = false;
+                self.write_property_separator_ln();
+            }
+        };
+
         match ch {
             '\t' => {
+                release_property_separator_ln();
                 self.write(" ".repeat(self.fmt.indent_style.size));
             }
 
@@ -139,10 +159,13 @@ impl Output {
             }
 
             '\n' => {
+                release_property_separator_ln();
                 self.lines.push(mem::take(&mut self.line));
             }
 
             ch => {
+                release_property_separator_ln();
+
                 if self.line.is_empty() {
                     self.indents.insert(self.lines.len(), self.indent);
                 }

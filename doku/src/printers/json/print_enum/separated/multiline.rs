@@ -138,16 +138,16 @@ fn print_variant<'ty>(
             ctxt.out.inc_indent();
             ctxt.out.write_key_and_separator(tag);
             ctxt.out.write(format!(r#""{}""#, variant.id));
-            ctxt.out.write_property_separator_ln();
 
             if let Fields::Named { .. } | Fields::Unnamed { .. } =
                 variant.fields
             {
+                ctxt.out.write_property_separator_ln();
                 ctxt.out.write_key_and_separator(content);
                 ctxt.print_fields(&variant.fields, None);
-                ctxt.out.ln();
             }
 
+            ctxt.out.ln();
             ctxt.out.dec_indent();
             ctxt.out.write("}");
         }
@@ -157,18 +157,20 @@ fn print_variant<'ty>(
             ctxt.out.inc_indent();
             ctxt.out.write_key_and_separator(tag);
             ctxt.out.write(format!(r#""{}""#, variant.id));
-            ctxt.out.write_property_separator_ln();
 
             if let Fields::Named { .. } | Fields::Unnamed { .. } =
                 variant.fields
             {
+                ctxt.out.prepare_property_separator_ln();
+
                 ctxt.nested()
                     .with_flat()
                     .print_fields(&variant.fields, None);
 
-                ctxt.out.ln();
+                ctxt.out.rollback_property_separator_ln();
             }
 
+            ctxt.out.ln();
             ctxt.out.dec_indent();
             ctxt.out.write("}");
         }

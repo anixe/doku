@@ -5,6 +5,12 @@ impl<'ty> Ctxt<'_, 'ty, '_> {
         &mut self,
         fields: &'ty Fields,
     ) -> bool {
+        if let Fields::Unit = fields
+            && self.flat
+        {
+            return true;
+        }
+
         let fields = if let Fields::Unnamed { fields } = fields {
             fields
         } else {
