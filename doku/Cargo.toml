@@ -15,10 +15,17 @@ doku-derive = { version = "=0.21.2", path = "../doku-derive" }
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
 url = { version = "2", optional = true }
+# This greatly reduces the number of dependencies, see
+# https://docs.rs/crate/idna_adapter/latest (Turning off IDNA support)
+# for more details
+# tl; dr: url depends on idna and idna pulls a lot of dependencies, mostly through idna_adapter
+# this crate only implements a trait for url::Url so idna (used for parsing urls) is unimportant
+# idna_adapter 1.0 is a "dummy" implementation with no dependencies
+idna_adapter = { version = "=1.0", optional = true }
 
 [features]
 chrono-04 = ["chrono"]
-url-2 = ["url"]
+url-2 = ["url", "idna_adapter"]
 
 [dev-dependencies]
 difference = "2.0"
